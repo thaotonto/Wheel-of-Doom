@@ -7,6 +7,7 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -23,12 +24,17 @@ public class GamePanel extends JPanel {
     private Thread thread;
     private static int nPlayer;
     private ArrayList<Player> playerList;
+    private Player currentPlayer;
+
+    private BufferedImage bufferedImage;
+    private Graphics backGraphic;
 
     public GamePanel(String phrase) {
 
         playerList = new ArrayList<Player>();
         playerList.add(new Player("Hoang"));
         playerList.add(new Player("Le"));
+        currentPlayer = getCurrentPlayer("Hoang");
 
         this.phrase = phrase;
         for (int i = 0; i < phrase.length(); i++) {
@@ -60,14 +66,16 @@ public class GamePanel extends JPanel {
                     getGuess();
                     getAnswer();
                     revalidate();
-                    repaint();
-                    if (checkWin()){
+                    if (checkWin()) {
                         System.out.println("YOU WON!");
                     }
                 }
             }
         });
         thread.start();
+
+        bufferedImage = new BufferedImage(GameFrame.GAME_WIDTH, GameFrame.GAME_HEIGHT, BufferedImage.TYPE_INT_ARGB);
+
     }
 
     public void getGuess() {
@@ -94,9 +102,9 @@ public class GamePanel extends JPanel {
         }
     }
 
-    public void getAnswer(){
+    public void getAnswer() {
         String answer = answerPanel.getAnswer();
-        if (answer!="") {
+        if (answer != "") {
             if (answer.equals(phrase)) {
                 currentPhrase = phrase;
                 answerPanel.refreshAnswer();
@@ -105,8 +113,8 @@ public class GamePanel extends JPanel {
         }
     }
 
-    public boolean checkWin(){
-        if(currentPhrase.equals(phrase)) return true;
+    public boolean checkWin() {
+        if (currentPhrase.equals(phrase)) return true;
         else return false;
     }
 
@@ -118,9 +126,28 @@ public class GamePanel extends JPanel {
         GamePanel.nPlayer = nPlayer;
     }
 
-    public void updateBoard(){
+    public void updateBoard() {
         this.remove(boardPanel);
         boardPanel = new BoardPanel(currentPhrase);
         this.add(boardPanel, BorderLayout.NORTH);
+        //repaint();
+    }
+
+    public Player getCurrentPlayer(String name) {
+        for (Player playerEl : playerList) {
+            if (playerEl.getName().equals(name)) {
+                return playerEl;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public void update(Graphics g) {
+        if (bufferedImage!=null){
+            backGraphic = bufferedImage.getGraphics();
+            paintComponent(backGraphic);
+            g.drawImage(bufferedImage,0,0,null);
+        }
     }
 }

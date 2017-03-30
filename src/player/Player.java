@@ -15,4 +15,12 @@ public class Player {
         totalScore = 0;
         status = PlayerStatus.WAITING;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public PlayerStatus getStatus() {
+        return status;
+    }
 }
