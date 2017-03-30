@@ -54,7 +54,7 @@ public class StartPanel extends JPanel {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         jPanel.add(jLabel, gridBagConstraints);
-        namePlayer1 = new JTextField(25);
+        namePlayer1 = new JTextField("Player1", 25);
         namePlayer1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -74,7 +74,7 @@ public class StartPanel extends JPanel {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         jPanel.add(jLabel, gridBagConstraints);
-        namePlayer2 = new JTextField(25);
+        namePlayer2 = new JTextField("Player2", 25);
         namePlayer2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -94,7 +94,8 @@ public class StartPanel extends JPanel {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
         jPanel.add(jLabel, gridBagConstraints);
-        namePlayer3 = new JTextField(25);
+        namePlayer3 = new JTextField("Player3", 25);
+        namePlayer3.setEnabled(false);
         namePlayer3.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -109,12 +110,14 @@ public class StartPanel extends JPanel {
         gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 2;
         jPanel.add(okBtn3, gridBagConstraints);
+        okBtn3.setEnabled(false);
 
         jLabel = new JLabel("Player4 name: ");
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
         jPanel.add(jLabel, gridBagConstraints);
-        namePlayer4 = new JTextField(25);
+        namePlayer4 = new JTextField("player4", 25);
+        namePlayer4.setEnabled(false);
         namePlayer4.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -130,11 +133,27 @@ public class StartPanel extends JPanel {
         gridBagConstraints.gridy = 3;
         gridBagConstraints.weightx = 0;
         jPanel.add(okBtn4, gridBagConstraints);
+        okBtn4.setEnabled(false);
 
         add(jPanel, BorderLayout.CENTER);
         jPanel = new JPanel(new FlowLayout());
         jPanel.add(playBtn);
         add(jPanel, BorderLayout.SOUTH);
+        box.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (box.getSelectedItem().toString().equals("3")) {
+                    namePlayer3.setEnabled(true);
+                    okBtn3.setEnabled(true);
+                }
+                if (box.getSelectedItem().toString().equals("4")) {
+                    namePlayer3.setEnabled(true);
+                    okBtn3.setEnabled(true);
+                    namePlayer4.setEnabled(true);
+                    okBtn4.setEnabled(true);
+                }
+            }
+        });
     }
 
     @Override
