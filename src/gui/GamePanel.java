@@ -1,9 +1,13 @@
 package gui;
 
+import player.Player;
+
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -12,15 +16,21 @@ import java.util.Scanner;
 public class GamePanel extends JPanel {
     private BoardPanel boardPanel;
     private ButtonPanel buttonPanel;
+    private AnswerPanel answerPanel;
     private String currentPhrase = "";
-    private String phrase = "MAY BAY";
+    private String phrase;
+    private String question;
     private Thread thread;
     private static int nPlayer;
+    private ArrayList<Player> playerList;
 
+    public GamePanel(String phrase) {
 
+        playerList = new ArrayList<Player>();
+        playerList.add(new Player("Hoang"));
+        playerList.add(new Player("Le"));
 
-    public GamePanel() {
-
+        this.phrase = phrase;
         for (int i = 0; i < phrase.length(); i++) {
             char append = phrase.charAt(i);
             if (append == ' ')
@@ -28,14 +38,16 @@ public class GamePanel extends JPanel {
             else currentPhrase += "_";
         }
 
-        BorderLayout borderLayout = new BorderLayout();
-        setLayout(borderLayout);
+        //BorderLayout borderLayout = new BorderLayout();
+        setLayout(null);
         setSize(GameFrame.GAME_WIDTH, GameFrame.GAME_HEIGHT);
         boardPanel = new BoardPanel(currentPhrase);
         buttonPanel = new ButtonPanel();
+        answerPanel = new AnswerPanel();
 
-        this.add(boardPanel, BorderLayout.NORTH);
-        this.add(buttonPanel, BorderLayout.SOUTH);
+        this.add(boardPanel);
+        this.add(buttonPanel);
+        this.add(answerPanel);
 
         setVisible(true);
 
@@ -46,11 +58,11 @@ public class GamePanel extends JPanel {
             public void run() {
                 while (true) {
                     getGuess();
+                    getAnswer();
                     revalidate();
                     repaint();
                     if (checkWin()){
-                        JLabel wonLabel = new JLabel("YOU WON!");
-                        add(wonLabel);
+                        System.out.println("YOU WON!");
                     }
                 }
             }
@@ -77,10 +89,19 @@ public class GamePanel extends JPanel {
             currentPhrase = new String(currArr);
             System.out.println("Phrase: " + phrase);
             System.out.println("Current phrase: " + currentPhrase);
-            this.remove(boardPanel);
-            boardPanel = new BoardPanel(currentPhrase);
-            this.add(boardPanel, BorderLayout.NORTH);
             buttonPanel.refreshButton();
+            updateBoard();
+        }
+    }
+
+    public void getAnswer(){
+        String answer = answerPanel.getAnswer();
+        if (answer!="") {
+            if (answer.equals(phrase)) {
+                currentPhrase = phrase;
+                answerPanel.refreshAnswer();
+                updateBoard();
+            }
         }
     }
 
@@ -95,5 +116,11 @@ public class GamePanel extends JPanel {
 
     public static void setnPlayer(int nPlayer) {
         GamePanel.nPlayer = nPlayer;
+    }
+
+    public void updateBoard(){
+        this.remove(boardPanel);
+        boardPanel = new BoardPanel(currentPhrase);
+        this.add(boardPanel, BorderLayout.NORTH);
     }
 }

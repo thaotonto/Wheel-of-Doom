@@ -9,8 +9,9 @@ import java.awt.*;
 public class BoardPanel extends JPanel {
 
     public BoardPanel(String phrase) {
+        this.setBounds(150,100,697,37);
         System.out.println("Board phrase: " + phrase);
-        FlowLayout flowLayout = new FlowLayout(5, 3, 3);
+        FlowLayout flowLayout = new FlowLayout(3, 3, 3);
         setLayout(flowLayout);
         setVisible(true);
         setBackground(Color.BLACK);

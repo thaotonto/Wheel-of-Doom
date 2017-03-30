@@ -41,7 +41,7 @@ public class StartPanel extends JPanel implements MouseListener {
             }
         });
         JPanel jPanel = new JPanel(new FlowLayout());
-        jLabel = new JLabel("Number Of Player: ");
+        jLabel = new JLabel("Number Of player: ");
         jPanel.add(jLabel);
         jPanel.add(box);
         add(jPanel, BorderLayout.NORTH);
@@ -167,7 +167,7 @@ public class StartPanel extends JPanel implements MouseListener {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-//        g.drawString("Number Of Player: ", GameFrame.GAME_WIDTH / 2 - 200, 20);
+//        g.drawString("Number Of player: ", GameFrame.GAME_WIDTH / 2 - 200, 20);
     }
 
     @Override
