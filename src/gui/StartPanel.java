@@ -2,15 +2,14 @@ package gui;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
+import java.awt.event.*;
+
+import static gui.MainPanel.TAG_GAME;
 
 /**
  * Created by Thaotonto on 3/30/2017.
  */
-public class StartPanel extends JPanel {
+public class StartPanel extends JPanel implements MouseListener {
     private JComboBox box;
     public static String[] numberOfPlayer = {"2", "3", "4"};
     private JLabel jLabel;
@@ -138,6 +137,7 @@ public class StartPanel extends JPanel {
         add(jPanel, BorderLayout.CENTER);
         jPanel = new JPanel(new FlowLayout());
         jPanel.add(playBtn);
+        playBtn.addMouseListener(this);
         add(jPanel, BorderLayout.SOUTH);
         box.addActionListener(new ActionListener() {
             @Override
@@ -168,5 +168,32 @@ public class StartPanel extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 //        g.drawString("Number Of Player: ", GameFrame.GAME_WIDTH / 2 - 200, 20);
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        if (e.getSource() == playBtn){
+            GameFrame.mainPanel.showPanel(TAG_GAME);
+        }
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
     }
 }

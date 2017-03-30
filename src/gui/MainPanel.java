@@ -12,6 +12,7 @@ public class MainPanel extends JPanel {
     public static final String TAG_INSTRUCTION = "tag_instruction";
     public static final String TAG_GAME = "tag_game";
     public static final String TAG_GAME_OVER = "tag_game_over";
+
     private CardLayout cardLayout;
     private GamePanel gamePanel;
     private MenuPanel menuPanel;
@@ -23,6 +24,9 @@ public class MainPanel extends JPanel {
         setLayout(cardLayout);
         menuPanel = new MenuPanel();
         add(menuPanel, TAG_MENU);
+        setSize(GameFrame.GAME_WIDTH, GameFrame.GAME_HEIGHT);
+        cardLayout.show(this, TAG_MENU);
+        setVisible(true);
     }
 
     public void showPanel(String tag) {

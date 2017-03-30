@@ -20,5 +20,9 @@ public class GameFrame extends JFrame {
         mainPanel = new MainPanel();
         add(mainPanel);
         setVisible(true);
+        setResizable(false);
+        setLocationRelativeTo(null);
+        setFocusable(true);
+        setAlwaysOnTop(true);
     }
 }
