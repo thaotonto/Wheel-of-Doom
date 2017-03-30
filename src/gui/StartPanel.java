@@ -145,12 +145,20 @@ public class StartPanel extends JPanel {
                 if (box.getSelectedItem().toString().equals("3")) {
                     namePlayer3.setEnabled(true);
                     okBtn3.setEnabled(true);
+                    namePlayer4.setEnabled(false);
+                    okBtn4.setEnabled(false);
                 }
                 if (box.getSelectedItem().toString().equals("4")) {
                     namePlayer3.setEnabled(true);
                     okBtn3.setEnabled(true);
                     namePlayer4.setEnabled(true);
                     okBtn4.setEnabled(true);
+                }
+                if (box.getSelectedItem().toString().equals("2")) {
+                    namePlayer3.setEnabled(false);
+                    okBtn3.setEnabled(false);
+                    namePlayer4.setEnabled(false);
+                    okBtn4.setEnabled(false);
                 }
             }
         });
