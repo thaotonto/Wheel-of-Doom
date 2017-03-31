@@ -54,6 +54,7 @@ public class StartPanel extends JPanel implements MouseListener {
         gridBagConstraints.gridy = 0;
         jPanel.add(jLabel, gridBagConstraints);
         namePlayer1 = new JTextField("Player1", 25);
+        GamePanel.getPlayerName().add(0, namePlayer1.getText());
         namePlayer1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -68,12 +69,19 @@ public class StartPanel extends JPanel implements MouseListener {
         gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 0;
         jPanel.add(okBtn1, gridBagConstraints);
+        okBtn1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                GamePanel.getPlayerName().add(0, namePlayer1.getText());
+            }
+        });
 
         jLabel = new JLabel("Player2 name: ");
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         jPanel.add(jLabel, gridBagConstraints);
         namePlayer2 = new JTextField("Player2", 25);
+        GamePanel.getPlayerName().add(1, namePlayer2.getText());
         namePlayer2.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -88,12 +96,19 @@ public class StartPanel extends JPanel implements MouseListener {
         gridBagConstraints.gridx = 6;
         gridBagConstraints.gridy = 1;
         jPanel.add(okBtn2, gridBagConstraints);
+        okBtn2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                GamePanel.getPlayerName().add(1, namePlayer2.getText());
+            }
+        });
 
         jLabel = new JLabel("Player3 name: ");
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
         jPanel.add(jLabel, gridBagConstraints);
         namePlayer3 = new JTextField("Player3", 25);
+        GamePanel.getPlayerName().add(2, namePlayer3.getText());
         namePlayer3.setEnabled(false);
         namePlayer3.addActionListener(new ActionListener() {
             @Override
@@ -110,12 +125,19 @@ public class StartPanel extends JPanel implements MouseListener {
         gridBagConstraints.gridy = 2;
         jPanel.add(okBtn3, gridBagConstraints);
         okBtn3.setEnabled(false);
+        okBtn3.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                GamePanel.getPlayerName().add(2, namePlayer3.getText());
+            }
+        });
 
         jLabel = new JLabel("Player4 name: ");
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
         jPanel.add(jLabel, gridBagConstraints);
         namePlayer4 = new JTextField("player4", 25);
+        GamePanel.getPlayerName().add(4, namePlayer4.getText());
         namePlayer4.setEnabled(false);
         namePlayer4.addActionListener(new ActionListener() {
             @Override
@@ -133,6 +155,12 @@ public class StartPanel extends JPanel implements MouseListener {
         gridBagConstraints.weightx = 0;
         jPanel.add(okBtn4, gridBagConstraints);
         okBtn4.setEnabled(false);
+        okBtn4.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                GamePanel.getPlayerName().add(3,namePlayer4.getText());
+            }
+        });
 
         add(jPanel, BorderLayout.CENTER);
         jPanel = new JPanel(new FlowLayout());
@@ -172,7 +200,7 @@ public class StartPanel extends JPanel implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        if (e.getSource() == playBtn){
+        if (e.getSource() == playBtn) {
             GameFrame.mainPanel.showPanel(TAG_GAME);
         }
     }

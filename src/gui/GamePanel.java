@@ -10,11 +10,14 @@ import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.Vector;
 
 /**
  * Created by Hoang on 3/29/2017.
  */
 public class GamePanel extends JPanel {
+    private static int nPlayer;
+    private static ArrayList<String> playerName = new ArrayList<>();
     private BoardPanel boardPanel;
     private ButtonPanel buttonPanel;
     private AnswerPanel answerPanel;
@@ -22,15 +25,16 @@ public class GamePanel extends JPanel {
     private String phrase;
     private String question;
     private Thread thread;
-    private static int nPlayer;
+
     private ArrayList<Player> playerList;
     private Player currentPlayer;
-
     private BufferedImage bufferedImage;
     private Graphics backGraphic;
 
     public GamePanel(String phrase) {
-
+        for (int i = 0; i<4 ; i++) {
+            System.out.println(playerName.get(i));
+        }
         playerList = new ArrayList<Player>();
         playerList.add(new Player("Hoang"));
         playerList.add(new Player("Le"));
@@ -125,6 +129,10 @@ public class GamePanel extends JPanel {
 
     public static void setnPlayer(int nPlayer) {
         GamePanel.nPlayer = nPlayer;
+    }
+
+    public static ArrayList<String> getPlayerName() {
+        return playerName;
     }
 
     public void updateBoard() {
