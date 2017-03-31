@@ -1,0 +1,180 @@
+package gui;
+
+import utils.Utils;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
+
+/**
+ * Created by Inpriron on 3/30/2017.
+ */
+public class WheelPanel extends JPanel {
+    private static int PANEL_WIDTH = 600;
+    private static int PANEL_HEIGHT = 600;
+    private Image backGroundImage;
+    private Image image;
+    private Image imagePointer;
+    private BufferedImage backBufferImage;
+    private Graphics backGraphics;
+    private JButton powerBar;
+    private Point startingPoint;
+    private Point endPoint;
+    private Thread thread;
+    int i;
+    private int counter;
+    private int currentDegree;
+    private int calculator;
+    public static WheelPanel instance= new WheelPanel();
+    public WheelPanel() {
+        setLayout(null);
+        this.setBounds(500,0,PANEL_WIDTH,PANEL_HEIGHT);
+        this.setBackground(Color.blue);
+        powerBar= new JButton();
+        powerBar.setBounds(50, 50, 500, 250);
+        this.add(powerBar);
+        powerBar.setEnabled(true);
+        powerBar.setVisible(true);
+        powerBar.setOpaque(true);
+
+        powerBar.setContentAreaFilled(false);
+        powerBar.setBorderPainted(false);
+        powerBar.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        powerBar.addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent evt) {
+                PowerBarMousePressed(evt);
+            }
+
+            public void mouseReleased(MouseEvent evt) {
+                PowerBarMouseReleased(evt);
+            }
+        });
+        backBufferImage = new BufferedImage(
+                PANEL_WIDTH,
+                PANEL_HEIGHT,
+                BufferedImage.TYPE_INT_ARGB);
+        backGraphics = backBufferImage.getGraphics();
+        image = Utils.loadImageFromRes("Wheel.png");
+        imagePointer = Utils.loadImageFromRes("Pointer.png");
+        backGroundImage = Utils.loadImageFromRes("background.png");
+
+    }
+
+    public  void spinWheel(int power_) {
+        thread = new Thread(new Runnable() {
+            int power = power_;
+
+            @Override
+            public void run() {
+                while (true) {
+                    try {
+                        Thread.sleep(17);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    repaint();
+                    counter++;
+                    currentDegree += power;
+                    if (counter > 60) {
+                        counter = 0;
+                        if (power > 0)
+                            power--;
+
+                    }
+                    if (power == 0) {
+                        calculator = currentDegree;
+                        while (calculator > 360)
+                            calculator -= 360;
+                        calculator = calculator / 24;
+                        switch (calculator) {
+                            case 0:
+                                System.out.println("900");
+                                break;
+                            case 1:
+                                System.out.println("get turn");
+                                break;
+                            case 2:
+                                System.out.println("500");
+                                break;
+                            case 3:
+                                System.out.println("1000");
+                                break;
+                            case 4:
+                                System.out.println("400");
+                                break;
+                            case 5:
+                                System.out.println("lose turn");
+                                break;
+                            case 6:
+                                System.out.println("600");
+                                break;
+                            case 7:
+                                System.out.println("Prize");
+                                break;
+                            case 8:
+                                System.out.println("300");
+                                break;
+                            case 9:
+                                System.out.println("800");
+                                break;
+                            case 10:
+                                System.out.println("1100");
+                                break;
+                            case 11:
+                                System.out.println("100");
+                                break;
+                            case 12:
+                                System.out.println("200");
+                                break;
+                            case 13:
+                                System.out.println("700");
+                                break;
+                            case 14:
+                                System.out.println("bankrupt");
+                                break;
+
+                        }
+                        thread.stop();
+                    }
+                }
+
+            }
+        });
+        thread.start();
+    }
+
+    @Override
+    protected void paintComponent(Graphics graphics) {
+        if (backBufferImage != null) {
+            AffineTransform at = AffineTransform.getTranslateInstance(50, 50);
+            at.rotate(Math.toRadians(currentDegree), image.getWidth(null) / 2, image.getHeight(null) / 2);
+            Graphics2D g2d = (Graphics2D) backGraphics;
+            g2d.drawImage(backGroundImage, 0, 0, 1200, 1200, null);
+            g2d.drawImage(image, at, null);
+            g2d.drawImage(imagePointer, 55, 50 + image.getHeight(null) / 2 - imagePointer.getHeight(null) / 2, null);
+            graphics.drawImage(backBufferImage, 0, 0, null);
+
+        }
+    }
+    private void PowerBarMousePressed(MouseEvent evt) {
+        // TODO add your handling code here:
+
+        startingPoint = evt.getPoint();
+    }
+
+    private void PowerBarMouseReleased(MouseEvent evt) {
+        // TODO add your handling code here:
+
+        endPoint = evt.getPoint();
+        int x1 = (int) Math.round(startingPoint.getX());
+        int x2 = (int) Math.round(endPoint.getX());
+        System.out.println(x1+" "+ x2 );
+        if(x2>500)
+            x2=500;
+
+        WheelPanel.instance.spinWheel((x2-x1)/40);
+    }
+}

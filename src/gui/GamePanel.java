@@ -54,6 +54,7 @@ public class GamePanel extends JPanel {
         this.add(boardPanel);
         this.add(buttonPanel);
         this.add(answerPanel);
+        this.add(WheelPanel.instance);
 
         setVisible(true);
 
