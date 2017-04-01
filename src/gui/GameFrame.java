@@ -23,6 +23,6 @@ public class GameFrame extends JFrame {
         setResizable(false);
         setLocationRelativeTo(null);
         setFocusable(true);
-        setAlwaysOnTop(true);
+//        setAlwaysOnTop(true);
     }
 }
