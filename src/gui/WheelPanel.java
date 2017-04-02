@@ -30,7 +30,7 @@ public class WheelPanel extends JPanel {
     private int calculator;
     public static WheelPanel instance = new WheelPanel();
     private String result;
-
+    public String monitor="";
     public WheelPanel() {
         setLayout(null);
         this.setBounds(500, 0, PANEL_WIDTH, PANEL_HEIGHT);
@@ -65,6 +65,7 @@ public class WheelPanel extends JPanel {
     }
 
     public void spinWheel(int power_) {
+        powerBar.setEnabled(false);
         thread = new Thread(new Runnable() {
             int power = power_;
 
@@ -153,6 +154,10 @@ public class WheelPanel extends JPanel {
                                 break;
 
                         }
+                        synchronized (monitor)
+                        {
+                            monitor.notify();
+                        }
                         thread.stop();
                     }
                 }
@@ -178,7 +183,7 @@ public class WheelPanel extends JPanel {
 
     private void PowerBarMousePressed(MouseEvent evt) {
         // TODO add your handling code here:
-        result = null;
+
         startingPoint = evt.getPoint();
     }
 
@@ -188,7 +193,7 @@ public class WheelPanel extends JPanel {
             endPoint = evt.getPoint();
             int x1 = (int) Math.round(startingPoint.getX());
             int x2 = (int) Math.round(endPoint.getX());
-            System.out.println(x1 + " " + x2);
+//            System.out.println(x1 + " " + x2);
             if (x2 > 500)
                 x2 = 500;
             WheelPanel.instance.spinWheel((x2 - x1) / 40);
