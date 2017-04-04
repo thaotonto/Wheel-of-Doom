@@ -1,11 +1,16 @@
 package gui;
 
 import utils.Utils;
+import controller.GameController;
+import player.Player;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Vector;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
 
 import static gui.MainPanel.TAG_GAME;
 
@@ -27,13 +32,14 @@ public class StartPanel extends JPanel implements MouseListener {
     private JTextField namePlayer4 = new JTextField("Player4", 25);
     private JButton playBtn = new JButton("Play");
     GridBagConstraints gridBagConstraints = new GridBagConstraints();
+    private ArrayList<Player> playerList = new ArrayList<>();
 
     public StartPanel() {
         setLayout(new BorderLayout());
-        GamePanel.getPlayerName().add(0, namePlayer1.getText());
-        GamePanel.getPlayerName().add(1, namePlayer2.getText());
-        GamePanel.getPlayerName().add(2, namePlayer3.getText());
-        GamePanel.getPlayerName().add(3, namePlayer4.getText());
+//        GamePanel.getPlayerName().add(0, namePlayer1.getText());
+//        GamePanel.getPlayerName().add(1, namePlayer2.getText());
+//        GamePanel.getPlayerName().add(2, namePlayer3.getText());
+//        GamePanel.getPlayerName().add(3, namePlayer4.getText());
         initComp();
     }
 
@@ -43,7 +49,7 @@ public class StartPanel extends JPanel implements MouseListener {
             @Override
             public void itemStateChanged(ItemEvent e) {
                 if (e.getStateChange() == ItemEvent.SELECTED) {
-                    GamePanel.setnPlayer(boxnPlayer.getSelectedIndex() + 2);
+                    //GamePanel.setnPlayer(boxnPlayer.getSelectedIndex() + 2);
                 }
             }
         });
@@ -159,7 +165,40 @@ public class StartPanel extends JPanel implements MouseListener {
     @Override
     public void mouseClicked(MouseEvent e) {
         if (e.getSource() == playBtn) {
-            GameFrame.mainPanel.showPanel(TAG_GAME);
+            System.out.println("Player no: " + Integer.parseInt(boxnPlayer.getSelectedItem().toString()));
+            switch (boxnPlayer.getSelectedItem().toString()) {
+                case "2": {
+                    Player player = new Player(namePlayer1.getText());
+                    playerList.add(player);
+                    player = new Player(namePlayer2.getText());
+                    playerList.add(player);
+                }
+                break;
+                case "3": {
+                    Player player = new Player(namePlayer1.getText());
+                    playerList.add(player);
+                    player = new Player(namePlayer2.getText());
+                    playerList.add(player);
+                    player = new Player(namePlayer3.getText());
+                    playerList.add(player);
+                }
+                break;
+                case "4": {
+                    Player player = new Player(namePlayer1.getText());
+                    playerList.add(player);
+                    player = new Player(namePlayer2.getText());
+                    playerList.add(player);
+                    player = new Player(namePlayer3.getText());
+                    playerList.add(player);
+                    player = new Player(namePlayer4.getText());
+                    playerList.add(player);
+                }
+                break;
+            }
+            for (int i = 0; i < Integer.parseInt(boxnPlayer.getSelectedItem().toString()); i++) {
+                System.out.println("Player: " + playerList.get(i).getName());
+            }
+            GameFrame.gameController = new GameController(boxTheme.getSelectedItem().toString(), playerList, Integer.parseInt(boxnPlayer.getSelectedItem().toString()));
         }
     }
 

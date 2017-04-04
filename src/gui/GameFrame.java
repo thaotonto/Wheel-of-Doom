@@ -1,5 +1,7 @@
 package gui;
 
+import controller.GameController;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -11,6 +13,7 @@ public class GameFrame extends JFrame {
     public static final int GAME_WIDTH = 1000;
     public static final int GAME_HEIGHT = 700;
     public static MainPanel mainPanel;
+    public static GameController gameController;
 
     public GameFrame() throws HeadlessException {
         setSize(GAME_WIDTH, GAME_HEIGHT);

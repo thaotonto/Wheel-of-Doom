@@ -1,4 +1,2 @@
-City
-Job
-Idol
-Sport
+Sports
+Food

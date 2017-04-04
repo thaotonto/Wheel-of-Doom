@@ -1,5 +1,7 @@
 package gui;
 
+import controller.PuzzleController;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -29,13 +31,9 @@ public class MainPanel extends JPanel {
         setVisible(true);
     }
 
+
     public void showPanel(String tag) {
-        if (tag.equals(TAG_GAME)) {
-                gamePanel = new GamePanel("MAY BAY");
-            add(gamePanel, TAG_GAME);
-            cardLayout.show(this, tag);
-            gamePanel.requestFocusInWindow();
-        } else if (tag.equals(TAG_GAME_OVER)) {
+       if (tag.equals(TAG_GAME_OVER)) {
 //            gameOverPanel = new GameOverPanel();
 //            add(gameOverPanel, TAG_GAME_OVER);
 //            cardLayout.show(this, tag);
@@ -46,5 +44,11 @@ public class MainPanel extends JPanel {
         } else {
             cardLayout.show(this, tag);
         }
+    }
+
+    public void showGamePanel(GamePanel gamePanel){
+        this.gamePanel = gamePanel;
+        add(gamePanel,TAG_GAME);
+        cardLayout.show(this,TAG_GAME);
     }
 }

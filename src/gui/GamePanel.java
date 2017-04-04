@@ -1,11 +1,14 @@
 package gui;
 
+import controller.GameController;
 import player.Player;
 import player.PlayerStatus;
+import puzzle.Puzzle;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Random;
 
 
@@ -13,8 +16,8 @@ import java.util.Random;
  * Created by Hoang on 3/29/2017.
  */
 public class GamePanel extends JPanel {
-    private static int nPlayer = 2;
-    private static ArrayList<String> playerName = new ArrayList<>();
+    private int nPlayer = 0;
+    //private ArrayList<String> playerName = new ArrayList<>();
     private BoardPanel boardPanel;
     private ButtonPanel buttonPanel;
     private AnswerPanel answerPanel;
@@ -22,25 +25,35 @@ public class GamePanel extends JPanel {
     private String phrase;
     private String question;
     private Thread thread;
-    private boolean isWin = true;
+    private boolean finished = false;
     private String wheelResult;
     private ArrayList<Player> playerList;
     private Player currentPlayer;
     private boolean guessTrue;
-    private String monitor="";
-    public GamePanel(String phrase) {
-        for (int i = 0; i < 4; i++) {
-            System.out.println(playerName.get(i));
-        }
-        playerList = new ArrayList<>();
-        for (int i = 0; i < nPlayer; i++) {
-            playerList.add(new Player(playerName.get(i)));
-        }
+    private String monitor = "";
+    private int round;
 
+    public GamePanel(Puzzle puzzle, ArrayList<Player> playerList) {
+        this.playerList = playerList;
+
+        Iterator<Player> playerListIterator = playerList.iterator();
+        System.out.println(nPlayer);
+        while (playerListIterator.hasNext()){
+            Player temp = playerListIterator.next();
+            nPlayer++;
+//            System.out.println(nPlayer);
+        }
+        System.out.println("Number of players: " + nPlayer);
         playerList.get(0).setStatus(PlayerStatus.PLAYING);
         currentPlayer = getCurrentPlayer();
 
-        this.phrase = phrase;
+        this.question = puzzle.getQuestion();
+        this.phrase = puzzle.getPhrase().toUpperCase();
+        this.round = puzzle.getRound();
+
+        System.out.println("This round: " + puzzle.getRound());
+        System.out.println("This round's question: " + puzzle.getQuestion());
+        System.out.println("This round's phrase: " + puzzle.getPhrase());
         for (int i = 0; i < phrase.length(); i++) {
             char append = phrase.charAt(i);
             if (append == ' ')
@@ -57,57 +70,11 @@ public class GamePanel extends JPanel {
         this.add(boardPanel);
         this.add(buttonPanel);
         this.add(answerPanel);
+        buttonPanel.setEnabled(false);
         this.add(WheelPanel.instance);
         setVisible(true);
 
         System.out.println("Phrase setup: " + currentPhrase);
-
-        thread = new Thread(new Runnable() {
-            String monitor= WheelPanel.instance.monitor;
-            @Override
-            public synchronized void run() {
-                while (true) {
-                    try {
-                        thread.sleep(17);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    if (!currentPlayer.isSpin()) {
-                        synchronized (monitor)
-                        {
-                            try {
-                                WheelPanel.instance.setPowerBar(true);
-                                buttonPanel.setVisible(false);
-                                monitor.wait();
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                        WheelPanel.instance.setPowerBar(false);
-                        buttonPanel.setVisible(true);
-                        wheelResult=WheelPanel.instance.getResult();
-                        currentPlayer.setSpin(true);
-                        guessTrue = false;
-                    }
-                    if (wheelResult == "lose turn") {
-                        wheelResult="Mat luot xin moi nguoi tiep theo quay";
-                        nextPlayer();
-                        currentPlayer = getCurrentPlayer();
-                    } else if (wheelResult == "bankrupt") {
-                        wheelResult="Mat diem xin moi nguoi tiep theo quay";
-                        currentPlayer.setCurrentScore(0);
-                        nextPlayer();
-                        currentPlayer = getCurrentPlayer();
-                    } else {
-                        getGuess();
-                        getAnswer();
-                    }
-                    revalidate();
-                    repaint();
-                }
-            }
-        });
-        thread.start();
 
     }
 
@@ -146,7 +113,7 @@ public class GamePanel extends JPanel {
                         int point = Integer.parseInt(wheelResult);
                         currentPlayer.setCurrentScore(currentPlayer.getCurrentScore() + point);
                     } catch (NumberFormatException e) {
-                        e.printStackTrace();
+                        //e.printStackTrace();
                         if (count == 1) {
                             switch (wheelResult) {
                                 case "get turn":
@@ -171,7 +138,7 @@ public class GamePanel extends JPanel {
                 currentPlayer.setSpin(false);
             }
             currentPhrase = new String(currArr);
-            wheelResult= "YO SPIN";
+            wheelResult = "YO SPIN";
             System.out.println("Phrase: " + phrase);
             System.out.println("Current phrase: " + currentPhrase);
             buttonPanel.refreshButton();
@@ -190,18 +157,23 @@ public class GamePanel extends JPanel {
         }
     }
 
-    public boolean checkWin() {
-        if (currentPhrase.equals(phrase)) return true;
-        else return false;
+    public void checkWin() {
+        if (currentPhrase.equals(phrase)){
+            for(Player playerEl : playerList){
+                playerEl.setTotalScore(playerEl.getTotalScore() + playerEl.getCurrentScore());
+                playerEl.setCurrentScore(0);
+            }
+            finished = true;
+        }
     }
 
-    public static void setnPlayer(int nPlayer) {
-        GamePanel.nPlayer = nPlayer;
-    }
-
-    public static ArrayList<String> getPlayerName() {
-        return playerName;
-    }
+//    public static void setnPlayer(int nPlayer) {
+//        GamePanel.nPlayer = nPlayer;
+//    }
+//
+//    public static ArrayList<String> getPlayerName() {
+//        return playerName;
+//    }
 
     public void updateBoard() {
         this.remove(boardPanel);
@@ -226,14 +198,14 @@ public class GamePanel extends JPanel {
             g.drawString(playerList.get(i).getCurrentScore() + "", 50 + 70, 400 + (i * 50));
         }
         g.drawString(currentPlayer.getName(), 50, 350);
+        g.drawString(question, 200, 200);
+        g.drawString("Round " + round, 450, 50);
         if (wheelResult != null) {
             g.drawString(wheelResult, 50, 300);
-        }
-        else
-            g.drawString("YO SPIN",50,300);
+        } else
+            g.drawString("YO SPIN", 50, 300);
 
     }
-
 
     private String spinWheel() {
         Random random = new Random();
@@ -288,4 +260,51 @@ public class GamePanel extends JPanel {
         return result;
     }
 
+    private String spinWheel1() throws InterruptedException {
+        synchronized (monitor) {
+            thread.wait();
+        }
+
+        return WheelPanel.instance.getResult();
+    }
+
+    public void run() {
+        String monitor = WheelPanel.instance.monitor;
+        if (!currentPlayer.isSpin()) {
+            synchronized (monitor) {
+                try {
+                    WheelPanel.instance.setPowerBar(true);
+                    buttonPanel.setVisible(false);
+                    monitor.wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            WheelPanel.instance.setPowerBar(false);
+            buttonPanel.setVisible(true);
+            wheelResult = WheelPanel.instance.getResult();
+            currentPlayer.setSpin(true);
+            guessTrue = false;
+        }
+        if (wheelResult == "lose turn") {
+            wheelResult = "Mat luot xin moi nguoi tiep theo quay";
+            nextPlayer();
+            currentPlayer = getCurrentPlayer();
+        } else if (wheelResult == "bankrupt") {
+            wheelResult = "Mat diem xin moi nguoi tiep theo quay";
+            currentPlayer.setCurrentScore(0);
+            nextPlayer();
+            currentPlayer = getCurrentPlayer();
+        } else {
+            getGuess();
+            getAnswer();
+            checkWin();
+        }
+        revalidate();
+        repaint();
+    }
+
+    public boolean isFinished() {
+        return finished;
+    }
 }
