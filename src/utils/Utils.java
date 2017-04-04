@@ -2,13 +2,14 @@ package utils;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.util.Vector;
 
 /**
  * Created by Thaotonto on 3/29/2017.
  */
 public class Utils {
+
     public static Image loadImageFromRes(String url) {
         try {
             Image image = ImageIO.read(new File("resources/" + url));
@@ -18,4 +19,23 @@ public class Utils {
             return null;
         }
     }
+
+    public static Vector<String> loadFile(String url) {
+        try {
+            Vector<String> fileContaint = new Vector<>();
+            BufferedReader bufferedReader = new BufferedReader(new FileReader("resources/" + url));
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                fileContaint.add(line);
+            }
+            return fileContaint;
+        } catch (Exception e) {
+            if (e instanceof IOException || e instanceof FileNotFoundException) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
 }
+
+

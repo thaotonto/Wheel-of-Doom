@@ -31,7 +31,7 @@ public class MainPanel extends JPanel {
 
     public void showPanel(String tag) {
         if (tag.equals(TAG_GAME)) {
-            gamePanel = new GamePanel("MAY BAY");
+                gamePanel = new GamePanel("MAY BAY");
             add(gamePanel, TAG_GAME);
             cardLayout.show(this, tag);
             gamePanel.requestFocusInWindow();

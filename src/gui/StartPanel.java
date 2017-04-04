@@ -1,10 +1,11 @@
 package gui;
 
+import utils.Utils;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
+import java.util.Vector;
 
 import static gui.MainPanel.TAG_GAME;
 
@@ -12,8 +13,10 @@ import static gui.MainPanel.TAG_GAME;
  * Created by Thaotonto on 3/30/2017.
  */
 public class StartPanel extends JPanel implements MouseListener {
-    private JComboBox box;
-    public static String[] numberOfPlayer = {"2", "3", "4"};
+    private JComboBox boxnPlayer;
+    private JComboBox boxTheme;
+    private Vector<String> theme = Utils.loadFile("theme.txt");
+    private String[] numberOfPlayer = {"2", "3", "4"};
     private JLabel jLabel1 = new JLabel("Player1 name: ");
     private JLabel jLabel2 = new JLabel("Player2 name: ");
     private JLabel jLabel3 = new JLabel("Player3 name: ");
@@ -35,21 +38,42 @@ public class StartPanel extends JPanel implements MouseListener {
     }
 
     private void initComp() {
-        box = new JComboBox(numberOfPlayer);
-        box.addItemListener(new ItemListener() {
+        boxnPlayer = new JComboBox(numberOfPlayer);
+        boxnPlayer.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
                 if (e.getStateChange() == ItemEvent.SELECTED) {
-                    GamePanel.setnPlayer(box.getSelectedIndex() + 2);
+                    GamePanel.setnPlayer(boxnPlayer.getSelectedIndex() + 2);
                 }
             }
         });
 
+        boxTheme = new JComboBox(theme);
+        boxTheme.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+
+                }
+            }
+        });
+
+
+        JPanel panelNorth = new JPanel();
+        panelNorth.setLayout(new BoxLayout(panelNorth, BoxLayout.Y_AXIS));
+
         JPanel jPanel = new JPanel(new FlowLayout());
         JLabel jLabel = new JLabel("Number Of player: ");
         jPanel.add(jLabel);
-        jPanel.add(box);
-        add(jPanel, BorderLayout.NORTH);
+        jPanel.add(boxnPlayer);
+        panelNorth.add(jPanel);
+
+        jPanel = new JPanel(new FlowLayout());
+        jLabel = new JLabel("Theme");
+        jPanel.add(jLabel);
+        jPanel.add(boxTheme);
+        panelNorth.add(jPanel);
+        add(panelNorth, BorderLayout.NORTH);
 
         gridBagConstraints.insets = new Insets(40, 15, 15, 40);
         jPanel = new JPanel(new GridBagLayout());
@@ -107,18 +131,18 @@ public class StartPanel extends JPanel implements MouseListener {
         jPanel.add(playBtn);
         playBtn.addMouseListener(this);
         add(jPanel, BorderLayout.SOUTH);
-        box.addActionListener(new ActionListener() {
+        boxnPlayer.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (box.getSelectedItem().toString().equals("3")) {
+                if (boxnPlayer.getSelectedItem().toString().equals("3")) {
                     namePlayer3.setEnabled(true);
                     namePlayer4.setEnabled(false);
                 }
-                if (box.getSelectedItem().toString().equals("4")) {
+                if (boxnPlayer.getSelectedItem().toString().equals("4")) {
                     namePlayer3.setEnabled(true);
                     namePlayer4.setEnabled(true);
                 }
-                if (box.getSelectedItem().toString().equals("2")) {
+                if (boxnPlayer.getSelectedItem().toString().equals("2")) {
                     namePlayer3.setEnabled(false);
                     namePlayer4.setEnabled(false);
                 }
