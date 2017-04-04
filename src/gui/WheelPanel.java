@@ -15,7 +15,7 @@ import java.awt.image.BufferedImage;
 public class WheelPanel extends JPanel {
     private static int PANEL_WIDTH = 600;
     private static int PANEL_HEIGHT = 600;
-    private Image backGroundImage;
+//    private Image backGroundImage;
     private Image image;
     private Image imagePointer;
     private BufferedImage backBufferImage;
@@ -33,6 +33,7 @@ public class WheelPanel extends JPanel {
     public String monitor="";
     public WheelPanel() {
         setLayout(null);
+        setOpaque(false);
         this.setBounds(500, 0, PANEL_WIDTH, PANEL_HEIGHT);
         this.setBackground(Color.blue);
         powerBar = new JButton();
@@ -60,7 +61,7 @@ public class WheelPanel extends JPanel {
         backGraphics = backBufferImage.getGraphics();
         image = Utils.loadImageFromRes("Wheel.png");
         imagePointer = Utils.loadImageFromRes("Pointer.png");
-        backGroundImage = Utils.loadImageFromRes("background.png");
+//        backGroundImage = Utils.loadImageFromRes("background.png");
 
     }
 
@@ -84,10 +85,13 @@ public class WheelPanel extends JPanel {
                         counter = 0;
                         if (power > 0)
                             power--;
-
+                        if(power<0)
+                            power++;
                     }
                     if (power == 0) {
                         calculator = currentDegree;
+                        while(calculator<0)
+                            calculator+=360;
                         while (calculator > 360)
                             calculator -= 360;
                         calculator = calculator / 24;
@@ -158,10 +162,10 @@ public class WheelPanel extends JPanel {
                         {
                             monitor.notify();
                         }
-                        thread.stop();
+//                        thread.stop();
+                        break;
                     }
                 }
-
             }
         });
         thread.start();
@@ -173,7 +177,7 @@ public class WheelPanel extends JPanel {
             AffineTransform at = AffineTransform.getTranslateInstance(50, 50);
             at.rotate(Math.toRadians(currentDegree), image.getWidth(null) / 2, image.getHeight(null) / 2);
             Graphics2D g2d = (Graphics2D) backGraphics;
-            g2d.drawImage(backGroundImage, 0, 0, 500, 500, null);
+//            g2d.drawImage(backGroundImage, 0, 0, 500, 500, null);
             g2d.drawImage(image, at, null);
             g2d.drawImage(imagePointer, 55, 50 + image.getHeight(null) / 2 - imagePointer.getHeight(null) / 2, null);
             graphics.drawImage(backBufferImage, 0, 0, null);
@@ -193,10 +197,14 @@ public class WheelPanel extends JPanel {
             endPoint = evt.getPoint();
             int x1 = (int) Math.round(startingPoint.getX());
             int x2 = (int) Math.round(endPoint.getX());
-//            System.out.println(x1 + " " + x2);
-            if (x2 > 500)
-                x2 = 500;
-            WheelPanel.instance.spinWheel((x2 - x1) / 40);
+            if(Math.abs(x1-x2)>80)
+
+            {
+                if (x2 > 500)
+                    x2 = 500;
+                WheelPanel.instance.spinWheel((x2 - x1) / 40);
+            }
+
         }
     }
 

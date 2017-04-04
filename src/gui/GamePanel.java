@@ -24,7 +24,6 @@ public class GamePanel extends JPanel {
     private Thread thread;
     private boolean isWin = true;
     private String wheelResult;
-    private String prompt;
     private ArrayList<Player> playerList;
     private Player currentPlayer;
     private boolean guessTrue;
@@ -69,7 +68,7 @@ public class GamePanel extends JPanel {
             public synchronized void run() {
                 while (true) {
                     try {
-                        thread.sleep(100);
+                        thread.sleep(17);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -77,8 +76,6 @@ public class GamePanel extends JPanel {
                         synchronized (monitor)
                         {
                             try {
-                                prompt="YO SPIN";
-                                getGraphics().drawString(prompt,80,300);
                                 WheelPanel.instance.setPowerBar(true);
                                 buttonPanel.setVisible(false);
                                 monitor.wait();
@@ -86,18 +83,18 @@ public class GamePanel extends JPanel {
                                 e.printStackTrace();
                             }
                         }
-                        prompt=null;
                         WheelPanel.instance.setPowerBar(false);
                         buttonPanel.setVisible(true);
                         wheelResult=WheelPanel.instance.getResult();
                         currentPlayer.setSpin(true);
                         guessTrue = false;
                     }
-
                     if (wheelResult == "lose turn") {
+                        wheelResult="Mat luot xin moi nguoi tiep theo quay";
                         nextPlayer();
                         currentPlayer = getCurrentPlayer();
                     } else if (wheelResult == "bankrupt") {
+                        wheelResult="Mat diem xin moi nguoi tiep theo quay";
                         currentPlayer.setCurrentScore(0);
                         nextPlayer();
                         currentPlayer = getCurrentPlayer();
@@ -174,6 +171,7 @@ public class GamePanel extends JPanel {
                 currentPlayer.setSpin(false);
             }
             currentPhrase = new String(currArr);
+            wheelResult= "YO SPIN";
             System.out.println("Phrase: " + phrase);
             System.out.println("Current phrase: " + currentPhrase);
             buttonPanel.refreshButton();
@@ -231,11 +229,9 @@ public class GamePanel extends JPanel {
         if (wheelResult != null) {
             g.drawString(wheelResult, 50, 300);
         }
-        if(prompt!=null)
-        {
-            System.out.println("prompt");
-            g.drawString(prompt,80,300);
-        }
+        else
+            g.drawString("YO SPIN",50,300);
+
     }
 
 
@@ -292,13 +288,4 @@ public class GamePanel extends JPanel {
         return result;
     }
 
-
-    private String spinWheel1() throws InterruptedException {
-        synchronized (monitor)
-        {
-            thread.wait();
-        }
-
-        return WheelPanel.instance.getResult();
-    }
 }
