@@ -16,7 +16,7 @@ public class ButtonPanel extends JPanel implements MouseListener {
     private String buttonPressed = "";
 
     public ButtonPanel() {
-        this.setBounds(200,400,400,100);
+        this.setBounds(200, 400, 400, 100);
         btnList = new ArrayList<JButton>();
         setLayout(new GridLayout(4, 7, 3, 3));
         setVisible(true);

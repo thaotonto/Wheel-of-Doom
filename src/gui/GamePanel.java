@@ -38,7 +38,7 @@ public class GamePanel extends JPanel {
 
         Iterator<Player> playerListIterator = playerList.iterator();
         System.out.println(nPlayer);
-        while (playerListIterator.hasNext()){
+        while (playerListIterator.hasNext()) {
             Player temp = playerListIterator.next();
             nPlayer++;
 //            System.out.println(nPlayer);
@@ -158,9 +158,9 @@ public class GamePanel extends JPanel {
     }
 
     public void checkWin() {
-        if (currentPhrase.equals(phrase)){
-            for(Player playerEl : playerList){
-                playerEl.setTotalScore(playerEl.getTotalScore() + playerEl.getCurrentScore());
+        if (currentPhrase.equals(phrase)) {
+            currentPlayer.setTotalScore(currentPlayer.getTotalScore() + currentPlayer.getCurrentScore());
+            for (Player playerEl : playerList) {
                 playerEl.setCurrentScore(0);
             }
             finished = true;

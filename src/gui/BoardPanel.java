@@ -10,7 +10,7 @@ public class BoardPanel extends JPanel {
 
     public BoardPanel(String phrase) {
 
-        this.setBounds(150,100,697,37);
+        this.setBounds(150, 100, 697, 37);
         System.out.println("Board phrase: " + phrase);
         FlowLayout flowLayout = new FlowLayout(3, 3, 3);
         setLayout(flowLayout);
@@ -34,7 +34,7 @@ public class BoardPanel extends JPanel {
                     } else {
                         JPanel letterPanel = new JPanel();
                         letterPanel.setPreferredSize(new Dimension(30, 30));
-                        if (c == ' ')  letterPanel.setBackground(Color.GREEN);
+                        if (c == ' ') letterPanel.setBackground(Color.GREEN);
                         else letterPanel.setBackground(Color.CYAN);
                         letterPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
                         this.add(letterPanel);

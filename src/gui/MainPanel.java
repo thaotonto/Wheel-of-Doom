@@ -33,7 +33,7 @@ public class MainPanel extends JPanel {
 
 
     public void showPanel(String tag) {
-       if (tag.equals(TAG_GAME_OVER)) {
+        if (tag.equals(TAG_GAME_OVER)) {
 //            gameOverPanel = new GameOverPanel();
 //            add(gameOverPanel, TAG_GAME_OVER);
 //            cardLayout.show(this, tag);
@@ -46,9 +46,9 @@ public class MainPanel extends JPanel {
         }
     }
 
-    public void showGamePanel(GamePanel gamePanel){
+    public void showGamePanel(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
-        add(gamePanel,TAG_GAME);
-        cardLayout.show(this,TAG_GAME);
+        add(gamePanel, TAG_GAME);
+        cardLayout.show(this, TAG_GAME);
     }
 }

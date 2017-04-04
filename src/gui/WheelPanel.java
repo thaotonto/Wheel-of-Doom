@@ -15,7 +15,7 @@ import java.awt.image.BufferedImage;
 public class WheelPanel extends JPanel {
     private static int PANEL_WIDTH = 600;
     private static int PANEL_HEIGHT = 600;
-//    private Image backGroundImage;
+    //    private Image backGroundImage;
     private Image image;
     private Image imagePointer;
     private BufferedImage backBufferImage;
@@ -30,7 +30,8 @@ public class WheelPanel extends JPanel {
     private int calculator;
     public static WheelPanel instance = new WheelPanel();
     private String result;
-    public String monitor="";
+    public String monitor = "";
+
     public WheelPanel() {
         setLayout(null);
         setOpaque(false);
@@ -85,13 +86,13 @@ public class WheelPanel extends JPanel {
                         counter = 0;
                         if (power > 0)
                             power--;
-                        if(power<0)
+                        if (power < 0)
                             power++;
                     }
                     if (power == 0) {
                         calculator = currentDegree;
-                        while(calculator<0)
-                            calculator+=360;
+                        while (calculator < 0)
+                            calculator += 360;
                         while (calculator > 360)
                             calculator -= 360;
                         calculator = calculator / 24;
@@ -158,8 +159,7 @@ public class WheelPanel extends JPanel {
                                 break;
 
                         }
-                        synchronized (monitor)
-                        {
+                        synchronized (monitor) {
                             monitor.notify();
                         }
 //                        thread.stop();
@@ -197,7 +197,7 @@ public class WheelPanel extends JPanel {
             endPoint = evt.getPoint();
             int x1 = (int) Math.round(startingPoint.getX());
             int x2 = (int) Math.round(endPoint.getX());
-            if(Math.abs(x1-x2)>80)
+            if (Math.abs(x1 - x2) > 80)
 
             {
                 if (x2 > 500)
