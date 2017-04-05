@@ -32,6 +32,7 @@ public class GamePanel extends JPanel {
     private boolean guessTrue = false;
     private String monitor = "";
     private int round;
+    private boolean isEnd = false;
 
     public GamePanel(Puzzle puzzle, ArrayList<Player> playerList) {
         this.playerList = playerList;
@@ -88,13 +89,12 @@ public class GamePanel extends JPanel {
             }
         }
         if (playerLeft == 0) {
-            updateBoard();
+            endGame();
         } else if (playerLeft == 1) {
             playerList.get(index).setStatus(PlayerStatus.PLAYING);
         } else {
             if (currentPlayer.getStatus() != PlayerStatus.BANNED) {
                 currentPlayer.setStatus(PlayerStatus.WAITING);
-                currentPlayer.setSpin(false);
             }
             if (playerList.indexOf(currentPlayer) == nPlayer - 1) {
                 if (playerList.get(0).getStatus() != PlayerStatus.BANNED) {
@@ -112,6 +112,16 @@ public class GamePanel extends JPanel {
                 }
             }
         }
+    }
+
+    private void endGame() {
+        isEnd = true;
+        for (Player playerEl : playerList) {
+            playerEl.setCurrentScore(0);
+            playerEl.setSpin(false);
+            playerEl.setStatus(PlayerStatus.WAITING);
+        }
+        finished = true;
     }
 
     public void getGuess() {
@@ -180,8 +190,6 @@ public class GamePanel extends JPanel {
                 currentPlayer.setCurrentScore(0);
                 nextPlayer();
                 currentPlayer = getCurrentPlayer();
-                currentPlayer.setSpin(false);
-
             }
         }
     }
@@ -295,48 +303,51 @@ public class GamePanel extends JPanel {
     }
 
     public void run() {
+
         System.out.println("Spin : " + currentPlayer.isSpin());
         System.out.println("Guess: " + guessTrue);
+
         if (guessTrue) {
             System.out.println("gud");
             answerPanel.setVisible(true);
             getAnswer();
             checkWin();
         }
-        String monitor = WheelPanel.instance.monitor;
-        if (!currentPlayer.isSpin() && !guessTrue) {
-            synchronized (monitor) {
-                try {
-                    WheelPanel.instance.setPowerBar(true);
-                    buttonPanel.setVisible(false);
-                    answerPanel.setVisible(false);
-                    monitor.wait();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+        if (!isEnd) {
+            String monitor = WheelPanel.instance.monitor;
+            if (!currentPlayer.isSpin() && !guessTrue) {
+                synchronized (monitor) {
+                    try {
+                        WheelPanel.instance.setPowerBar(true);
+                        buttonPanel.setVisible(false);
+                        answerPanel.setVisible(false);
+                        monitor.wait();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
+                WheelPanel.instance.setPowerBar(false);
+                buttonPanel.setVisible(true);
+                wheelResult = WheelPanel.instance.getResult();
+                currentPlayer.setSpin(true);
+                //guessTrue = false;
             }
-            WheelPanel.instance.setPowerBar(false);
-            buttonPanel.setVisible(true);
-            wheelResult = WheelPanel.instance.getResult();
-            currentPlayer.setSpin(true);
-            //guessTrue = false;
+            if (wheelResult == "lose turn") {
+                wheelResult = "Mat luot xin moi nguoi tiep theo quay";
+                nextPlayer();
+                currentPlayer = getCurrentPlayer();
+            } else if (wheelResult == "bankrupt") {
+                wheelResult = "Mat diem xin moi nguoi tiep theo quay";
+                currentPlayer.setCurrentScore(0);
+                nextPlayer();
+                currentPlayer = getCurrentPlayer();
+            } else {
+                getGuess();
+                checkWin();
+            }
+            revalidate();
+            repaint();
         }
-        if (wheelResult == "lose turn") {
-            wheelResult = "Mat luot xin moi nguoi tiep theo quay";
-            nextPlayer();
-            currentPlayer = getCurrentPlayer();
-        } else if (wheelResult == "bankrupt") {
-            wheelResult = "Mat diem xin moi nguoi tiep theo quay";
-            currentPlayer.setCurrentScore(0);
-            nextPlayer();
-            currentPlayer = getCurrentPlayer();
-        } else {
-            getGuess();
-            //getAnswer();
-            checkWin();
-        }
-        revalidate();
-        repaint();
     }
 
     public void setGuessTrue(boolean guessTrue) {
