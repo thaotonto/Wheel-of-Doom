@@ -35,7 +35,6 @@ public class GamePanel extends JPanel {
 
     public GamePanel(Puzzle puzzle, ArrayList<Player> playerList) {
         this.playerList = playerList;
-
         Iterator<Player> playerListIterator = playerList.iterator();
         System.out.println(nPlayer);
         while (playerListIterator.hasNext()) {
@@ -75,28 +74,33 @@ public class GamePanel extends JPanel {
         setVisible(true);
 
         System.out.println("Phrase setup: " + currentPhrase);
-
+        answerPanel.setVisible(false);
+        buttonPanel.setVisible(false);
     }
 
     private void nextPlayer() {
-        currentPlayer.setStatus(PlayerStatus.WAITING);
-        currentPlayer.setSpin(false);
+        if (currentPlayer.getStatus() != PlayerStatus.BANNED) {
+            currentPlayer.setStatus(PlayerStatus.WAITING);
+            currentPlayer.setSpin(false);
+        }
         if (playerList.indexOf(currentPlayer) == nPlayer - 1) {
             if (playerList.get(0).getStatus() != PlayerStatus.BANNED) {
                 playerList.get(0).setStatus(PlayerStatus.PLAYING);
+            } else {
+                currentPlayer = playerList.get(0);
+                nextPlayer();
             }
         } else {
             if (playerList.get(playerList.indexOf(currentPlayer) + 1).getStatus() != PlayerStatus.BANNED) {
                 playerList.get(playerList.indexOf(currentPlayer) + 1).setStatus(PlayerStatus.PLAYING);
+            } else {
+                currentPlayer = playerList.get(playerList.indexOf(currentPlayer) + 1);
+                nextPlayer();
             }
         }
     }
 
     public void getGuess() {
-//        System.out.println("Phrase: " + phrase);
-//        System.out.println("Current phrase: " + currentPhrase);
-//        System.out.print("Your guess: ");
-//        Scanner sc = new Scanner(System.in);
         String buttonPressed = buttonPanel.getButtonPressed();
         if (buttonPressed != "") {
             char c = buttonPressed.charAt(0);
@@ -136,6 +140,7 @@ public class GamePanel extends JPanel {
                 }
             } else {
                 currentPlayer.setSpin(false);
+                answerPanel.setVisible(true);
             }
             currentPhrase = new String(currArr);
             wheelResult = "YO SPIN";
@@ -153,6 +158,14 @@ public class GamePanel extends JPanel {
                 currentPhrase = phrase;
                 answerPanel.refreshAnswer();
                 updateBoard();
+            } else {
+//                answerPanel.setVisible(false);
+//                currentPlayer.setStatus(PlayerStatus.BANNED);
+//                currentPlayer.setExtraTurn(0);
+//                currentPlayer.setCurrentScore(0);
+//                nextPlayer();
+//                currentPlayer = getCurrentPlayer();
+//                System.out.println(currentPlayer.getName());
             }
         }
     }
@@ -169,13 +182,6 @@ public class GamePanel extends JPanel {
         }
     }
 
-//    public static void setnPlayer(int nPlayer) {
-//        GamePanel.nPlayer = nPlayer;
-//    }
-//
-//    public static ArrayList<String> getPlayerName() {
-//        return playerName;
-//    }
 
     public void updateBoard() {
         this.remove(boardPanel);
@@ -284,6 +290,7 @@ public class GamePanel extends JPanel {
             }
             WheelPanel.instance.setPowerBar(false);
             buttonPanel.setVisible(true);
+            answerPanel.setVisible(false);
             wheelResult = WheelPanel.instance.getResult();
             currentPlayer.setSpin(true);
             guessTrue = false;

@@ -36,34 +36,12 @@ public class StartPanel extends JPanel implements MouseListener {
 
     public StartPanel() {
         setLayout(new BorderLayout());
-//        GamePanel.getPlayerName().add(0, namePlayer1.getText());
-//        GamePanel.getPlayerName().add(1, namePlayer2.getText());
-//        GamePanel.getPlayerName().add(2, namePlayer3.getText());
-//        GamePanel.getPlayerName().add(3, namePlayer4.getText());
         initComp();
     }
 
     private void initComp() {
         boxnPlayer = new JComboBox(numberOfPlayer);
-        boxnPlayer.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-                if (e.getStateChange() == ItemEvent.SELECTED) {
-                    //GamePanel.setnPlayer(boxnPlayer.getSelectedIndex() + 2);
-                }
-            }
-        });
-
         boxTheme = new JComboBox(theme);
-        boxTheme.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-                if (e.getStateChange() == ItemEvent.SELECTED) {
-
-                }
-            }
-        });
-
 
         JPanel panelNorth = new JPanel();
         panelNorth.setLayout(new BoxLayout(panelNorth, BoxLayout.Y_AXIS));

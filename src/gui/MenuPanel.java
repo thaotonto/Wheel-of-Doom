@@ -19,7 +19,8 @@ public class MenuPanel extends JPanel {
     private int DISTANCE = 50;
 
     public MenuPanel() {
-        setLayout(null);
+        setLayout(new GridBagLayout());
+        this.setAlignmentX(CENTER_ALIGNMENT);
         initComp();
     }
 
@@ -38,29 +39,21 @@ public class MenuPanel extends JPanel {
 
         ImageIcon icon = new ImageIcon("resources/startGame.png");
         startBtn = new JButton(icon);
-        startBtn.setBounds(GameFrame.GAME_WIDTH / 2 - icon.getIconWidth() / 2,
-                GameFrame.GAME_HEIGHT / 2 - icon.getIconHeight() - DISTANCE,
-                icon.getIconWidth(),
-                icon.getIconHeight());
-        add(startBtn);
+
+        add(startBtn, new GridBagConstraints(0, 0, 0, 0, 0, 0, GridBagConstraints.CENTER, 0, new Insets(5, 5, 5, 5), 0, 0));
         startBtn.addMouseListener(mouseAdapter);
 
         icon = new ImageIcon("resources/instruction-0.png");
         instructionBtn = new JButton(icon);
-        instructionBtn.setBounds(GameFrame.GAME_WIDTH / 2 - icon.getIconWidth() / 2,
-                GameFrame.GAME_HEIGHT / 2,
-                icon.getIconWidth(),
-                icon.getIconHeight());
-        add(instructionBtn);
+
+
+        add(instructionBtn, new GridBagConstraints(0, GridBagConstraints.RELATIVE, 0, 0, 0, 0, GridBagConstraints.CENTER, 0, new Insets(5, 5, 5, 5), 0, 0));
         instructionBtn.addMouseListener(mouseAdapter);
 
         icon = new ImageIcon("resources/quitGame.png");
         exitBtn = new JButton(icon);
-        exitBtn.setBounds(GameFrame.GAME_WIDTH / 2 - icon.getIconWidth() / 2,
-                GameFrame.GAME_HEIGHT / 2 + icon.getIconHeight() + DISTANCE,
-                icon.getIconWidth(),
-                icon.getIconHeight());
-        add(exitBtn);
+
+        add(exitBtn, new GridBagConstraints(0, GridBagConstraints.RELATIVE, 0, 0, 0, 0, GridBagConstraints.CENTER, 0, new Insets(5, 5, 5, 5), 0, 0));
         exitBtn.addMouseListener(mouseAdapter);
 
     }
