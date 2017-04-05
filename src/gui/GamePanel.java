@@ -162,6 +162,8 @@ public class GamePanel extends JPanel {
             currentPlayer.setTotalScore(currentPlayer.getTotalScore() + currentPlayer.getCurrentScore());
             for (Player playerEl : playerList) {
                 playerEl.setCurrentScore(0);
+                playerEl.setSpin(false);
+                playerEl.setStatus(PlayerStatus.WAITING);
             }
             finished = true;
         }

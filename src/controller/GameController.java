@@ -60,6 +60,10 @@ public class GameController {
 
     public void nextRound() {
         round++;
+        if (round > playerNo) {
+            System.out.println("Game over");
+            System.exit(0);
+        }
         gamePanel = new GamePanel(puzzleController.getPuzzleList().get(round), playerList);
         GameFrame.mainPanel.showGamePanel(gamePanel);
     }
