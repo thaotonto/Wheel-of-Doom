@@ -29,7 +29,7 @@ public class GamePanel extends JPanel {
     private String wheelResult;
     private ArrayList<Player> playerList;
     private Player currentPlayer;
-    private boolean guessTrue;
+    private boolean guessTrue = false;
     private String monitor = "";
     private int round;
 
@@ -70,7 +70,8 @@ public class GamePanel extends JPanel {
         this.add(boardPanel);
         this.add(buttonPanel);
         this.add(answerPanel);
-        buttonPanel.setEnabled(false);
+        buttonPanel.setVisible(false);
+        answerPanel.setVisible(false);
         this.add(WheelPanel.instance);
         setVisible(true);
 
@@ -79,6 +80,7 @@ public class GamePanel extends JPanel {
     }
 
     private void nextPlayer() {
+        guessTrue = false;
         currentPlayer.setStatus(PlayerStatus.WAITING);
         currentPlayer.setSpin(false);
         if (playerList.indexOf(currentPlayer) == nPlayer - 1) {
@@ -99,6 +101,7 @@ public class GamePanel extends JPanel {
 //        Scanner sc = new Scanner(System.in);
         String buttonPressed = buttonPanel.getButtonPressed();
         if (buttonPressed != "") {
+            guessTrue = false;
             char c = buttonPressed.charAt(0);
             System.out.println("You guessed: " + c);
             char[] phraseArr = phrase.toCharArray();
@@ -147,12 +150,18 @@ public class GamePanel extends JPanel {
     }
 
     public void getAnswer() {
+        System.out.println("Getting answer");
         String answer = answerPanel.getAnswer();
         if (answer != "") {
             if (answer.equals(phrase)) {
                 currentPhrase = phrase;
                 answerPanel.refreshAnswer();
                 updateBoard();
+            }
+            else{
+                currentPlayer.setStatus(PlayerStatus.BANNED);
+                nextPlayer();
+                currentPlayer = getCurrentPlayer();
             }
         }
     }
@@ -271,12 +280,21 @@ public class GamePanel extends JPanel {
     }
 
     public void run() {
+        System.out.println("Spin : " + currentPlayer.isSpin());
+        System.out.println("Guess: " + guessTrue);
+        if(guessTrue){
+            System.out.println("gud");
+            answerPanel.setVisible(true);
+            getAnswer();
+            checkWin();
+        }
         String monitor = WheelPanel.instance.monitor;
-        if (!currentPlayer.isSpin()) {
+        if (!currentPlayer.isSpin() && !guessTrue) {
             synchronized (monitor) {
                 try {
                     WheelPanel.instance.setPowerBar(true);
                     buttonPanel.setVisible(false);
+                    answerPanel.setVisible(false);
                     monitor.wait();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -286,7 +304,7 @@ public class GamePanel extends JPanel {
             buttonPanel.setVisible(true);
             wheelResult = WheelPanel.instance.getResult();
             currentPlayer.setSpin(true);
-            guessTrue = false;
+            //guessTrue = false;
         }
         if (wheelResult == "lose turn") {
             wheelResult = "Mat luot xin moi nguoi tiep theo quay";
@@ -299,11 +317,15 @@ public class GamePanel extends JPanel {
             currentPlayer = getCurrentPlayer();
         } else {
             getGuess();
-            getAnswer();
+            //getAnswer();
             checkWin();
         }
         revalidate();
         repaint();
+    }
+
+    public void setGuessTrue(boolean guessTrue) {
+        this.guessTrue = guessTrue;
     }
 
     public boolean isFinished() {
