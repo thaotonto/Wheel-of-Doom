@@ -1,5 +1,6 @@
 package gui;
 
+import controller.GameController;
 import utils.Utils;
 
 import javax.swing.*;
@@ -72,7 +73,7 @@ public class WheelPanel extends JPanel {
             int power = power_;
 
             @Override
-            public synchronized void run() {
+            public void run() {
                 while (true) {
                     try {
                         Thread.sleep(17);
@@ -178,6 +179,7 @@ public class WheelPanel extends JPanel {
             at.rotate(Math.toRadians(currentDegree), image.getWidth(null) / 2, image.getHeight(null) / 2);
             Graphics2D g2d = (Graphics2D) backGraphics;
 //            g2d.drawImage(backGroundImage, 0, 0, 500, 500, null);
+            g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
             g2d.drawImage(image, at, null);
             g2d.drawImage(imagePointer, 55, 50 + image.getHeight(null) / 2 - imagePointer.getHeight(null) / 2, null);
             graphics.drawImage(backBufferImage, 0, 0, null);
@@ -187,7 +189,7 @@ public class WheelPanel extends JPanel {
 
     private void PowerBarMousePressed(MouseEvent evt) {
         // TODO add your handling code here:
-
+        GameController.gamePanel.setGuessTrue(false);
         startingPoint = evt.getPoint();
     }
 

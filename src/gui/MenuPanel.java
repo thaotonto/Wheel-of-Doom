@@ -4,8 +4,6 @@ import utils.Utils;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -16,7 +14,6 @@ public class MenuPanel extends JPanel {
     private JButton startBtn;
     private JButton exitBtn;
     private JButton instructionBtn;
-    private int DISTANCE = 50;
 
     public MenuPanel() {
         setLayout(new GridBagLayout());

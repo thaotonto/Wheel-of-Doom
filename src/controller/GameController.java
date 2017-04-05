@@ -13,7 +13,7 @@ import java.util.Iterator;
  * Created by Hoang on 4/4/2017.
  */
 public class GameController {
-    private GamePanel gamePanel;
+    public static GamePanel gamePanel;
     private ArrayList<Player> playerList;
     private PuzzleController puzzleController;
     private Thread thread;
@@ -54,6 +54,7 @@ public class GameController {
     }
 
     public void runGame() {
+        System.out.println("Running");
         gamePanel.run();
         if (gamePanel.isFinished()) nextRound();
     }
