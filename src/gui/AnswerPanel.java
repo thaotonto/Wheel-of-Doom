@@ -63,5 +63,6 @@ public class AnswerPanel extends JPanel implements MouseListener{
 
     public void refreshAnswer() {
         answer = "";
+        answerField.setText("");
     }
 }
