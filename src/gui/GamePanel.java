@@ -190,6 +190,7 @@ public class GamePanel extends JPanel {
                 currentPlayer.setCurrentScore(0);
                 nextPlayer();
                 currentPlayer = getCurrentPlayer();
+                repaint();
             }
         }
     }
