@@ -1,7 +1,5 @@
 package gui;
 
-import controller.PuzzleController;
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -14,11 +12,13 @@ public class MainPanel extends JPanel {
     public static final String TAG_INSTRUCTION = "tag_instruction";
     public static final String TAG_GAME = "tag_game";
     public static final String TAG_GAME_OVER = "tag_game_over";
+    public static final String TAG_CREATE_Q = "tag_create_q";
 
     private CardLayout cardLayout;
     private GamePanel gamePanel;
     private MenuPanel menuPanel;
     private StartPanel startPanel;
+    private JPanel createPuzzlePanelHolder;
 //    private GameOverPanel gameOverPanel;
 
     public MainPanel() {
@@ -41,6 +41,12 @@ public class MainPanel extends JPanel {
             startPanel = new StartPanel();
             add(startPanel, TAG_START);
             cardLayout.show(this, tag);
+        } else if (tag.equals(TAG_CREATE_Q)) {
+            createPuzzlePanelHolder=new JPanel();
+            createPuzzlePanelHolder.setLayout(null);
+            createPuzzlePanelHolder.add(new NewPuzzlePanel());
+            add(createPuzzlePanelHolder,TAG_CREATE_Q);
+            cardLayout.show(this,tag);
         } else {
             cardLayout.show(this, tag);
         }

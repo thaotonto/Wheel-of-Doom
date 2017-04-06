@@ -20,7 +20,7 @@ import static gui.MainPanel.TAG_GAME;
 public class StartPanel extends JPanel implements MouseListener {
     private JComboBox boxnPlayer;
     private JComboBox boxTheme;
-    private Vector<String> theme = Utils.loadFile("theme.txt");
+    private Vector<String> theme = Utils.loadFile("theme/theme.txt");
     private String[] numberOfPlayer = {"2", "3", "4"};
     private JLabel jLabel1 = new JLabel("Player1 name: ");
     private JLabel jLabel2 = new JLabel("Player2 name: ");

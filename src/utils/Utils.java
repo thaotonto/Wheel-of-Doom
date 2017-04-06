@@ -3,6 +3,8 @@ package utils;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.*;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Vector;
 
 /**
@@ -36,6 +38,34 @@ public class Utils {
             return null;
         }
     }
+
+    public static boolean writeFile(String fileURL,String content)
+    {
+        try
+        {
+            String filename= fileURL;
+            FileWriter fw = new FileWriter(filename,true);
+            fw.write(content);
+            fw.close();
+            return true;
+        }
+        catch(IOException ioe)
+        {
+            System.err.println("IOException: " + ioe.getMessage());
+            return false;
+        }
+    }
+//    public static boolean createFile(String fileName)
+//    {
+//       File file =new File("resources/theme/fileName");
+//        try {
+//            file.createNewFile();
+//            return true;
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//            return false;
+//        }
+//    }
 }
 
 
