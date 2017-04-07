@@ -392,11 +392,13 @@ public class GamePanel extends JPanel {
                 wheelResult = "Mat luot xin moi nguoi tiep theo quay";
                 nextPlayer();
                 currentPlayer = getCurrentPlayer();
+                paintPlayerInfo();
             } else if (wheelResult == "bankrupt") {
                 wheelResult = "Mat diem xin moi nguoi tiep theo quay";
                 currentPlayer.setCurrentScore(0);
                 nextPlayer();
                 currentPlayer = getCurrentPlayer();
+                paintPlayerInfo();
             } else {
                 getGuess();
                 checkWin();
