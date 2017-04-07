@@ -223,8 +223,9 @@ public class GamePanel extends JPanel {
             System.out.println("Current phrase: " + currentPhrase);
             buttonPanel.refreshButton();
             updateBoard();
+            paintPlayerInfo();
         }
-        paintPlayerInfo();
+
     }
 
     public void getAnswer() {
@@ -244,8 +245,9 @@ public class GamePanel extends JPanel {
                 currentPlayer = getCurrentPlayer();
                 repaint();
             }
+            paintPlayerInfo();
         }
-        paintPlayerInfo();
+
     }
 
     public void checkWin() {
