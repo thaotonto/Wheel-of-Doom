@@ -20,7 +20,7 @@ public class GameController {
     private Thread thread;
     private int round = 0;
     private int playerNo;
-    private SpecialRoundPanel specialRound;
+    public static SpecialRoundPanel specialRound;
 
     public GameController(String theme, ArrayList<Player> playerList, int playerNo) {
         this.playerList = playerList;
@@ -78,12 +78,14 @@ public class GameController {
                         playerWin = i;
                     }
                 }
+                GameFrame.mainPanel.showSummaryPanel();
                 specialRound = new SpecialRoundPanel(puzzleController.getPuzzleList().get(round), playerList.get(playerWin));
-                GameFrame.mainPanel.showGamePanel(specialRound);
+
 
             } else {
+                GameFrame.mainPanel.showNextRoundPanel();
                 gamePanel = new GamePanel(puzzleController.getPuzzleList().get(round), playerList);
-                GameFrame.mainPanel.showGamePanel(gamePanel);
+//                GameFrame.mainPanel.showGamePanel(gamePanel);
             }
         }
     }

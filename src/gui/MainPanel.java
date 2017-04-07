@@ -1,5 +1,7 @@
 package gui;
 
+import controller.GameController;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -13,12 +15,13 @@ public class MainPanel extends JPanel {
     public static final String TAG_GAME = "tag_game";
     public static final String TAG_GAME_OVER = "tag_game_over";
     public static final String TAG_CREATE_Q = "tag_create_q";
-
+    public static final String TAG_NEXT_ROUND = "tag_next_round";
     private CardLayout cardLayout;
     private GamePanel gamePanel;
     private MenuPanel menuPanel;
     private StartPanel startPanel;
     private JPanel createPuzzlePanelHolder;
+    private JPanel nextRoundPanelHolder;
 //    private GameOverPanel gameOverPanel;
 
     public MainPanel() {
@@ -56,5 +59,21 @@ public class MainPanel extends JPanel {
         this.gamePanel = gamePanel;
         add(gamePanel, TAG_GAME);
         cardLayout.show(this, TAG_GAME);
+    }
+    public void showNextRoundPanel()
+    {
+        nextRoundPanelHolder= new JPanel();
+        nextRoundPanelHolder.setLayout(null);
+        nextRoundPanelHolder.add(new NextRoundPanel(GameController.gamePanel.getPlayerList(),GameController.gamePanel.getPhrase()));
+        add(nextRoundPanelHolder,TAG_NEXT_ROUND);
+        cardLayout.show(this,TAG_NEXT_ROUND);
+    }
+
+    public void showSummaryPanel() {
+        nextRoundPanelHolder= new JPanel();
+        nextRoundPanelHolder.setLayout(null);
+        nextRoundPanelHolder.add(new SummaryPanel(GameController.gamePanel.getPlayerList(),GameController.gamePanel.getPhrase()));
+        add(nextRoundPanelHolder,TAG_NEXT_ROUND);
+        cardLayout.show(this,TAG_NEXT_ROUND);
     }
 }

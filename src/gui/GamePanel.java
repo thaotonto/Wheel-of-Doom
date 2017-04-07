@@ -39,7 +39,7 @@ public class GamePanel extends JPanel {
     private JLabel playerLable;
     private Puzzle puzzle;
     private Image background;
-
+    private int count;
 
     public GamePanel() {
 
@@ -54,6 +54,7 @@ public class GamePanel extends JPanel {
         System.out.println(nPlayer);
         while (playerListIterator.hasNext()) {
             Player temp = playerListIterator.next();
+            temp.setCurrentScore(0);
             nPlayer++;
         }
         System.out.println("Number of players: " + nPlayer);
@@ -172,7 +173,7 @@ public class GamePanel extends JPanel {
     private void endGame() {
         isEnd = true;
         for (Player playerEl : playerList) {
-            playerEl.setCurrentScore(0);
+//            playerEl.setCurrentScore(0);
             playerEl.setSpin(false);
             playerEl.setStatus(PlayerStatus.WAITING);
         }
@@ -255,9 +256,11 @@ public class GamePanel extends JPanel {
 
     public void checkWin() {
         if (currentPhrase.equals(phrase)) {
-            currentPlayer.setTotalScore(currentPlayer.getTotalScore() + currentPlayer.getCurrentScore());
+            count++;
+            if(count==1)
+                currentPlayer.setTotalScore(currentPlayer.getTotalScore() + currentPlayer.getCurrentScore());
             for (Player playerEl : playerList) {
-                playerEl.setCurrentScore(0);
+//                playerEl.setCurrentScore(0);
                 playerEl.setSpin(false);
                 playerEl.setStatus(PlayerStatus.WAITING);
             }
@@ -409,5 +412,13 @@ public class GamePanel extends JPanel {
 
     public boolean isFinished() {
         return finished;
+    }
+
+    public String getPhrase() {
+        return phrase;
+    }
+
+    public ArrayList<Player> getPlayerList() {
+        return playerList;
     }
 }
