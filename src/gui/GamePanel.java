@@ -4,6 +4,7 @@ import controller.GameController;
 import player.Player;
 import player.PlayerStatus;
 import puzzle.Puzzle;
+import utils.Utils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -33,8 +34,12 @@ public class GamePanel extends JPanel {
     private String monitor = "";
     private int round;
     private boolean isEnd = false;
+    private Image background;
+    private Puzzle puzzle;
 
     public GamePanel(Puzzle puzzle, ArrayList<Player> playerList) {
+        background = Utils.loadImageFromRes("background.jpg");
+
         this.playerList = playerList;
 
         Iterator<Player> playerListIterator = playerList.iterator();
@@ -48,6 +53,7 @@ public class GamePanel extends JPanel {
         playerList.get(0).setStatus(PlayerStatus.PLAYING);
         currentPlayer = getCurrentPlayer();
 
+        this.puzzle = puzzle;
         this.question = puzzle.getQuestion();
         this.phrase = puzzle.getPhrase().toUpperCase();
         this.round = puzzle.getRound();
@@ -64,7 +70,7 @@ public class GamePanel extends JPanel {
 
         setLayout(null);
         setSize(GameFrame.GAME_WIDTH, GameFrame.GAME_HEIGHT);
-        boardPanel = new BoardPanel(currentPhrase);
+        boardPanel = new BoardPanel(currentPhrase,puzzle.getRound());
         buttonPanel = new ButtonPanel();
         answerPanel = new AnswerPanel();
 
@@ -210,7 +216,7 @@ public class GamePanel extends JPanel {
 
     public void updateBoard() {
         this.remove(boardPanel);
-        boardPanel = new BoardPanel(currentPhrase);
+        boardPanel = new BoardPanel(currentPhrase,puzzle.getRound());
         this.add(boardPanel, BorderLayout.NORTH);
     }
 
@@ -227,14 +233,14 @@ public class GamePanel extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+        g.drawImage(background,0,0,null);
         for (int i = 0; i < nPlayer; i++) {
             g.drawString(playerList.get(i).getName(), 50, 400 + (i * 50));
             g.drawString(playerList.get(i).getCurrentScore() + "", 50 + 70, 400 + (i * 50));
             g.drawString(playerList.get(i).getStatus().toString() + "", 50 + 70 + 70, 400 + (i * 50));
         }
         g.drawString(currentPlayer.getName(), 50, 350);
-        g.drawString(question, 200, 200);
-        g.drawString("Round " + round, 450, 50);
+        g.drawString(question, 200, 300);
         if (wheelResult != null) {
             g.drawString(wheelResult, 50, 300);
         } else

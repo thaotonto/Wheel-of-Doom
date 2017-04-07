@@ -8,19 +8,33 @@ import java.awt.*;
  */
 public class BoardPanel extends JPanel {
 
-    public BoardPanel(String phrase) {
+    private String round = "ROUND";
 
-        this.setBounds(150, 100, 697, 37);
+    public BoardPanel(String phrase, int roundNo) {
+
+        this.setBounds(150, 80, 697, 100);
         System.out.println("Board phrase: " + phrase);
         FlowLayout flowLayout = new FlowLayout(3, 3, 3);
         setLayout(flowLayout);
         setVisible(true);
         setBackground(Color.BLACK);
-        char[] phraseArray = phrase.toCharArray();
+        showWord(round + " " + roundNo);
+        if (phrase.length() < 22) {
+            showWord(phrase);
+            showWord(" ");
+        } else {
+            String[] splitPhrase = phrase.split(" ");
+            for (String stringEl : splitPhrase) {
+                showWord(stringEl);
+            }
+        }
+    }
+
+    public void showWord(String word) {
         int length = 1;
         while (length < 22) {
-            if (length == (22 - phrase.length()) / 2) {
-                for (char c : phraseArray) {
+            if (length == (22 - word.length()) / 2) {
+                for (char c : word.toCharArray()) {
                     if (c != '_' && c != ' ') {
                         System.out.println("Board char: " + c);
                         JPanel letterPanel = new JPanel();

@@ -36,7 +36,7 @@ public class WheelPanel extends JPanel {
     public WheelPanel() {
         setLayout(null);
         setOpaque(false);
-        this.setBounds(500, 0, PANEL_WIDTH, PANEL_HEIGHT);
+        this.setBounds(570, 50, PANEL_WIDTH, PANEL_HEIGHT);
         this.setBackground(Color.blue);
         powerBar = new JButton();
         powerBar.setBounds(50, 50, 500, 250);
@@ -63,8 +63,6 @@ public class WheelPanel extends JPanel {
         backGraphics = backBufferImage.getGraphics();
         image = Utils.loadImageFromRes("Wheel.png");
         imagePointer = Utils.loadImageFromRes("Pointer.png");
-//        backGroundImage = Utils.loadImageFromRes("background.png");
-
     }
 
     public void spinWheel(int power_) {
@@ -175,10 +173,10 @@ public class WheelPanel extends JPanel {
     @Override
     protected void paintComponent(Graphics graphics) {
         if (backBufferImage != null) {
-            AffineTransform at = AffineTransform.getTranslateInstance(50, 50);
-            at.rotate(Math.toRadians(currentDegree), image.getWidth(null) / 2, image.getHeight(null) / 2);
+            AffineTransform at = AffineTransform.getTranslateInstance(50, 110);
+            at.rotate(Math.toRadians(currentDegree), image.getWidth(null)*0.75 / 2, image.getHeight(null)*0.75 / 2);
             Graphics2D g2d = (Graphics2D) backGraphics;
-//            g2d.drawImage(backGroundImage, 0, 0, 500, 500, null);
+            at.scale(0.75,0.75);
             g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
             g2d.drawImage(image, at, null);
             g2d.drawImage(imagePointer, 55, 50 + image.getHeight(null) / 2 - imagePointer.getHeight(null) / 2, null);
