@@ -3,6 +3,7 @@ package gui;
 import player.Player;
 import player.PlayerStatus;
 import puzzle.Puzzle;
+import utils.Utils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -37,9 +38,13 @@ public class GamePanel extends JPanel {
     private GridBagConstraints gbc = new GridBagConstraints();
     private JLabel playerLable;
     private BufferedImage backBufferImage;
+    private Puzzle puzzle;
+    private Image background;
 
 
     public GamePanel(Puzzle puzzle, ArrayList<Player> playerList) {
+        background = Utils.loadImageFromRes("background.jpg");
+
         this.playerList = playerList;
 
         Iterator<Player> playerListIterator = playerList.iterator();
@@ -52,6 +57,7 @@ public class GamePanel extends JPanel {
         playerList.get(0).setStatus(PlayerStatus.PLAYING);
         currentPlayer = getCurrentPlayer();
 
+        this.puzzle = puzzle;
         this.question = puzzle.getQuestion();
         this.phrase = puzzle.getPhrase().toUpperCase();
         this.round = puzzle.getRound();
@@ -68,7 +74,7 @@ public class GamePanel extends JPanel {
 
         setLayout(null);
         setSize(GameFrame.GAME_WIDTH, GameFrame.GAME_HEIGHT);
-        boardPanel = new BoardPanel(currentPhrase);
+        boardPanel = new BoardPanel(currentPhrase,puzzle.getRound());
         buttonPanel = new ButtonPanel();
         answerPanel = new AnswerPanel();
 
@@ -87,7 +93,6 @@ public class GamePanel extends JPanel {
 
     private void paintPlayerInfo() {
         playerInfo.removeAll();
-        validate();
         gbc.insets = new Insets(10, 10, 10, 10);
         for (int i = 0; i < 2; i++) {
             playerLable = new JLabel(playerList.get(i).getName().toString());
@@ -258,7 +263,7 @@ public class GamePanel extends JPanel {
 
     public void updateBoard() {
         this.remove(boardPanel);
-        boardPanel = new BoardPanel(currentPhrase);
+        boardPanel = new BoardPanel(currentPhrase,puzzle.getRound());
         this.add(boardPanel, BorderLayout.NORTH);
     }
 
@@ -275,7 +280,7 @@ public class GamePanel extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-
+        g.drawImage(background,0,0,null);
         g.drawString(question, 200, 200);
         g.drawString("Round " + round, 450, 50);
         if (wheelResult != null) {
