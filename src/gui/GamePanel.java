@@ -1,15 +1,16 @@
 package gui;
 
-import controller.GameController;
 import player.Player;
 import player.PlayerStatus;
 import puzzle.Puzzle;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
+import java.util.prefs.BackingStoreException;
 
 
 /**
@@ -17,7 +18,6 @@ import java.util.Random;
  */
 public class GamePanel extends JPanel {
     private int nPlayer = 0;
-    //private ArrayList<String> playerName = new ArrayList<>();
     private BoardPanel boardPanel;
     private ButtonPanel buttonPanel;
     private AnswerPanel answerPanel;
@@ -33,6 +33,11 @@ public class GamePanel extends JPanel {
     private String monitor = "";
     private int round;
     private boolean isEnd = false;
+    private JPanel playerInfo = new JPanel(new GridBagLayout());
+    private GridBagConstraints gbc = new GridBagConstraints();
+    private JLabel playerLable;
+    private BufferedImage backBufferImage;
+
 
     public GamePanel(Puzzle puzzle, ArrayList<Player> playerList) {
         this.playerList = playerList;
@@ -42,7 +47,6 @@ public class GamePanel extends JPanel {
         while (playerListIterator.hasNext()) {
             Player temp = playerListIterator.next();
             nPlayer++;
-//            System.out.println(nPlayer);
         }
         System.out.println("Number of players: " + nPlayer);
         playerList.get(0).setStatus(PlayerStatus.PLAYING);
@@ -73,12 +77,55 @@ public class GamePanel extends JPanel {
         this.add(answerPanel);
         this.add(WheelPanel.instance);
         setVisible(true);
-
+        playerInfo.setBackground(Color.white);
         System.out.println("Phrase setup: " + currentPhrase);
+        playerInfo.setBounds(200, 500, 600, 100);
+        this.add(playerInfo);
+        playerInfo.setOpaque(false);
+        paintPlayerInfo();
+    }
 
+    private void paintPlayerInfo() {
+        playerInfo.removeAll();
+        validate();
+        gbc.insets = new Insets(10, 10, 10, 10);
+        for (int i = 0; i < 2; i++) {
+            playerLable = new JLabel(playerList.get(i).getName().toString());
+            gbc.gridx = 0;
+            gbc.gridy = i;
+            playerInfo.add(playerLable, gbc);
+            playerLable = new JLabel(playerList.get(i).getCurrentScore() + "");
+            gbc.gridx = 1;
+            gbc.gridy = i;
+            playerInfo.add(playerLable, gbc);
+            playerLable = new JLabel(playerList.get(i).getStatus().toString());
+            gbc.gridx = 2;
+            gbc.gridy = i;
+            playerInfo.add(playerLable, gbc);
+        }
+
+        if (nPlayer > 2) {
+            for (int i = 2; i < nPlayer; i++) {
+                gbc.insets = new Insets(0,100,0,0);
+                playerLable = new JLabel(playerList.get(i).getName().toString());
+                gbc.gridx = 3;
+                gbc.gridy = i-2;
+                playerInfo.add(playerLable, gbc);
+                gbc.insets = new Insets(10, 10, 10, 10);
+                playerLable = new JLabel(playerList.get(i).getCurrentScore() + "");
+                gbc.gridx = 4;
+                gbc.gridy = i-2;
+                playerInfo.add(playerLable, gbc);
+                playerLable = new JLabel(playerList.get(i).getStatus().toString());
+                gbc.gridx = 5;
+                gbc.gridy = i-2;
+                playerInfo.add(playerLable, gbc);
+            }
+        }
     }
 
     private void nextPlayer() {
+        paintPlayerInfo();
         guessTrue = false;
         int playerLeft = 0;
         int index = 0;
@@ -142,7 +189,6 @@ public class GamePanel extends JPanel {
                         int point = Integer.parseInt(wheelResult);
                         currentPlayer.setCurrentScore(currentPlayer.getCurrentScore() + point);
                     } catch (NumberFormatException e) {
-                        //e.printStackTrace();
                         if (count == 1) {
                             switch (wheelResult) {
                                 case "get turn":
@@ -173,6 +219,7 @@ public class GamePanel extends JPanel {
             buttonPanel.refreshButton();
             updateBoard();
         }
+        paintPlayerInfo();
     }
 
     public void getAnswer() {
@@ -193,6 +240,7 @@ public class GamePanel extends JPanel {
                 repaint();
             }
         }
+        paintPlayerInfo();
     }
 
     public void checkWin() {
@@ -227,12 +275,7 @@ public class GamePanel extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        for (int i = 0; i < nPlayer; i++) {
-            g.drawString(playerList.get(i).getName(), 50, 400 + (i * 50));
-            g.drawString(playerList.get(i).getCurrentScore() + "", 50 + 70, 400 + (i * 50));
-            g.drawString(playerList.get(i).getStatus().toString() + "", 50 + 70 + 70, 400 + (i * 50));
-        }
-        g.drawString(currentPlayer.getName(), 50, 350);
+
         g.drawString(question, 200, 200);
         g.drawString("Round " + round, 450, 50);
         if (wheelResult != null) {
@@ -331,7 +374,6 @@ public class GamePanel extends JPanel {
                 buttonPanel.setVisible(true);
                 wheelResult = WheelPanel.instance.getResult();
                 currentPlayer.setSpin(true);
-                //guessTrue = false;
             }
             if (wheelResult == "lose turn") {
                 wheelResult = "Mat luot xin moi nguoi tiep theo quay";
