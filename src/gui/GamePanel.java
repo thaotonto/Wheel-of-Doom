@@ -37,10 +37,13 @@ public class GamePanel extends JPanel {
     private JPanel playerInfo = new JPanel(new GridBagLayout());
     private GridBagConstraints gbc = new GridBagConstraints();
     private JLabel playerLable;
-    private BufferedImage backBufferImage;
     private Puzzle puzzle;
     private Image background;
 
+
+    public GamePanel() {
+
+    }
 
     public GamePanel(Puzzle puzzle, ArrayList<Player> playerList) {
         background = Utils.loadImageFromRes("background.jpg");

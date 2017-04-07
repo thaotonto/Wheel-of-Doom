@@ -33,11 +33,11 @@ public class PuzzleController {
             count++;
 //            System.out.println(line);
         }
-        if (count < playerNo) {
+        if (count < playerNo + 1) {
             System.out.println("Not enough questions.");
             System.exit(0);
         }
-        for (int i = 0; i < playerNo; i++) {
+        for (int i = 0; i < playerNo + 1 ; i++) {
             Random random = new Random();
             do {
                 lineNo = random.nextInt(count);
