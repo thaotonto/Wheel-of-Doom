@@ -134,7 +134,6 @@ public class GamePanel extends JPanel {
     }
 
     private void nextPlayer() {
-        paintPlayerInfo();
         guessTrue = false;
         int playerLeft = 0;
         int index = 0;
@@ -168,6 +167,7 @@ public class GamePanel extends JPanel {
                 }
             }
         }
+        paintPlayerInfo();
     }
 
     private void endGame() {
@@ -392,13 +392,11 @@ public class GamePanel extends JPanel {
                 wheelResult = "Mat luot xin moi nguoi tiep theo quay";
                 nextPlayer();
                 currentPlayer = getCurrentPlayer();
-                paintPlayerInfo();
             } else if (wheelResult == "bankrupt") {
                 wheelResult = "Mat diem xin moi nguoi tiep theo quay";
                 currentPlayer.setCurrentScore(0);
                 nextPlayer();
                 currentPlayer = getCurrentPlayer();
-                paintPlayerInfo();
             } else {
                 getGuess();
                 checkWin();
