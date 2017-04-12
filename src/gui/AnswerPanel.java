@@ -15,7 +15,8 @@ public class AnswerPanel extends JPanel implements MouseListener{
     private String answer="";
 
     public AnswerPanel(){
-        this.setBounds(150,300,500,40);
+        setOpaque(false);
+        this.setBounds(150,400,500,40);
         setVisible(true);
         FlowLayout flowLayout = new FlowLayout();
         setLayout(flowLayout);

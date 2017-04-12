@@ -11,7 +11,6 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
-import java.util.prefs.BackingStoreException;
 
 
 /**
@@ -22,6 +21,8 @@ public class GamePanel extends JPanel {
     private BoardPanel boardPanel;
     private ButtonPanel buttonPanel;
     private AnswerPanel answerPanel;
+    private SamPanel samPanel;
+    private TimerPanel timerPanel;
     private String currentPhrase = "";
     private String phrase;
     private String question;
@@ -40,6 +41,7 @@ public class GamePanel extends JPanel {
     private Puzzle puzzle;
     private Image background;
     private int count;
+    private boolean option = false;
 
     public GamePanel() {
 
@@ -78,14 +80,23 @@ public class GamePanel extends JPanel {
 
         setLayout(null);
         setSize(GameFrame.GAME_WIDTH, GameFrame.GAME_HEIGHT);
-        boardPanel = new BoardPanel(currentPhrase,puzzle.getRound());
+        boardPanel = new BoardPanel(currentPhrase, puzzle.getRound());
         buttonPanel = new ButtonPanel();
         answerPanel = new AnswerPanel();
+        samPanel = new SamPanel();
+        timerPanel = new TimerPanel();
 
         this.add(boardPanel);
         this.add(buttonPanel);
         this.add(answerPanel);
         this.add(WheelPanel.instance);
+        this.add(samPanel);
+        this.add(timerPanel);
+
+        answerPanel.setVisible(false);
+        buttonPanel.setVisible(false);
+
+
         setVisible(true);
         playerInfo.setBackground(Color.white);
         System.out.println("Phrase setup: " + currentPhrase);
@@ -115,26 +126,29 @@ public class GamePanel extends JPanel {
 
         if (nPlayer > 2) {
             for (int i = 2; i < nPlayer; i++) {
-                gbc.insets = new Insets(0,100,0,0);
+                gbc.insets = new Insets(0, 100, 0, 0);
                 playerLable = new JLabel(playerList.get(i).getName().toString());
                 gbc.gridx = 3;
-                gbc.gridy = i-2;
+                gbc.gridy = i - 2;
                 playerInfo.add(playerLable, gbc);
                 gbc.insets = new Insets(10, 10, 10, 10);
                 playerLable = new JLabel(playerList.get(i).getCurrentScore() + "");
                 gbc.gridx = 4;
-                gbc.gridy = i-2;
+                gbc.gridy = i - 2;
                 playerInfo.add(playerLable, gbc);
                 playerLable = new JLabel(playerList.get(i).getStatus().toString());
                 gbc.gridx = 5;
-                gbc.gridy = i-2;
+                gbc.gridy = i - 2;
                 playerInfo.add(playerLable, gbc);
             }
         }
+        validate();
+        repaint();
     }
 
     private void nextPlayer() {
         guessTrue = false;
+        option = false;
         int playerLeft = 0;
         int index = 0;
         for (int i = 0; i < nPlayer; i++) {
@@ -214,6 +228,7 @@ public class GamePanel extends JPanel {
                 if (currentPlayer.getExtraTurn() == 0) {
                     nextPlayer();
                     currentPlayer = getCurrentPlayer();
+                    timerPanel.resetTimer();
                 } else {
                     currentPlayer.setExtraTurn(currentPlayer.getExtraTurn() - 1);
                     currentPlayer.setSpin(false);
@@ -228,6 +243,7 @@ public class GamePanel extends JPanel {
             buttonPanel.refreshButton();
             updateBoard();
             paintPlayerInfo();
+            samPanel.sayResult(c, count);
         }
 
     }
@@ -247,6 +263,7 @@ public class GamePanel extends JPanel {
                 currentPlayer.setCurrentScore(0);
                 nextPlayer();
                 currentPlayer = getCurrentPlayer();
+                timerPanel.resetTimer();
                 repaint();
             }
             paintPlayerInfo();
@@ -271,7 +288,7 @@ public class GamePanel extends JPanel {
 
     public void updateBoard() {
         this.remove(boardPanel);
-        boardPanel = new BoardPanel(currentPhrase,puzzle.getRound());
+        boardPanel = new BoardPanel(currentPhrase, puzzle.getRound());
         this.add(boardPanel, BorderLayout.NORTH);
     }
 
@@ -288,14 +305,12 @@ public class GamePanel extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.drawImage(background,0,0,null);
-        g.drawString(question, 200, 200);
-        g.drawString("Round " + round, 450, 50);
-        if (wheelResult != null) {
-            g.drawString(wheelResult, 50, 300);
-        } else
-            g.drawString("YO SPIN", 50, 300);
-
+        g.drawImage(background, 0, 0, null);
+        g.drawString(question, 200, 170);
+//        if (wheelResult != null) {
+//            g.drawString(wheelResult, 50, 300);
+//        } else
+//            g.drawString("YO SPIN", 50, 300);
     }
 
     private String spinWheel() {
@@ -361,18 +376,29 @@ public class GamePanel extends JPanel {
 
     public void run() {
 
-        System.out.println("Spin : " + currentPlayer.isSpin());
-        System.out.println("Guess: " + guessTrue);
+        if (timerPanel.run()){
+            samPanel.notifyTime();
+            nextPlayer();
+            currentPlayer = getCurrentPlayer();
+        }
+
+//        System.out.println("Spin : " + currentPlayer.isSpin());
+//        System.out.println("Guess: " + guessTrue);
 
         if (guessTrue) {
-            System.out.println("gud");
+            samPanel.notifyOptions();
+//            System.out.println("gud");
             answerPanel.setVisible(true);
+            buttonPanel.setVisible(false);
             getAnswer();
             checkWin();
+            option = true;
         }
         if (!isEnd) {
             String monitor = WheelPanel.instance.monitor;
             if (!currentPlayer.isSpin() && !guessTrue) {
+                if (!option)
+                    samPanel.notifySpin();
                 synchronized (monitor) {
                     try {
                         WheelPanel.instance.setPowerBar(true);
@@ -387,16 +413,17 @@ public class GamePanel extends JPanel {
                 buttonPanel.setVisible(true);
                 wheelResult = WheelPanel.instance.getResult();
                 currentPlayer.setSpin(true);
+                samPanel.notifyGuess(wheelResult);
             }
             if (wheelResult == "lose turn") {
-                wheelResult = "Mat luot xin moi nguoi tiep theo quay";
                 nextPlayer();
                 currentPlayer = getCurrentPlayer();
+                timerPanel.resetTimer();
             } else if (wheelResult == "bankrupt") {
-                wheelResult = "Mat diem xin moi nguoi tiep theo quay";
                 currentPlayer.setCurrentScore(0);
                 nextPlayer();
                 currentPlayer = getCurrentPlayer();
+                timerPanel.resetTimer();
             } else {
                 getGuess();
                 checkWin();
