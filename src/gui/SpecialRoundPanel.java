@@ -25,7 +25,6 @@ public class SpecialRoundPanel extends GamePanel {
     private Puzzle puzzle;
     private Player player;
     private int GUESSLEFT = 2;
-    private int ANSWERLEFT = 5;
     private boolean isEnd;
     private boolean guessTrue = false;
     private TimerPanel timerPanel;
@@ -49,7 +48,7 @@ public class SpecialRoundPanel extends GamePanel {
         boardPanel = new BoardPanel(currentPhrase, puzzle.getRound());
         buttonPanel = new ButtonPanel();
         answerPanel = new AnswerPanel();
-        timerPanel = new TimerPanel();
+        timerPanel = new TimerPanel(10);
 //        samPanel = new SamPanel();
         this.add(boardPanel);
         this.add(buttonPanel);
@@ -58,6 +57,7 @@ public class SpecialRoundPanel extends GamePanel {
         this.add(timerPanel);
         answerPanel.setVisible(false);
         setVisible(true);
+
     }
 
     public void getGuess() {
@@ -91,7 +91,6 @@ public class SpecialRoundPanel extends GamePanel {
     public void getAnswer() {
         String answer = answerPanel.getAnswer();
         if (answer != "") {
-            ANSWERLEFT--;
             if (answer.equals(phrase)) {
                 currentPhrase = phrase;
                 answerPanel.refreshAnswer();

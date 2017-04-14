@@ -10,15 +10,17 @@ public class TimerPanel extends JPanel {
     private long start;
     private long end;
     private int timer;
+    private int TIMER;
 
-    public TimerPanel() {
+    public TimerPanel(int timer) {
         setVisible(true);
         setOpaque(false);
         this.setBounds(600, 200, 50, 50);
         setLayout(null);
         start = System.currentTimeMillis();
         end = System.currentTimeMillis();
-        timer = 30;
+        this.timer = timer;
+        TIMER = timer;
     }
 
     public boolean run() {
@@ -34,7 +36,7 @@ public class TimerPanel extends JPanel {
         repaint();
         if (timer == 0) {
             System.out.println("Time's up");
-            timer = 30;
+            timer = TIMER;
             return true;
         } else return false;
     }
@@ -48,6 +50,6 @@ public class TimerPanel extends JPanel {
     public void resetTimer() {
         start = System.currentTimeMillis();
         end = System.currentTimeMillis();
-        timer = 30;
+        timer = TIMER;
     }
 }

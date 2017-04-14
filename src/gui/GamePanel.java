@@ -83,7 +83,7 @@ public class GamePanel extends JPanel {
         buttonPanel = new ButtonPanel();
         answerPanel = new AnswerPanel();
         samPanel = new SamPanel();
-        timerPanel = new TimerPanel();
+        timerPanel = new TimerPanel(30);
 
         this.add(boardPanel);
         this.add(buttonPanel);

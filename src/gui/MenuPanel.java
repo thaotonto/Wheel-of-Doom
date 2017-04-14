@@ -80,7 +80,7 @@ public class MenuPanel extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        Image image = Utils.loadImageFromRes("BG-0.png");
+        Image image = Utils.loadImageFromRes("background.jpg");
         g.drawImage(image, 0, 0, GameFrame.GAME_WIDTH, GameFrame.GAME_HEIGHT, null);
     }
 }
