@@ -56,11 +56,11 @@ public class SamPanel extends JPanel {
     }
 
     public void notifyGuess(String wheelResult) {
-        if (wheelResult.equals("lose turn"))
+        if (wheelResult =="lose turn")
             info = "You lost the turn<br>Next player";
-        else if (wheelResult.equals("bankrupt"))
-            info = "You lost all points and have been banned<br>Next player please spin the wheel";
-        info = "You landed on " + wheelResult + "<br>Please guess a letter";
+        else if (wheelResult == "bankrupt")
+            info = "You have been banned<br>Next player";
+        else info = "You landed on " + wheelResult + "<br>Please guess a letter";
         repaint();
     }
 
