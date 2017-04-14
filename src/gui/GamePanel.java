@@ -60,7 +60,7 @@ public class GamePanel extends JPanel {
             nPlayer++;
         }
         System.out.println("Number of players: " + nPlayer);
-        playerList.get(0).setStatus(PlayerStatus.PLAYING);
+        playerList.get(puzzle.getRound() - 1).setStatus(PlayerStatus.PLAYING);
         currentPlayer = getCurrentPlayer();
 
         this.puzzle = puzzle;
@@ -122,24 +122,36 @@ public class GamePanel extends JPanel {
             gbc.gridx = 2;
             gbc.gridy = i;
             playerInfo.add(playerLable, gbc);
+            if (playerLable.getText().toString().equals("PLAYING")) {
+                playerLable = new JLabel(String.format("(%d Extra Turn)", playerList.get(i).getExtraTurn()));
+                gbc.gridx = 3;
+                gbc.gridy = i;
+                playerInfo.add(playerLable, gbc);
+            }
         }
 
         if (nPlayer > 2) {
             for (int i = 2; i < nPlayer; i++) {
                 gbc.insets = new Insets(0, 100, 0, 0);
                 playerLable = new JLabel(playerList.get(i).getName().toString());
-                gbc.gridx = 3;
+                gbc.gridx = 4;
                 gbc.gridy = i - 2;
                 playerInfo.add(playerLable, gbc);
                 gbc.insets = new Insets(10, 10, 10, 10);
                 playerLable = new JLabel(playerList.get(i).getCurrentScore() + "");
-                gbc.gridx = 4;
-                gbc.gridy = i - 2;
-                playerInfo.add(playerLable, gbc);
-                playerLable = new JLabel(playerList.get(i).getStatus().toString());
                 gbc.gridx = 5;
                 gbc.gridy = i - 2;
                 playerInfo.add(playerLable, gbc);
+                playerLable = new JLabel(playerList.get(i).getStatus().toString());
+                gbc.gridx = 6;
+                gbc.gridy = i - 2;
+                playerInfo.add(playerLable, gbc);
+                if (playerLable.getText().toString().equals("PLAYING")) {
+                    playerLable = new JLabel(String.format("(%d Extra Turn)", playerList.get(i).getExtraTurn()));
+                    gbc.gridx = 7;
+                    gbc.gridy = i - 2;
+                    playerInfo.add(playerLable, gbc);
+                }
             }
         }
         validate();
@@ -190,6 +202,7 @@ public class GamePanel extends JPanel {
 //            playerEl.setCurrentScore(0);
             playerEl.setSpin(false);
             playerEl.setStatus(PlayerStatus.WAITING);
+            playerEl.setExtraTurn(0);
         }
         finished = true;
     }
@@ -274,12 +287,13 @@ public class GamePanel extends JPanel {
     public void checkWin() {
         if (currentPhrase.equals(phrase)) {
             count++;
-            if(count==1)
+            if (count == 1)
                 currentPlayer.setTotalScore(currentPlayer.getTotalScore() + currentPlayer.getCurrentScore());
             for (Player playerEl : playerList) {
 //                playerEl.setCurrentScore(0);
                 playerEl.setSpin(false);
                 playerEl.setStatus(PlayerStatus.WAITING);
+                playerEl.setExtraTurn(0);
             }
             finished = true;
         }
@@ -376,7 +390,7 @@ public class GamePanel extends JPanel {
 
     public void run() {
 
-        if (timerPanel.run()){
+        if (timerPanel.run()) {
             samPanel.notifyTime();
             nextPlayer();
             currentPlayer = getCurrentPlayer();

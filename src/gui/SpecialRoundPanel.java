@@ -26,6 +26,7 @@ public class SpecialRoundPanel extends GamePanel {
     private int GUESSLEFT = 2;
     private int ANSWERLEFT = 5;
     private boolean isEnd;
+    private TimerPanel timerPanel;
 
     public SpecialRoundPanel(Puzzle puzzle, Player player) {
         super();
@@ -45,9 +46,12 @@ public class SpecialRoundPanel extends GamePanel {
         boardPanel = new BoardPanel(currentPhrase, puzzle.getRound());
         buttonPanel = new ButtonPanel();
         answerPanel = new AnswerPanel();
+        timerPanel = new TimerPanel();
         this.add(boardPanel);
         this.add(buttonPanel);
         this.add(answerPanel);
+        this.add(timerPanel);
+        answerPanel.setVisible(false);
         setVisible(true);
     }
 
@@ -112,7 +116,6 @@ public class SpecialRoundPanel extends GamePanel {
     protected void paintComponent(Graphics g) {
         g.drawImage(background, 0, 0, null);
         g.drawString(question, 200, 200);
-        g.drawString("Special Round ", 450, 50);
     }
 
     public void run() {
@@ -123,6 +126,7 @@ public class SpecialRoundPanel extends GamePanel {
         }
         if (GUESSLEFT == 0) {
             buttonPanel.setVisible(false);
+            answerPanel.setVisible(true);
         }
         if (ANSWERLEFT != 0) {
             getAnswer();
