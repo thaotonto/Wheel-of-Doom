@@ -45,18 +45,18 @@ public class SamPanel extends JPanel {
         repaint();
     }
 
-    public void notifySpin() {
+    public void notifySpin(String currentPlayerName) {
         long start = System.currentTimeMillis();
         long end = System.currentTimeMillis();
         while (end - start < 1000) {
             end = System.currentTimeMillis();
         }
-        info = "Please spin the wheel";
+        info = currentPlayerName + "<br>Please spin the wheel";
         repaint();
     }
 
     public void notifyGuess(String wheelResult) {
-        if (wheelResult =="lose turn")
+        if (wheelResult == "lose turn")
             info = "You lost the turn<br>Next player";
         else if (wheelResult == "bankrupt")
             info = "You have been banned<br>Next player";
@@ -64,13 +64,13 @@ public class SamPanel extends JPanel {
         repaint();
     }
 
-    public void notifySpinning(){
+    public void notifySpinning() {
         info = "The wheel is spinning";
         bubbleLabel.setText(info);
         repaint();
     }
 
-    public void notifyTime(){
+    public void notifyTime() {
         info = "Time's up. Next player";
         bubbleLabel.setText(info);
         repaint();
@@ -79,7 +79,7 @@ public class SamPanel extends JPanel {
     public void notifyAnswer(String answer, String phrase) {
         if (answer.equals(phrase))
             info = "You are correct<br>You've won this round";
-        else info = "You are wrong<br>You've been banned from playing";
+        else info = "You are wrong<br>You've been banned";
         repaint();
     }
 

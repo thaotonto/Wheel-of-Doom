@@ -24,9 +24,9 @@ public class SummaryPanel extends JPanel {
     private JLabel colRoundScore;
     private JLabel colTotal;
     private JButton nextRoundButton;
-    public SummaryPanel(ArrayList<Player> playerArrayList, String phrase)
-    {
-        this.phrase=phrase;
+
+    public SummaryPanel(ArrayList<Player> playerArrayList, String phrase) {
+        this.phrase = phrase;
 //        Player player= new Player("long");
 //        playerArrayList.add(player);
 //        player= new Player("Hoang");
@@ -38,44 +38,43 @@ public class SummaryPanel extends JPanel {
         setBorder(BorderFactory.createStrokeBorder(new BasicStroke(5.0f)));
         setBounds(GameFrame.GAME_WIDTH / 2 - PANEL_WIDTH / 2, GameFrame.GAME_HEIGHT / 2 - PANEL_HEIGHT / 2, PANEL_WIDTH, PANEL_HEIGHT);
         setVisible(true);
-        titleLabel= new JLabel("ROUND RESULT");
+        titleLabel = new JLabel("ROUND RESULT");
         titleLabel.setFont(new Font("Serif", Font.PLAIN, 30));
-        titleLabel.setBounds(90,30,300,50);
+        titleLabel.setBounds(90, 30, 300, 50);
         add(titleLabel);
-        sentenceLabel= new JLabel("The correct answer is: ");
-        sentenceLabel.setBounds(40,100,200,20);
+        sentenceLabel = new JLabel("The correct answer is: ");
+        sentenceLabel.setBounds(40, 100, 200, 20);
         add(sentenceLabel);
-        phraseLabel= new JLabel(phrase);
-        phraseLabel.setFont(new Font("Arial",Font.BOLD,15));
-        phraseLabel.setBounds(200,100,200,20);
+        phraseLabel = new JLabel(phrase);
+        phraseLabel.setFont(new Font("Arial", Font.BOLD, 15));
+        phraseLabel.setBounds(200, 100, 200, 20);
         add(phraseLabel);
-        sentenceLabel1= new JLabel("The total score of each player after this round is:  ");
-        sentenceLabel1.setBounds(40,150,300,20);
+        sentenceLabel1 = new JLabel("The total score of each player after this round is:  ");
+        sentenceLabel1.setBounds(40, 150, 300, 20);
         add(sentenceLabel1);
-        colName= new JLabel("Name");
-        colName.setBounds(40,180,50,20);
+        colName = new JLabel("Name");
+        colName.setBounds(40, 180, 50, 20);
         add(colName);
-        colRoundScore= new JLabel("Round Score");
-        colRoundScore.setBounds(120,180,100,20);
+        colRoundScore = new JLabel("Round Score");
+        colRoundScore.setBounds(120, 180, 100, 20);
         add(colRoundScore);
-        colTotal= new JLabel("Total Score");
-        colTotal.setBounds(220,180,100,20);
+        colTotal = new JLabel("Total Score");
+        colTotal.setBounds(220, 180, 100, 20);
         add(colTotal);
-        for(int i=0; i<playerArrayList.size();i++)
-        {
-            Player player= playerArrayList.get(i);
-            JLabel jLabelName= new JLabel(player.getName());
-            jLabelName.setBounds(40,210+i*30,100,20);
+        for (int i = 0; i < playerArrayList.size(); i++) {
+            Player player = playerArrayList.get(i);
+            JLabel jLabelName = new JLabel(player.getName());
+            jLabelName.setBounds(40, 210 + i * 30, 100, 20);
             add(jLabelName);
-            JLabel jLabelScore= new JLabel(player.getCurrentScore()+"");
-            jLabelScore.setBounds(150,210+i*30,50,20);
+            JLabel jLabelScore = new JLabel(player.getCurrentScore() + "");
+            jLabelScore.setBounds(150, 210 + i * 30, 50, 20);
             add(jLabelScore);
-            JLabel jLabelTotal= new JLabel(player.getTotalScore()+"");
-            jLabelTotal.setBounds(250,210+i*30,50,20);
+            JLabel jLabelTotal = new JLabel(player.getTotalScore() + "");
+            jLabelTotal.setBounds(250, 210 + i * 30, 50, 20);
             add(jLabelTotal);
         }
-        nextRoundButton= new JButton("Next Round");
-        nextRoundButton.setBounds(150,400,100,50);
+        nextRoundButton = new JButton("Next Round");
+        nextRoundButton.setBounds(150, 400, 100, 50);
         add(nextRoundButton);
         nextRoundButton.addMouseListener(new MouseListener() {
             @Override

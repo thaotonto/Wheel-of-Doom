@@ -7,7 +7,6 @@ import utils.Utils;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
@@ -26,7 +25,6 @@ public class GamePanel extends JPanel {
     private String currentPhrase = "";
     private String phrase;
     private String question;
-    private Thread thread;
     private boolean finished = false;
     private String wheelResult;
     private ArrayList<Player> playerList;
@@ -37,11 +35,12 @@ public class GamePanel extends JPanel {
     private boolean isEnd = false;
     private JPanel playerInfo = new JPanel(new GridBagLayout());
     private GridBagConstraints gbc = new GridBagConstraints();
-    private JLabel playerLable;
+    private JLabel playerLabel;
     private Puzzle puzzle;
     private Image background;
     private int count;
     private boolean option = false;
+    private Thread thread;
 
     public GamePanel() {
 
@@ -60,7 +59,7 @@ public class GamePanel extends JPanel {
             nPlayer++;
         }
         System.out.println("Number of players: " + nPlayer);
-        playerList.get(puzzle.getRound() - 1).setStatus(PlayerStatus.PLAYING);
+        playerList.get(0).setStatus(PlayerStatus.PLAYING);
         currentPlayer = getCurrentPlayer();
 
         this.puzzle = puzzle;
@@ -68,9 +67,9 @@ public class GamePanel extends JPanel {
         this.phrase = puzzle.getPhrase().toUpperCase();
         this.round = puzzle.getRound();
 
-        System.out.println("This round: " + puzzle.getRound());
-        System.out.println("This round's question: " + puzzle.getQuestion());
-        System.out.println("This round's phrase: " + puzzle.getPhrase());
+        System.out.println("This round: " + round);
+        System.out.println("This round's question: " + question);
+        System.out.println("This round's phrase: " + phrase);
         for (int i = 0; i < phrase.length(); i++) {
             char append = phrase.charAt(i);
             if (append == ' ')
@@ -110,48 +109,36 @@ public class GamePanel extends JPanel {
         playerInfo.removeAll();
         gbc.insets = new Insets(10, 10, 10, 10);
         for (int i = 0; i < 2; i++) {
-            playerLable = new JLabel(playerList.get(i).getName().toString());
+            playerLabel = new JLabel(playerList.get(i).getName().toString());
             gbc.gridx = 0;
             gbc.gridy = i;
-            playerInfo.add(playerLable, gbc);
-            playerLable = new JLabel(playerList.get(i).getCurrentScore() + "");
+            playerInfo.add(playerLabel, gbc);
+            playerLabel = new JLabel(playerList.get(i).getCurrentScore() + "");
             gbc.gridx = 1;
             gbc.gridy = i;
-            playerInfo.add(playerLable, gbc);
-            playerLable = new JLabel(playerList.get(i).getStatus().toString());
+            playerInfo.add(playerLabel, gbc);
+            playerLabel = new JLabel(playerList.get(i).getStatus().toString());
             gbc.gridx = 2;
             gbc.gridy = i;
-            playerInfo.add(playerLable, gbc);
-            if (playerLable.getText().toString().equals("PLAYING")) {
-                playerLable = new JLabel(String.format("(%d Extra Turn)", playerList.get(i).getExtraTurn()));
-                gbc.gridx = 3;
-                gbc.gridy = i;
-                playerInfo.add(playerLable, gbc);
-            }
+            playerInfo.add(playerLabel, gbc);
         }
 
         if (nPlayer > 2) {
             for (int i = 2; i < nPlayer; i++) {
                 gbc.insets = new Insets(0, 100, 0, 0);
-                playerLable = new JLabel(playerList.get(i).getName().toString());
+                playerLabel = new JLabel(playerList.get(i).getName().toString());
+                gbc.gridx = 3;
+                gbc.gridy = i - 2;
+                playerInfo.add(playerLabel, gbc);
+                gbc.insets = new Insets(10, 10, 10, 10);
+                playerLabel = new JLabel(playerList.get(i).getCurrentScore() + "");
                 gbc.gridx = 4;
                 gbc.gridy = i - 2;
-                playerInfo.add(playerLable, gbc);
-                gbc.insets = new Insets(10, 10, 10, 10);
-                playerLable = new JLabel(playerList.get(i).getCurrentScore() + "");
+                playerInfo.add(playerLabel, gbc);
+                playerLabel = new JLabel(playerList.get(i).getStatus().toString());
                 gbc.gridx = 5;
                 gbc.gridy = i - 2;
-                playerInfo.add(playerLable, gbc);
-                playerLable = new JLabel(playerList.get(i).getStatus().toString());
-                gbc.gridx = 6;
-                gbc.gridy = i - 2;
-                playerInfo.add(playerLable, gbc);
-                if (playerLable.getText().toString().equals("PLAYING")) {
-                    playerLable = new JLabel(String.format("(%d Extra Turn)", playerList.get(i).getExtraTurn()));
-                    gbc.gridx = 7;
-                    gbc.gridy = i - 2;
-                    playerInfo.add(playerLable, gbc);
-                }
+                playerInfo.add(playerLabel, gbc);
             }
         }
         validate();
@@ -202,7 +189,6 @@ public class GamePanel extends JPanel {
 //            playerEl.setCurrentScore(0);
             playerEl.setSpin(false);
             playerEl.setStatus(PlayerStatus.WAITING);
-            playerEl.setExtraTurn(0);
         }
         finished = true;
     }
@@ -212,7 +198,7 @@ public class GamePanel extends JPanel {
         if (buttonPressed != "") {
             guessTrue = false;
             char c = buttonPressed.charAt(0);
-            System.out.println("You guessed: " + c);
+//            System.out.println("You guessed: " + c);
             char[] phraseArr = phrase.toCharArray();
             char[] currArr = currentPhrase.toCharArray();
             int count = 0;
@@ -247,41 +233,46 @@ public class GamePanel extends JPanel {
                     currentPlayer.setSpin(false);
                 }
             } else {
+                currentPhrase = new String(currArr);
+                updateBoard();
                 currentPlayer.setSpin(false);
+                timerPanel.resetTimer();
             }
-            currentPhrase = new String(currArr);
-            wheelResult = "YO SPIN";
-            System.out.println("Phrase: " + phrase);
-            System.out.println("Current phrase: " + currentPhrase);
+//            wheelResult = "YO SPIN";
+//            System.out.println("Phrase: " + phrase);
+//            System.out.println("Current phrase: " + currentPhrase);
             buttonPanel.refreshButton();
-            updateBoard();
             paintPlayerInfo();
             samPanel.sayResult(c, count);
         }
-
     }
 
     public void getAnswer() {
-        System.out.println("Getting answer");
+//        System.out.println("Getting answer");
         String answer = answerPanel.getAnswer();
         if (answer != "") {
             if (answer.equals(phrase)) {
                 currentPhrase = phrase;
                 answerPanel.refreshAnswer();
+                samPanel.notifyAnswer(answer, phrase);
                 updateBoard();
+                repaint();
             } else {
                 answerPanel.refreshAnswer();
+                answerPanel.setVisible(false);
                 currentPlayer.setStatus(PlayerStatus.BANNED);
                 currentPlayer.setExtraTurn(0);
                 currentPlayer.setCurrentScore(0);
                 nextPlayer();
                 currentPlayer = getCurrentPlayer();
                 timerPanel.resetTimer();
+                samPanel.notifyAnswer(answer, phrase);
+                if (currentPlayer != null)
+                    samPanel.notifySpin(currentPlayer.getName());
                 repaint();
             }
             paintPlayerInfo();
         }
-
     }
 
     public void checkWin() {
@@ -293,7 +284,6 @@ public class GamePanel extends JPanel {
 //                playerEl.setCurrentScore(0);
                 playerEl.setSpin(false);
                 playerEl.setStatus(PlayerStatus.WAITING);
-                playerEl.setExtraTurn(0);
             }
             finished = true;
         }
@@ -303,7 +293,9 @@ public class GamePanel extends JPanel {
     public void updateBoard() {
         this.remove(boardPanel);
         boardPanel = new BoardPanel(currentPhrase, puzzle.getRound());
-        this.add(boardPanel, BorderLayout.NORTH);
+        this.add(boardPanel);
+        revalidate();
+        repaint();
     }
 
     public Player getCurrentPlayer() {
@@ -389,19 +381,13 @@ public class GamePanel extends JPanel {
     }
 
     public void run() {
-
         if (timerPanel.run()) {
             samPanel.notifyTime();
             nextPlayer();
             currentPlayer = getCurrentPlayer();
         }
-
-//        System.out.println("Spin : " + currentPlayer.isSpin());
-//        System.out.println("Guess: " + guessTrue);
-
         if (guessTrue) {
             samPanel.notifyOptions();
-//            System.out.println("gud");
             answerPanel.setVisible(true);
             buttonPanel.setVisible(false);
             getAnswer();
@@ -412,13 +398,14 @@ public class GamePanel extends JPanel {
             String monitor = WheelPanel.instance.monitor;
             if (!currentPlayer.isSpin() && !guessTrue) {
                 if (!option)
-                    samPanel.notifySpin();
+                    samPanel.notifySpin(currentPlayer.getName());
                 synchronized (monitor) {
                     try {
                         WheelPanel.instance.setPowerBar(true);
                         buttonPanel.setVisible(false);
                         answerPanel.setVisible(false);
                         monitor.wait();
+                        timerPanel.resetTimer();
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -461,5 +448,13 @@ public class GamePanel extends JPanel {
 
     public ArrayList<Player> getPlayerList() {
         return playerList;
+    }
+
+    public void setFinished(boolean finished) {
+        this.finished = finished;
+    }
+
+    public TimerPanel getTimerPanel() {
+        return timerPanel;
     }
 }

@@ -33,7 +33,7 @@ public class ButtonPanel extends JPanel implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        System.out.println("Clicky clacky");
+//        System.out.println("Clicky clacky");
         for (JButton btnEl : btnList) {
             if (e.getSource() == btnEl && btnEl.isEnabled()) {
                 System.out.println(btnEl.getName());

@@ -22,14 +22,14 @@ public class TimerPanel extends JPanel {
     }
 
     public boolean run() {
-        System.out.println("start " + start);
-        System.out.println("end   " + end);
-        System.out.println("Timer running");
+//        System.out.println("start " + start);
+//        System.out.println("end   " + end);
+//        System.out.println("Timer running");
         end = System.currentTimeMillis();
         if (end - start > 1000) {
             start = System.currentTimeMillis();
             timer--;
-            System.out.println("Timer decreased");
+//            System.out.println("Timer decreased");
         }
         repaint();
         if (timer == 0) {

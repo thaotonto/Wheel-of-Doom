@@ -13,7 +13,7 @@ public class BoardPanel extends JPanel {
     public BoardPanel(String phrase, int roundNo) {
 
         this.setBounds(150, 40, 697, 103);
-        System.out.println("Board phrase: " + phrase);
+//        System.out.println("Board phrase: " + phrase);
         FlowLayout flowLayout = new FlowLayout(3, 3, 3);
         setLayout(flowLayout);
         setVisible(true);
@@ -36,7 +36,7 @@ public class BoardPanel extends JPanel {
             if (length == (22 - word.length()) / 2 + 1) {
                 for (char c : word.toCharArray()) {
                     if (c != '_' && c != ' ') {
-                        System.out.println("Board char: " + c);
+//                        System.out.println("Board char: " + c);
                         JPanel letterPanel = new JPanel();
                         letterPanel.setPreferredSize(new Dimension(30, 30));
                         letterPanel.setBackground(Color.WHITE);
@@ -72,7 +72,7 @@ public class BoardPanel extends JPanel {
             if (length == (22 - word.length()) / 2 + 1) {
                 for (char c : word.toCharArray()) {
                     if (c!=' ') {
-                        System.out.println("Board char: " + c);
+//                        System.out.println("Board char: " + c);
                         JPanel letterPanel = new JPanel();
                         letterPanel.setPreferredSize(new Dimension(30, 30));
                         letterPanel.setBackground(Color.WHITE);
