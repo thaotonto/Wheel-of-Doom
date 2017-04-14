@@ -26,6 +26,7 @@ public class SpecialRoundPanel extends GamePanel {
     private int GUESSLEFT = 2;
     private int ANSWERLEFT = 5;
     private boolean isEnd;
+    private boolean guessTrue = false;
 
     public SpecialRoundPanel(Puzzle puzzle, Player player) {
         super();
@@ -48,12 +49,14 @@ public class SpecialRoundPanel extends GamePanel {
         this.add(boardPanel);
         this.add(buttonPanel);
         this.add(answerPanel);
+        answerPanel.setVisible(false);
         setVisible(true);
     }
 
     public void getGuess() {
         String buttonPressed = buttonPanel.getButtonPressed();
         if (buttonPressed != "") {
+            guessTrue = false;
             GUESSLEFT--;
             char c = buttonPressed.charAt(0);
             System.out.println("You guessed: " + c);
@@ -62,15 +65,17 @@ public class SpecialRoundPanel extends GamePanel {
             for (int i = 0; i < phrase.length(); i++) {
                 if (Character.toUpperCase(c) == phraseArr[i] && currArr[i] == '_') {
                     currArr[i] = phraseArr[i];
+                    guessTrue = true;
                 }
             }
-            currentPhrase = new String(currArr);
+            if (guessTrue) {
+                currentPhrase = new String(currArr);
+                updateBoard();
+            }
             System.out.println("Phrase: " + phrase);
             System.out.println("Current phrase: " + currentPhrase);
             buttonPanel.refreshButton();
-            updateBoard();
         }
-
     }
 
     public void getAnswer() {
@@ -91,7 +96,9 @@ public class SpecialRoundPanel extends GamePanel {
     public void updateBoard() {
         this.remove(boardPanel);
         boardPanel = new BoardPanel(currentPhrase, puzzle.getRound());
-        this.add(boardPanel, BorderLayout.NORTH);
+        this.add(boardPanel);
+        revalidate();
+        repaint();
     }
 
     public boolean isFinished() {
@@ -123,6 +130,7 @@ public class SpecialRoundPanel extends GamePanel {
         }
         if (GUESSLEFT == 0) {
             buttonPanel.setVisible(false);
+            answerPanel.setVisible(true);
         }
         if (ANSWERLEFT != 0) {
             getAnswer();

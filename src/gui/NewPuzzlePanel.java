@@ -77,8 +77,7 @@ public class NewPuzzlePanel extends JPanel {
         cancelPuzzleButton.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent mouseEvent) {
-                if(mouseEvent.getSource()==cancelPuzzleButton)
-                {
+                if (mouseEvent.getSource() == cancelPuzzleButton) {
                     GameFrame.mainPanel.showPanel(MainPanel.TAG_MENU);
                 }
             }
@@ -192,7 +191,7 @@ public class NewPuzzlePanel extends JPanel {
     }
 
     private void createComBoBox() {
-        if(themeCombo!=null)
+        if (themeCombo != null)
             themeCombo.setVisible(false);
         Vector<String> themeVector = Utils.loadFile("theme/theme.txt");
         themeVector.add("Other");

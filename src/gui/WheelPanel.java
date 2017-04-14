@@ -174,9 +174,9 @@ public class WheelPanel extends JPanel {
     protected void paintComponent(Graphics graphics) {
         if (backBufferImage != null) {
             AffineTransform at = AffineTransform.getTranslateInstance(50, 110);
-            at.rotate(Math.toRadians(currentDegree), image.getWidth(null)*0.75 / 2, image.getHeight(null)*0.75 / 2);
+            at.rotate(Math.toRadians(currentDegree), image.getWidth(null) * 0.75 / 2, image.getHeight(null) * 0.75 / 2);
             Graphics2D g2d = (Graphics2D) backGraphics;
-            at.scale(0.75,0.75);
+            at.scale(0.75, 0.75);
             g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
             g2d.drawImage(image, at, null);
             g2d.drawImage(imagePointer, 55, 50 + image.getHeight(null) / 2 - imagePointer.getHeight(null) / 2, null);

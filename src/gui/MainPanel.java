@@ -45,11 +45,11 @@ public class MainPanel extends JPanel {
             add(startPanel, TAG_START);
             cardLayout.show(this, tag);
         } else if (tag.equals(TAG_CREATE_Q)) {
-            createPuzzlePanelHolder=new JPanel();
+            createPuzzlePanelHolder = new JPanel();
             createPuzzlePanelHolder.setLayout(null);
             createPuzzlePanelHolder.add(new NewPuzzlePanel());
-            add(createPuzzlePanelHolder,TAG_CREATE_Q);
-            cardLayout.show(this,tag);
+            add(createPuzzlePanelHolder, TAG_CREATE_Q);
+            cardLayout.show(this, tag);
         } else {
             cardLayout.show(this, tag);
         }
@@ -60,20 +60,20 @@ public class MainPanel extends JPanel {
         add(gamePanel, TAG_GAME);
         cardLayout.show(this, TAG_GAME);
     }
-    public void showNextRoundPanel()
-    {
-        nextRoundPanelHolder= new JPanel();
+
+    public void showNextRoundPanel() {
+        nextRoundPanelHolder = new JPanel();
         nextRoundPanelHolder.setLayout(null);
-        nextRoundPanelHolder.add(new NextRoundPanel(GameController.gamePanel.getPlayerList(),GameController.gamePanel.getPhrase()));
-        add(nextRoundPanelHolder,TAG_NEXT_ROUND);
-        cardLayout.show(this,TAG_NEXT_ROUND);
+        nextRoundPanelHolder.add(new NextRoundPanel(GameController.gamePanel.getPlayerList(), GameController.gamePanel.getPhrase()));
+        add(nextRoundPanelHolder, TAG_NEXT_ROUND);
+        cardLayout.show(this, TAG_NEXT_ROUND);
     }
 
     public void showSummaryPanel() {
-        nextRoundPanelHolder= new JPanel();
+        nextRoundPanelHolder = new JPanel();
         nextRoundPanelHolder.setLayout(null);
-        nextRoundPanelHolder.add(new SummaryPanel(GameController.gamePanel.getPlayerList(),GameController.gamePanel.getPhrase()));
-        add(nextRoundPanelHolder,TAG_NEXT_ROUND);
-        cardLayout.show(this,TAG_NEXT_ROUND);
+        nextRoundPanelHolder.add(new SummaryPanel(GameController.gamePanel.getPlayerList(), GameController.gamePanel.getPhrase()));
+        add(nextRoundPanelHolder, TAG_NEXT_ROUND);
+        cardLayout.show(this, TAG_NEXT_ROUND);
     }
 }

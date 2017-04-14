@@ -8,15 +8,15 @@ import java.awt.event.MouseListener;
 /**
  * Created by Hoang on 3/30/2017.
  */
-public class AnswerPanel extends JPanel implements MouseListener{
+public class AnswerPanel extends JPanel implements MouseListener {
     private JTextField answerField;
     private JLabel answerLabel;
     private JButton answerButton;
-    private String answer="";
+    private String answer = "";
 
-    public AnswerPanel(){
+    public AnswerPanel() {
         setOpaque(false);
-        this.setBounds(150,400,500,40);
+        this.setBounds(150, 400, 500, 40);
         setVisible(true);
         FlowLayout flowLayout = new FlowLayout();
         setLayout(flowLayout);
@@ -32,7 +32,7 @@ public class AnswerPanel extends JPanel implements MouseListener{
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        if (e.getSource() == answerButton){
+        if (e.getSource() == answerButton) {
             System.out.println(answerField.getText());
             answer = answerField.getText().toUpperCase();
         }

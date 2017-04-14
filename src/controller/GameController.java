@@ -1,9 +1,6 @@
 package controller;
 
-import gui.GameFrame;
-import gui.GamePanel;
-import gui.SpecialRoundPanel;
-import gui.WheelPanel;
+import gui.*;
 import player.Player;
 import puzzle.Puzzle;
 
@@ -18,13 +15,15 @@ public class GameController {
     private ArrayList<Player> playerList;
     private PuzzleController puzzleController;
     private Thread thread;
-    private int round = 0;
+    private int round;
     private int playerNo;
     public static SpecialRoundPanel specialRound;
 
     public GameController(String theme, ArrayList<Player> playerList, int playerNo) {
+        round = 0;
         this.playerList = playerList;
         this.playerNo = playerNo;
+        if (specialRound != null) specialRound = null;
         System.out.println("Init question:");
         puzzleController = new PuzzleController(theme, playerNo);
         Iterator<Puzzle> puzzleListIterator = puzzleController.getPuzzleList().iterator();
@@ -48,7 +47,12 @@ public class GameController {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    runGame();
+                    if (round <= playerNo)
+                        runGame();
+                    else {
+                        GameFrame.mainPanel.showPanel(MainPanel.TAG_MENU);
+                        thread.stop();
+                    }
                 }
             }
         });
@@ -67,9 +71,9 @@ public class GameController {
 
     public void nextRound() {
         round++;
-        if (round > playerNo ) {
+        if (round > playerNo) {
             System.out.println("Game over");
-            System.exit(0);
+//            System.exit(0);
         } else {
             if (round == playerNo) {
                 int playerWin = 0;
