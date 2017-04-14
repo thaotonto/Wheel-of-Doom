@@ -13,6 +13,7 @@ import java.util.ArrayList;
  * Created by Thaotonto on 4/7/2017.
  */
 public class SpecialRoundPanel extends GamePanel {
+    private boolean GUESS = false ;
     private final Image background;
     private BoardPanel boardPanel;
     private ButtonPanel buttonPanel;
@@ -27,6 +28,8 @@ public class SpecialRoundPanel extends GamePanel {
     private int ANSWERLEFT = 5;
     private boolean isEnd;
     private boolean guessTrue = false;
+    private TimerPanel timerPanel;
+//    private SamPanel samPanel;
 
     public SpecialRoundPanel(Puzzle puzzle, Player player) {
         super();
@@ -46,9 +49,13 @@ public class SpecialRoundPanel extends GamePanel {
         boardPanel = new BoardPanel(currentPhrase, puzzle.getRound());
         buttonPanel = new ButtonPanel();
         answerPanel = new AnswerPanel();
+        timerPanel = new TimerPanel();
+//        samPanel = new SamPanel();
         this.add(boardPanel);
         this.add(buttonPanel);
+//        this.add(samPanel);
         this.add(answerPanel);
+        this.add(timerPanel);
         answerPanel.setVisible(false);
         setVisible(true);
     }
@@ -58,6 +65,7 @@ public class SpecialRoundPanel extends GamePanel {
         if (buttonPressed != "") {
             guessTrue = false;
             GUESSLEFT--;
+            int count = 0;
             char c = buttonPressed.charAt(0);
             System.out.println("You guessed: " + c);
             char[] phraseArr = phrase.toCharArray();
@@ -66,6 +74,7 @@ public class SpecialRoundPanel extends GamePanel {
                 if (Character.toUpperCase(c) == phraseArr[i] && currArr[i] == '_') {
                     currArr[i] = phraseArr[i];
                     guessTrue = true;
+                    count++;
                 }
             }
             if (guessTrue) {
@@ -75,6 +84,7 @@ public class SpecialRoundPanel extends GamePanel {
             System.out.println("Phrase: " + phrase);
             System.out.println("Current phrase: " + currentPhrase);
             buttonPanel.refreshButton();
+//            samPanel.sayResult(c, count);
         }
     }
 
@@ -119,26 +129,35 @@ public class SpecialRoundPanel extends GamePanel {
     protected void paintComponent(Graphics g) {
         g.drawImage(background, 0, 0, null);
         g.drawString(question, 200, 200);
-        g.drawString("Special Round ", 450, 50);
     }
 
     public void run() {
-        while (GUESSLEFT != 0) {
-            getGuess();
+        if (!GUESS) {
+            if (!timerPanel.run() && GUESSLEFT != 0) {
+                getGuess();
+                revalidate();
+                repaint();
+            } else {
+                GUESS = true;
+                timerPanel.resetTimer();
+            }
+        }
+        if (GUESS) {
+            buttonPanel.setVisible(false);
+            answerPanel.setVisible(true);
+            if (!timerPanel.run()) {
+                getAnswer();
+                checkWin();
+                revalidate();
+                repaint();
+            } else {
+                finished = true;
+            }
             revalidate();
             repaint();
         }
-        if (GUESSLEFT == 0) {
-            buttonPanel.setVisible(false);
-            answerPanel.setVisible(true);
-        }
-        if (ANSWERLEFT != 0) {
-            getAnswer();
-            checkWin();
-        } else finished = true;
-        revalidate();
-        repaint();
     }
-
 }
+
+
 

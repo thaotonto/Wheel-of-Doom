@@ -59,7 +59,7 @@ public class GamePanel extends JPanel {
             nPlayer++;
         }
         System.out.println("Number of players: " + nPlayer);
-        playerList.get(0).setStatus(PlayerStatus.PLAYING);
+        playerList.get(puzzle.getRound() - 1).setStatus(PlayerStatus.PLAYING);
         currentPlayer = getCurrentPlayer();
 
         this.puzzle = puzzle;
@@ -121,24 +121,36 @@ public class GamePanel extends JPanel {
             gbc.gridx = 2;
             gbc.gridy = i;
             playerInfo.add(playerLabel, gbc);
+            if (playerLabel.getText().toString().equals("PLAYING")) {
+                gbc.gridx = 3;
+                gbc.gridy = i;
+                playerLabel = new JLabel(String.format("%d Extra Turn", playerList.get(i).getExtraTurn()));
+                playerInfo.add(playerLabel, gbc);
+            }
         }
 
         if (nPlayer > 2) {
             for (int i = 2; i < nPlayer; i++) {
                 gbc.insets = new Insets(0, 100, 0, 0);
                 playerLabel = new JLabel(playerList.get(i).getName().toString());
-                gbc.gridx = 3;
+                gbc.gridx = 4;
                 gbc.gridy = i - 2;
                 playerInfo.add(playerLabel, gbc);
                 gbc.insets = new Insets(10, 10, 10, 10);
                 playerLabel = new JLabel(playerList.get(i).getCurrentScore() + "");
-                gbc.gridx = 4;
-                gbc.gridy = i - 2;
-                playerInfo.add(playerLabel, gbc);
-                playerLabel = new JLabel(playerList.get(i).getStatus().toString());
                 gbc.gridx = 5;
                 gbc.gridy = i - 2;
                 playerInfo.add(playerLabel, gbc);
+                playerLabel = new JLabel(playerList.get(i).getStatus().toString());
+                gbc.gridx = 6;
+                gbc.gridy = i - 2;
+                playerInfo.add(playerLabel, gbc);
+                if (playerLabel.getText().toString().equals("PLAYING")) {
+                    gbc.gridx = 7;
+                    gbc.gridy = i - 2;
+                    playerLabel = new JLabel(String.format("%d Extra Turn", playerList.get(i).getExtraTurn()));
+                    playerInfo.add(playerLabel, gbc);
+                }
             }
         }
         validate();
@@ -189,6 +201,7 @@ public class GamePanel extends JPanel {
 //            playerEl.setCurrentScore(0);
             playerEl.setSpin(false);
             playerEl.setStatus(PlayerStatus.WAITING);
+            playerEl.setExtraTurn(0);
         }
         finished = true;
     }
@@ -217,6 +230,7 @@ public class GamePanel extends JPanel {
                                     currentPlayer.setExtraTurn(currentPlayer.getExtraTurn() + 1);
                                     break;
                                 case "Prize":
+                                    currentPlayer.setCurrentScore(currentPlayer.getCurrentScore() + 1200);
                                     break;
                             }
                         }
@@ -284,6 +298,7 @@ public class GamePanel extends JPanel {
 //                playerEl.setCurrentScore(0);
                 playerEl.setSpin(false);
                 playerEl.setStatus(PlayerStatus.WAITING);
+                playerEl.setExtraTurn(0);
             }
             finished = true;
         }
