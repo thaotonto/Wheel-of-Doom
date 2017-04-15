@@ -28,6 +28,11 @@ public class ButtonPanel extends JPanel implements MouseListener {
             letterButton.setFocusPainted(false);
             this.add(letterButton);
             btnList.add(letterButton);
+            if (i == 85){
+                letterButton = new JButton();
+                letterButton.setVisible(false);
+                this.add(letterButton);
+            }
         }
     }
 
