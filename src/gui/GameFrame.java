@@ -11,7 +11,7 @@ import java.awt.*;
  */
 public class GameFrame extends JFrame {
     public static final int GAME_WIDTH = 1000;
-    public static final int GAME_HEIGHT = 700;
+    public static final int GAME_HEIGHT = 650;
     public static MainPanel mainPanel;
     public static GameController gameController;
 

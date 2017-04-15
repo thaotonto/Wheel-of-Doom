@@ -34,6 +34,8 @@ public class StartPanel extends JPanel implements MouseListener {
     GridBagConstraints gridBagConstraints = new GridBagConstraints();
     private ArrayList<Player> playerList = new ArrayList<>();
     private Image background = Utils.loadImageFromRes("background.jpg");
+    private JButton backToMenu;
+
 
     public StartPanel() {
         setLayout(new BorderLayout());
@@ -41,20 +43,28 @@ public class StartPanel extends JPanel implements MouseListener {
     }
 
     private void initComp() {
+        jLabel1.setFont(new Font(null, Font.PLAIN, 24));
+        jLabel2.setFont(new Font(null, Font.PLAIN, 24));
+        jLabel3.setFont(new Font(null, Font.PLAIN, 24));
+        jLabel4.setFont(new Font(null, Font.PLAIN, 24));
         boxnPlayer = new JComboBox(numberOfPlayer);
         boxTheme = new JComboBox(theme);
+        backToMenu= new JButton("Back To Menu");
 
         JPanel panelNorth = new JPanel();
         panelNorth.setLayout(new BoxLayout(panelNorth, BoxLayout.Y_AXIS));
 
         JPanel jPanel = new JPanel(new FlowLayout());
         JLabel jLabel = new JLabel("Number Of player: ");
+        jLabel.setFont(new Font(null, Font.PLAIN, 24));
         jPanel.add(jLabel);
         jPanel.add(boxnPlayer);
         panelNorth.add(jPanel);
 
         jPanel = new JPanel(new FlowLayout());
         jLabel = new JLabel("Theme");
+        jLabel.setPreferredSize(new Dimension(100,100));
+        jLabel.setFont(new Font(null, Font.PLAIN, 24));
         jPanel.add(jLabel);
         jPanel.add(boxTheme);
         panelNorth.add(jPanel);
@@ -113,8 +123,12 @@ public class StartPanel extends JPanel implements MouseListener {
 
         add(jPanel, BorderLayout.CENTER);
         jPanel = new JPanel(new FlowLayout());
+        playBtn.setPreferredSize(new Dimension(200,100));
+        backToMenu.setPreferredSize(new Dimension(200,100));
         jPanel.add(playBtn);
+        jPanel.add(backToMenu);
         playBtn.addMouseListener(this);
+        backToMenu.addMouseListener(this);
         add(jPanel, BorderLayout.SOUTH);
         boxnPlayer.addActionListener(new ActionListener() {
             @Override
@@ -138,7 +152,7 @@ public class StartPanel extends JPanel implements MouseListener {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.drawImage(background,0,0,null);
+        g.drawImage(background, 0, 0, null);
     }
 
     @Override
@@ -178,6 +192,9 @@ public class StartPanel extends JPanel implements MouseListener {
                 System.out.println("Player: " + playerList.get(i).getName());
             }
             GameFrame.gameController = new GameController(boxTheme.getSelectedItem().toString(), playerList, Integer.parseInt(boxnPlayer.getSelectedItem().toString()));
+        }
+        if (e.getSource() == backToMenu) {
+            GameFrame.mainPanel.showPanel(MainPanel.TAG_MENU);
         }
     }
 
