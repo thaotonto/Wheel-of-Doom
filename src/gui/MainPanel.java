@@ -16,12 +16,14 @@ public class MainPanel extends JPanel {
     public static final String TAG_GAME_OVER = "tag_game_over";
     public static final String TAG_CREATE_Q = "tag_create_q";
     public static final String TAG_NEXT_ROUND = "tag_next_round";
+    public static final String TAG_GAME_WIN= "tag_game_win";
+    public static final String TAG_GAME_LOSE= "tag_game_lose";
     private CardLayout cardLayout;
     private GamePanel gamePanel;
     private MenuPanel menuPanel;
     private StartPanel startPanel;
     private JPanel createPuzzlePanelHolder;
-    private JPanel nextRoundPanelHolder;
+    private JPanel holderPanel;
 //    private GameOverPanel gameOverPanel;
 
     public MainPanel() {
@@ -62,18 +64,32 @@ public class MainPanel extends JPanel {
     }
 
     public void showNextRoundPanel() {
-        nextRoundPanelHolder = new JPanel();
-        nextRoundPanelHolder.setLayout(null);
-        nextRoundPanelHolder.add(new NextRoundPanel(GameController.gamePanel.getPlayerList(), GameController.gamePanel.getPhrase()));
-        add(nextRoundPanelHolder, TAG_NEXT_ROUND);
+        holderPanel = new JPanel();
+        holderPanel.setLayout(null);
+        holderPanel.add(new NextRoundPanel(GameController.gamePanel.getPlayerList(), GameController.gamePanel.getPhrase()));
+        add(holderPanel, TAG_NEXT_ROUND);
         cardLayout.show(this, TAG_NEXT_ROUND);
     }
 
     public void showSummaryPanel() {
-        nextRoundPanelHolder = new JPanel();
-        nextRoundPanelHolder.setLayout(null);
-        nextRoundPanelHolder.add(new SummaryPanel(GameController.gamePanel.getPlayerList(), GameController.gamePanel.getPhrase()));
-        add(nextRoundPanelHolder, TAG_NEXT_ROUND);
+        holderPanel = new JPanel();
+        holderPanel.setLayout(null);
+        holderPanel.add(new SummaryPanel(GameController.gamePanel.getPlayerList(), GameController.gamePanel.getPhrase()));
+        add(holderPanel, TAG_NEXT_ROUND);
         cardLayout.show(this, TAG_NEXT_ROUND);
+    }
+    public void showGameWinPanel(){
+        holderPanel = new JPanel();
+        holderPanel.setLayout(null);
+        holderPanel.add(new WinGamePanel());
+        add(holderPanel, TAG_GAME_WIN);
+        cardLayout.show(this, TAG_GAME_WIN);
+    }
+    public void showGameLosePanel() {
+        holderPanel = new JPanel();
+        holderPanel.setLayout(null);
+        holderPanel.add(new LoseGamePanel());
+        add(holderPanel, TAG_GAME_LOSE);
+        cardLayout.show(this, TAG_GAME_LOSE);
     }
 }

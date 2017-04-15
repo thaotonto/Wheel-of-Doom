@@ -50,8 +50,11 @@ public class GameController {
                     if (round <= playerNo)
                         runGame();
                     else {
-                        GameFrame.mainPanel.showPanel(MainPanel.TAG_MENU);
-                        thread.stop();
+                        if(specialRound.isWin())
+                            GameFrame.mainPanel.showGameWinPanel();
+                        else
+                            GameFrame.mainPanel.showGameLosePanel();
+                        break;
                     }
                 }
             }
