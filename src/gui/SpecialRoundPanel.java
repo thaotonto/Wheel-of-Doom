@@ -17,6 +17,12 @@ public class SpecialRoundPanel extends GamePanel {
     private final Image background;
     private BoardPanel boardPanel;
     private ButtonPanel buttonPanel;
+
+    @Override
+    public String getPhrase() {
+        return phrase;
+    }
+
     private AnswerPanel answerPanel;
     private String currentPhrase = "";
     private String phrase;
@@ -27,6 +33,12 @@ public class SpecialRoundPanel extends GamePanel {
     private int GUESSLEFT = 2;
     private boolean isEnd;
     private boolean guessTrue = false;
+    private boolean isWin;
+
+    public boolean isWin() {
+        return isWin;
+    }
+
     private TimerPanel timerPanel;
 //    private SamPanel samPanel;
 
@@ -116,6 +128,7 @@ public class SpecialRoundPanel extends GamePanel {
 
     public void checkWin() {
         if (currentPhrase.equals(phrase)) {
+            isWin=true;
             finished = true;
         }
     }

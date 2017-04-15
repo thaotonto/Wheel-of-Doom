@@ -269,6 +269,11 @@ public class GamePanel extends JPanel {
                 currentPhrase = phrase;
                 answerPanel.refreshAnswer();
                 samPanel.notifyAnswer(answer, phrase);
+                for (Player playerEl : playerList) {
+                    if (playerEl.getStatus() != PlayerStatus.PLAYING) {
+                        playerEl.setCurrentScore(0);
+                    }
+                }
                 updateBoard();
                 repaint();
             } else {
@@ -387,13 +392,6 @@ public class GamePanel extends JPanel {
         return result;
     }
 
-    private String spinWheel1() throws InterruptedException {
-        synchronized (monitor) {
-            thread.wait();
-        }
-
-        return WheelPanel.instance.getResult();
-    }
 
     public void run() {
         if (timerPanel.run()) {
