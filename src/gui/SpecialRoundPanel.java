@@ -151,7 +151,9 @@ public class SpecialRoundPanel extends GamePanel {
                 repaint();
             } else {
                 GUESS = true;
+                this.remove(timerPanel);
                 timerPanel = new TimerPanel(30);
+                this.add(timerPanel);
             }
         }
         if (GUESS) {

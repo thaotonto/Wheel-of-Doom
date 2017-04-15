@@ -22,6 +22,7 @@ public class MenuPanel extends JPanel {
     public MenuPanel() {
         setLayout(null);
         initComp();
+        setPreferredSize(new Dimension(GameFrame.GAME_WIDTH, GameFrame.GAME_HEIGHT));
     }
 
     private void initComp() {

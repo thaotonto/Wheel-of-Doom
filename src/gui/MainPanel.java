@@ -31,11 +31,9 @@ public class MainPanel extends JPanel {
         setLayout(cardLayout);
         menuPanel = new MenuPanel();
         add(menuPanel, TAG_MENU);
-        setSize(GameFrame.GAME_WIDTH, GameFrame.GAME_HEIGHT);
         cardLayout.show(this, TAG_MENU);
         setVisible(true);
     }
-
 
     public void showPanel(String tag) {
         if (tag.equals(TAG_GAME_OVER)) {
@@ -92,4 +90,5 @@ public class MainPanel extends JPanel {
         add(holderPanel, TAG_GAME_LOSE);
         cardLayout.show(this, TAG_GAME_LOSE);
     }
+
 }

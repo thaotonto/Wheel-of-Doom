@@ -136,11 +136,6 @@ public class StartPanel extends JPanel implements MouseListener {
     }
 
     @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-    }
-
-    @Override
     public void mouseClicked(MouseEvent e) {
         if (e.getSource() == playBtn) {
             System.out.println("Player no: " + Integer.parseInt(boxnPlayer.getSelectedItem().toString()));

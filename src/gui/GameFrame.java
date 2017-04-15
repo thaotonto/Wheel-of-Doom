@@ -16,15 +16,17 @@ public class GameFrame extends JFrame {
     public static GameController gameController;
 
     public GameFrame() throws HeadlessException {
-        setSize(GAME_WIDTH, GAME_HEIGHT);
+//        setSize(GAME_WIDTH, GAME_HEIGHT);
+//        setPreferredSize(new Dimension(GAME_WIDTH, GAME_HEIGHT));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
+//        setLocationRelativeTo(null);
         setTitle("WHEEL OF FORTUNE");
         mainPanel = new MainPanel();
         add(mainPanel);
         setVisible(true);
-        setResizable(false);
+        pack();
         setLocationRelativeTo(null);
+        setResizable(false);
         setFocusable(true);
 //        setAlwaysOnTop(true);
     }
