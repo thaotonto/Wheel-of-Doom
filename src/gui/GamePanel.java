@@ -99,7 +99,7 @@ public class GamePanel extends JPanel {
         setVisible(true);
         playerInfo.setBackground(Color.white);
         System.out.println("Phrase setup: " + currentPhrase);
-        playerInfo.setBounds(200, 500, 600, 100);
+        playerInfo.setBounds(200, 550, 600, 100);
         this.add(playerInfo);
         playerInfo.setOpaque(false);
         playerInfo.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(),BorderFactory.createLoweredBevelBorder()));
