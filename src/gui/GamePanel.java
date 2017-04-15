@@ -102,6 +102,7 @@ public class GamePanel extends JPanel {
         playerInfo.setBounds(200, 500, 600, 100);
         this.add(playerInfo);
         playerInfo.setOpaque(false);
+        playerInfo.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(),BorderFactory.createLoweredBevelBorder()));
         paintPlayerInfo();
     }
 
