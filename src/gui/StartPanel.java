@@ -33,6 +33,7 @@ public class StartPanel extends JPanel implements MouseListener {
     private JButton playBtn = new JButton("Play");
     GridBagConstraints gridBagConstraints = new GridBagConstraints();
     private ArrayList<Player> playerList = new ArrayList<>();
+    private Image background = Utils.loadImageFromRes("background.jpg");
 
     public StartPanel() {
         setLayout(new BorderLayout());
@@ -132,12 +133,12 @@ public class StartPanel extends JPanel implements MouseListener {
                 }
             }
         });
-
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+        g.drawImage(background,0,0,null);
     }
 
     @Override
