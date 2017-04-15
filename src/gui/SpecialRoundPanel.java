@@ -151,7 +151,7 @@ public class SpecialRoundPanel extends GamePanel {
                 repaint();
             } else {
                 GUESS = true;
-                timerPanel.resetTimer();
+                timerPanel = new TimerPanel(30);
             }
         }
         if (GUESS) {

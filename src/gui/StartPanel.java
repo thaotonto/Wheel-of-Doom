@@ -50,7 +50,6 @@ public class StartPanel extends JPanel implements MouseListener {
         JLabel jLabel = new JLabel("Number Of player: ");
         jPanel.add(jLabel);
         jPanel.add(boxnPlayer);
-//        jPanel.setPreferredSize(new Dimension(300,200));
         panelNorth.add(jPanel);
 
         jPanel = new JPanel(new FlowLayout());

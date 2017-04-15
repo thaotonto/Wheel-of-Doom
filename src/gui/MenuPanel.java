@@ -41,8 +41,8 @@ public class MenuPanel extends JPanel {
 
         ImageIcon icon = new ImageIcon("resources/create.png");
         createBtn = new JButton(icon);
-        createBtn.setBounds(GameFrame.GAME_WIDTH / 2 - icon.getIconWidth() / 2,
-                GameFrame.GAME_HEIGHT / 2 - icon.getIconHeight() - DISTANCE * 4,
+        createBtn.setBounds(GameFrame.GAME_WIDTH / 4 - icon.getIconWidth() / 2 - DISTANCE,
+                GameFrame.GAME_HEIGHT / 2 + icon.getIconHeight() + DISTANCE * 2,
                 icon.getIconWidth(),
                 icon.getIconHeight());
         add(createBtn);
@@ -50,8 +50,8 @@ public class MenuPanel extends JPanel {
 
         icon = new ImageIcon("resources/startGame.png");
         startBtn = new JButton(icon);
-        startBtn.setBounds(GameFrame.GAME_WIDTH / 2 - icon.getIconWidth() / 2,
-                GameFrame.GAME_HEIGHT / 2 - icon.getIconHeight() - DISTANCE,
+        startBtn.setBounds(GameFrame.GAME_WIDTH / 4 - icon.getIconWidth() / 2 - DISTANCE,
+                GameFrame.GAME_HEIGHT / 2 + DISTANCE * 2,
                 icon.getIconWidth(),
                 icon.getIconHeight());
         add(startBtn);
@@ -59,8 +59,8 @@ public class MenuPanel extends JPanel {
 
         icon = new ImageIcon("resources/instruction-0.png");
         instructionBtn = new JButton(icon);
-        instructionBtn.setBounds(GameFrame.GAME_WIDTH / 2 - icon.getIconWidth() / 2,
-                GameFrame.GAME_HEIGHT / 2,
+        instructionBtn.setBounds(GameFrame.GAME_WIDTH / 2 + DISTANCE * 2,
+                GameFrame.GAME_HEIGHT / 2 + DISTANCE * 2,
                 icon.getIconWidth(),
                 icon.getIconHeight());
         add(instructionBtn);
@@ -68,8 +68,8 @@ public class MenuPanel extends JPanel {
 
         icon = new ImageIcon("resources/quitGame.png");
         exitBtn = new JButton(icon);
-        exitBtn.setBounds(GameFrame.GAME_WIDTH / 2 - icon.getIconWidth() / 2,
-                GameFrame.GAME_HEIGHT / 2 + icon.getIconHeight() + DISTANCE,
+        exitBtn.setBounds(GameFrame.GAME_WIDTH / 2 + DISTANCE * 2,
+                GameFrame.GAME_HEIGHT / 2 + icon.getIconHeight() + DISTANCE * 2,
                 icon.getIconWidth(),
                 icon.getIconHeight());
         add(exitBtn);
@@ -82,5 +82,7 @@ public class MenuPanel extends JPanel {
         super.paintComponent(g);
         Image image = Utils.loadImageFromRes("background.jpg");
         g.drawImage(image, 0, 0, GameFrame.GAME_WIDTH, GameFrame.GAME_HEIGHT, null);
+        image = Utils.loadImageFromRes("logo.jpg");
+        g.drawImage(image, GameFrame.GAME_WIDTH / 2 - 705 / 2, 0, 705, 510, null);
     }
 }
