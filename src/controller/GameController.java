@@ -80,9 +80,11 @@ public class GameController {
         } else {
             if (round == playerNo) {
                 int playerWin = 0;
+                int maxScore = 0;
                 for (int i = 0; i < playerNo; i++) {
-                    if (playerList.get(i).getTotalScore() >= playerWin) {
+                    if (playerList.get(i).getTotalScore() >= maxScore) {
                         playerWin = i;
+                        maxScore = playerList.get(i).getTotalScore();
                     }
                 }
                 GameFrame.mainPanel.showSummaryPanel();

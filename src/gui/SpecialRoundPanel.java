@@ -34,6 +34,9 @@ public class SpecialRoundPanel extends GamePanel {
     private boolean isEnd;
     private boolean guessTrue = false;
     private boolean isWin;
+    private JPanel playerInfo = new JPanel(new GridBagLayout());
+    private GridBagConstraints gbc = new GridBagConstraints();
+    private JLabel playerLabel;
 
     public boolean isWin() {
         return isWin;
@@ -60,7 +63,7 @@ public class SpecialRoundPanel extends GamePanel {
         boardPanel = new BoardPanel(currentPhrase, puzzle.getRound());
         buttonPanel = new ButtonPanel();
         answerPanel = new AnswerPanel();
-        timerPanel = new TimerPanel(10);
+        timerPanel = new TimerPanel(15);
 //        samPanel = new SamPanel();
         this.add(boardPanel);
         this.add(buttonPanel);
@@ -68,8 +71,25 @@ public class SpecialRoundPanel extends GamePanel {
         this.add(answerPanel);
         this.add(timerPanel);
         answerPanel.setVisible(false);
+        playerInfo.setBounds(200, 550, 600, 100);
+        this.add(playerInfo);
+        playerInfo.setOpaque(false);
+        playerInfo.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(),BorderFactory.createLoweredBevelBorder()));
+        paintPlayerInfo();
         setVisible(true);
 
+    }
+
+    private void paintPlayerInfo() {
+        gbc.insets = new Insets(10, 10, 10, 10);
+        playerLabel = new JLabel(player.getName().toString());
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        playerInfo.add(playerLabel, gbc);
+        playerLabel = new JLabel(player.getTotalScore() + "");
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+        playerInfo.add(playerLabel, gbc);
     }
 
     public void getGuess() {
