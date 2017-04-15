@@ -47,6 +47,7 @@ public class StartPanel extends JPanel implements MouseListener {
         jLabel2.setFont(new Font(null, Font.PLAIN, 24));
         jLabel3.setFont(new Font(null, Font.PLAIN, 24));
         jLabel4.setFont(new Font(null, Font.PLAIN, 24));
+        playBtn.setFont(new Font(Font.MONOSPACED, Font.BOLD, 40));
         boxnPlayer = new JComboBox(numberOfPlayer);
         boxTheme = new JComboBox(theme);
         backToMenu= new JButton("Back To Menu");
@@ -62,7 +63,7 @@ public class StartPanel extends JPanel implements MouseListener {
         panelNorth.add(jPanel);
 
         jPanel = new JPanel(new FlowLayout());
-        jLabel = new JLabel("Theme");
+        jLabel = new JLabel("Theme: ");
         jLabel.setPreferredSize(new Dimension(100,100));
         jLabel.setFont(new Font(null, Font.PLAIN, 24));
         jPanel.add(jLabel);
@@ -125,6 +126,7 @@ public class StartPanel extends JPanel implements MouseListener {
         jPanel = new JPanel(new FlowLayout());
         playBtn.setPreferredSize(new Dimension(200,100));
         backToMenu.setPreferredSize(new Dimension(200,100));
+        backToMenu.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 20));
         jPanel.add(playBtn);
         jPanel.add(backToMenu);
         playBtn.addMouseListener(this);
