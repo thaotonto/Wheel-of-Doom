@@ -174,7 +174,6 @@ public class SpecialRoundPanel extends JPanel {
                 repaint();
             } else {
                 GUESS = true;
-
                 timerPanel = new TimerPanel(30);
                 timerPanel.setBounds(650,405,50,40);
                 this.add(timerPanel);

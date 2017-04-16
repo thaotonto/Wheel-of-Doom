@@ -390,10 +390,12 @@ public class GamePanel extends JPanel {
                 samPanel.notifyGuess(wheelResult);
             }
             if (wheelResult == "lose turn") {
+                buttonPanel.setVisible(false);
                 nextPlayer();
                 currentPlayer = getCurrentPlayer();
                 timerPanel.resetTimer();
             } else if (wheelResult == "bankrupt") {
+                buttonPanel.setVisible(false);
                 currentPlayer.setCurrentScore(0);
                 nextPlayer();
                 currentPlayer = getCurrentPlayer();
