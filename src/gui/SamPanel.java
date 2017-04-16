@@ -21,7 +21,7 @@ public class SamPanel extends JPanel {
         setVisible(true);
         setLayout(null);
         setOpaque(false);
-        this.setBounds(100, 180, 380, 200);
+        this.setBounds(100, 200, 380, 200);
 
         lvs = new ImageIcon(Utils.loadImageFromRes("laivansam.png"));
         bubble = new ImageIcon(Utils.loadImageFromRes("bubble.png"));

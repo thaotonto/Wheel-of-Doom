@@ -333,64 +333,16 @@ public class GamePanel extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.drawImage(background, 0, 0, null);
-        g.drawString(question, 200, 170);
-//        if (wheelResult != null) {
-//            g.drawString(wheelResult, 50, 300);
-//        } else
-//            g.drawString("YO SPIN", 50, 300);
+
+        drawCenteredString(g,question,new Font("Serif", Font.BOLD, 20));
     }
 
-    private String spinWheel() {
-        Random random = new Random();
-        String result = null;
-        switch (random.nextInt(15)) {
-            case 0:
-                result = "900";
-                break;
-            case 1:
-                result = "get turn";
-                break;
-            case 2:
-                result = "500";
-                break;
-            case 3:
-                result = "1000";
-                break;
-            case 4:
-                result = "400";
-                break;
-            case 5:
-                result = "lose turn";
-                break;
-            case 6:
-                result = "600";
-                break;
-            case 7:
-                result = "Prize";
-                break;
-            case 8:
-                result = "300";
-                break;
-            case 9:
-                result = "800";
-                break;
-            case 10:
-                result = "1100";
-                break;
-            case 11:
-                result = "100";
-                break;
-            case 12:
-                result = "200";
-                break;
-            case 13:
-                result = "700";
-                break;
-            case 14:
-                result = "bankrupt";
-                break;
-        }
-        return result;
+    public void drawCenteredString(Graphics g, String text, Font font) {
+
+        FontMetrics metrics = g.getFontMetrics(font);
+        int x =  (GameFrame.GAME_WIDTH - metrics.stringWidth(text)) / 2;
+        g.setFont(font);
+        g.drawString(text, x, 170);
     }
 
 

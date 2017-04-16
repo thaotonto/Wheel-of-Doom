@@ -15,7 +15,7 @@ public class TimerPanel extends JPanel {
     public TimerPanel(int timer) {
         setVisible(true);
         setOpaque(false);
-        this.setBounds(600, 200, 50, 50);
+        this.setBounds(400, 520, 50, 50);
         setLayout(null);
         start = System.currentTimeMillis();
         end = System.currentTimeMillis();
@@ -44,6 +44,7 @@ public class TimerPanel extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+        g.setFont(new Font(null,Font.BOLD,12));
         g.drawString(timer + "", 10, 10);
     }
 

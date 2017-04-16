@@ -14,8 +14,8 @@ import java.awt.image.BufferedImage;
  * Created by Inpriron on 3/30/2017.
  */
 public class WheelPanel extends JPanel {
-    private static int PANEL_WIDTH = 600;
-    private static int PANEL_HEIGHT = 600;
+    private static int PANEL_WIDTH = 450;
+    private static int PANEL_HEIGHT = 500;
     //    private Image backGroundImage;
     private Image image;
     private Image imagePointer;
