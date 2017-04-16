@@ -12,13 +12,13 @@ import java.util.ArrayList;
 /**
  * Created by Thaotonto on 4/7/2017.
  */
-public class SpecialRoundPanel extends GamePanel {
+public class SpecialRoundPanel extends JPanel {
     private boolean GUESS = false ;
     private final Image background;
     private BoardPanel boardPanel;
     private ButtonPanel buttonPanel;
 
-    @Override
+
     public String getPhrase() {
         return phrase;
     }
@@ -63,13 +63,11 @@ public class SpecialRoundPanel extends GamePanel {
         boardPanel = new BoardPanel(currentPhrase, puzzle.getRound());
         buttonPanel = new ButtonPanel();
         answerPanel = new AnswerPanel();
-        timerPanel = new TimerPanel(15);
 //        samPanel = new SamPanel();
         this.add(boardPanel);
         this.add(buttonPanel);
 //        this.add(samPanel);
         this.add(answerPanel);
-        this.add(timerPanel);
         answerPanel.setVisible(false);
         playerInfo.setBounds(200, 550, 600, 100);
         this.add(playerInfo);
@@ -160,19 +158,25 @@ public class SpecialRoundPanel extends GamePanel {
     @Override
     protected void paintComponent(Graphics g) {
         g.drawImage(background, 0, 0, null);
-        g.drawString(question, 200, 200);
+        drawCenteredString(g,question,new Font("Serif", Font.BOLD, 20));
+        if(GUESSLEFT>0)
+        {
+            g.setFont(new Font(null,Font.BOLD,20));
+            g.drawString("Guess left:"+GUESSLEFT,200,350);
+        }
     }
 
     public void run() {
         if (!GUESS) {
-            if (!timerPanel.run() && GUESSLEFT != 0) {
+            if ( GUESSLEFT != 0) {
                 getGuess();
                 revalidate();
                 repaint();
             } else {
                 GUESS = true;
-                this.remove(timerPanel);
+
                 timerPanel = new TimerPanel(30);
+                timerPanel.setBounds(650,405,50,40);
                 this.add(timerPanel);
             }
         }
@@ -190,6 +194,13 @@ public class SpecialRoundPanel extends GamePanel {
             revalidate();
             repaint();
         }
+    }
+    public void drawCenteredString(Graphics g, String text, Font font) {
+
+        FontMetrics metrics = g.getFontMetrics(font);
+        int x =  (GameFrame.GAME_WIDTH - metrics.stringWidth(text)) / 2;
+        g.setFont(font);
+        g.drawString(text, x, 170);
     }
 }
 

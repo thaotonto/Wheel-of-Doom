@@ -24,20 +24,25 @@ public class SummaryPanel extends JPanel {
     private JLabel colRoundScore;
     private JLabel colTotal;
     private JButton nextRoundButton;
-
+    private JLabel winnerLabel;
     public SummaryPanel(ArrayList<Player> playerArrayList, String phrase) {
         this.phrase = phrase;
-//        Player player= new Player("long");
-//        playerArrayList.add(player);
-//        player= new Player("Hoang");
-//        playerArrayList.add(player);
-//        player= new Player("Thao");
-//        playerArrayList.add(player);
-//        phrase="LONDON";
+
         setLayout(null);
+        int playerWin=0;
+        int maxScore=0;
+        for (int i = 0; i < playerArrayList.size(); i++) {
+            if (playerArrayList.get(i).getTotalScore() >= maxScore) {
+                playerWin = i;
+                maxScore = playerArrayList.get(i).getTotalScore();
+            }
+        }
         setBorder(BorderFactory.createStrokeBorder(new BasicStroke(5.0f)));
         setBounds(GameFrame.GAME_WIDTH / 2 - PANEL_WIDTH / 2, GameFrame.GAME_HEIGHT / 2 - PANEL_HEIGHT / 2, PANEL_WIDTH, PANEL_HEIGHT);
         setVisible(true);
+        winnerLabel= new JLabel("The winner and advance to the special round is: "+ playerArrayList.get(playerWin).getName());
+        winnerLabel.setBounds(40,300,400,20);
+        add(winnerLabel);
         titleLabel = new JLabel("ROUND RESULT");
         titleLabel.setFont(new Font("Serif", Font.PLAIN, 30));
         titleLabel.setBounds(90, 30, 300, 50);
@@ -80,7 +85,7 @@ public class SummaryPanel extends JPanel {
             @Override
             public void mouseClicked(MouseEvent mouseEvent) {
                 if (mouseEvent.getSource() == nextRoundButton) {
-                    GameFrame.mainPanel.showGamePanel(GameController.specialRound);
+                    GameFrame.mainPanel.showSpecialRoundPanel(GameController.specialRound);
                 }
             }
 

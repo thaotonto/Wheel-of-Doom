@@ -61,6 +61,10 @@ public class MainPanel extends JPanel {
         cardLayout.show(this, TAG_GAME);
     }
 
+    public void showSpecialRoundPanel(SpecialRoundPanel gamePanel) {
+        add(gamePanel, TAG_GAME);
+        cardLayout.show(this, TAG_GAME);
+    }
     public void showNextRoundPanel() {
         holderPanel = new JPanel();
         holderPanel.setLayout(null);
