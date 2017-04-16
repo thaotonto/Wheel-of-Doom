@@ -1,5 +1,7 @@
 package gui;
 
+import utils.Utils;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -11,7 +13,7 @@ public class TimerPanel extends JPanel {
     private long end;
     private int timer;
     private int TIMER;
-
+    private Image image= Utils.loadImageFromRes("images.gif");
     public TimerPanel(int timer) {
         setVisible(true);
         setOpaque(false);
@@ -44,8 +46,9 @@ public class TimerPanel extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.setFont(new Font(null,Font.BOLD,12));
-        g.drawString(timer + "", 10, 10);
+        g.setFont(new Font(null,Font.BOLD,20));
+        g.drawString(timer + "", 25, 20);
+        g.drawImage(image,0,3,20,20,null);
     }
 
     public void resetTimer() {

@@ -94,7 +94,7 @@ public class GamePanel extends JPanel {
 
         answerPanel.setVisible(false);
         buttonPanel.setVisible(false);
-
+        timerPanel.setVisible(false);
 
         setVisible(true);
         playerInfo.setBackground(Color.white);
@@ -286,6 +286,7 @@ public class GamePanel extends JPanel {
                 nextPlayer();
                 currentPlayer = getCurrentPlayer();
                 timerPanel.resetTimer();
+                timerPanel.setVisible(false);
                 samPanel.notifyAnswer(answer, phrase);
                 if (currentPlayer != null)
                     samPanel.notifySpin(currentPlayer.getName());
@@ -355,6 +356,7 @@ public class GamePanel extends JPanel {
         if (guessTrue) {
             samPanel.notifyOptions();
             answerPanel.setVisible(true);
+            timerPanel.setVisible(true);
             buttonPanel.setVisible(false);
             getAnswer();
             checkWin();
@@ -369,15 +371,20 @@ public class GamePanel extends JPanel {
                     try {
                         WheelPanel.instance.setPowerBar(true);
                         buttonPanel.setVisible(false);
+
                         answerPanel.setVisible(false);
-                        monitor.wait();
                         timerPanel.resetTimer();
+                        timerPanel.setVisible(false);
+                        monitor.wait();
+
+
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                 }
                 WheelPanel.instance.setPowerBar(false);
                 buttonPanel.setVisible(true);
+                timerPanel.setVisible(true);
                 wheelResult = WheelPanel.instance.getResult();
                 currentPlayer.setSpin(true);
                 samPanel.notifyGuess(wheelResult);

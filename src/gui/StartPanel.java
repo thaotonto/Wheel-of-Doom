@@ -30,12 +30,12 @@ public class StartPanel extends JPanel implements MouseListener {
     private JTextField namePlayer2 = new JTextField("Player2", 25);
     private JTextField namePlayer3 = new JTextField("Player3", 25);
     private JTextField namePlayer4 = new JTextField("Player4", 25);
-    private JButton playBtn = new JButton("Play");
+    private JButton playBtn = new JButton(new ImageIcon("resources/play.png"));
     GridBagConstraints gridBagConstraints = new GridBagConstraints();
     private ArrayList<Player> playerList = new ArrayList<>();
     private Image background = Utils.loadImageFromRes("background.jpg");
     private JButton backToMenu;
-
+    private ImageIcon imageIcon;
 
     public StartPanel() {
         setLayout(new BorderLayout());
@@ -43,6 +43,9 @@ public class StartPanel extends JPanel implements MouseListener {
     }
 
     private void initComp() {
+        playBtn.setOpaque(false);
+        playBtn.setContentAreaFilled(false);
+        playBtn.setBorderPainted(false);
         jLabel1.setFont(new Font(null, Font.PLAIN, 24));
         jLabel2.setFont(new Font(null, Font.PLAIN, 24));
         jLabel3.setFont(new Font(null, Font.PLAIN, 24));
@@ -50,8 +53,11 @@ public class StartPanel extends JPanel implements MouseListener {
         playBtn.setFont(new Font(Font.MONOSPACED, Font.BOLD, 40));
         boxnPlayer = new JComboBox(numberOfPlayer);
         boxTheme = new JComboBox(theme);
-        backToMenu= new JButton("Back To Menu");
-
+        imageIcon= new ImageIcon("resources/back1.png");
+        backToMenu= new JButton(imageIcon);
+        backToMenu.setOpaque(false);
+        backToMenu.setContentAreaFilled(false);
+        backToMenu.setBorderPainted(false);
         JPanel panelNorth = new JPanel();
         panelNorth.setLayout(new BoxLayout(panelNorth, BoxLayout.Y_AXIS));
 
