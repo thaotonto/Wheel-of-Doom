@@ -15,9 +15,12 @@ public class SamPanel extends JPanel {
     private JLabel bubbleLabel;
     private ImageIcon lvs;
     private ImageIcon bubble;
-    private String info = "Welcome to<br>Wheel of Fortune";
+    private String info;
 
-    public SamPanel() {
+    public SamPanel(int round) {
+        if (round == 1) {
+            info = "Welcome to<br>Wheel of Fortune";
+        } else info = "Welcome to<br>Round " + round;
         setVisible(true);
         setLayout(null);
         setOpaque(false);
@@ -30,6 +33,7 @@ public class SamPanel extends JPanel {
         bubbleLabel = new JLabel(bubble);
         bubbleLabel.setHorizontalTextPosition(JLabel.CENTER);
         bubbleLabel.setFont(new Font("Dialog", Font.BOLD, 15));
+        bubbleLabel.setText(info);
 
         add(lvsLabel);
         add(bubbleLabel);
@@ -40,6 +44,13 @@ public class SamPanel extends JPanel {
 
     public void sayResult(char letter, int letterNo) {
         if (letterNo == 0) info = "There is no " + letter + "<br>" + "Next player";
+        else if (letterNo == 1) info = "There is 1 " + letter;
+        else info = "There are " + letterNo + " " + letter + "s";
+        repaint();
+    }
+
+    public void sayResultSpecial(char letter, int letterNo) {
+        if (letterNo == 0) info = "There is no " + letter;
         else if (letterNo == 1) info = "There is 1 " + letter;
         else info = "There are " + letterNo + " " + letter + "s";
         repaint();
@@ -59,7 +70,7 @@ public class SamPanel extends JPanel {
         if (wheelResult == "lose turn")
             info = "You lost the turn<br>Next player";
         else if (wheelResult == "bankrupt")
-            info = "You have been banned<br>Next player";
+            info = "You lost all points<br> and your turn<br>Next player";
         else info = "You landed on " + wheelResult + "<br>Please guess a letter";
         repaint();
     }
@@ -72,6 +83,12 @@ public class SamPanel extends JPanel {
 
     public void notifyTime() {
         info = "Time's up. Next player";
+        bubbleLabel.setText(info);
+        repaint();
+    }
+
+    public void notifySpecialRound(){
+        info = "This is the special round<br>Please guess two times";
         bubbleLabel.setText(info);
         repaint();
     }
@@ -91,6 +108,23 @@ public class SamPanel extends JPanel {
         }
         info = "Please answer <br>or spin the wheel";
         WheelPanel.instance.setPowerBar(true);
+        repaint();
+    }
+
+    public void notifyGuessSpecial(int guessLeft) {
+        long start = System.currentTimeMillis();
+        long end = System.currentTimeMillis();
+        while (end - start < 1000) {
+            end = System.currentTimeMillis();
+        }
+        if (guessLeft == 2)
+            info = "You can guess 2 times";
+        else info = "You have " + guessLeft + " guess left";
+        repaint();
+    }
+
+    public void notifyAnswerSpecial(int timer){
+        info ="You have " + timer +"s<br>to guess the answer";
         repaint();
     }
 

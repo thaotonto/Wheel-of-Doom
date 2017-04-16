@@ -82,7 +82,7 @@ public class GamePanel extends JPanel {
         boardPanel = new BoardPanel(currentPhrase, puzzle.getRound());
         buttonPanel = new ButtonPanel();
         answerPanel = new AnswerPanel();
-        samPanel = new SamPanel();
+        samPanel = new SamPanel(puzzle.getRound());
         timerPanel = new TimerPanel(30);
 
         this.add(boardPanel);
@@ -102,7 +102,7 @@ public class GamePanel extends JPanel {
         playerInfo.setBounds(200, 550, 600, 100);
         this.add(playerInfo);
         playerInfo.setOpaque(false);
-        playerInfo.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(),BorderFactory.createLoweredBevelBorder()));
+        playerInfo.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(), BorderFactory.createLoweredBevelBorder()));
         paintPlayerInfo();
     }
 
@@ -335,13 +335,13 @@ public class GamePanel extends JPanel {
         super.paintComponent(g);
         g.drawImage(background, 0, 0, null);
 
-        drawCenteredString(g,question,new Font("Serif", Font.BOLD, 20));
+        drawCenteredString(g, question, new Font("Serif", Font.BOLD, 20));
     }
 
     public void drawCenteredString(Graphics g, String text, Font font) {
 
         FontMetrics metrics = g.getFontMetrics(font);
-        int x =  (GameFrame.GAME_WIDTH - metrics.stringWidth(text)) / 2;
+        int x = (GameFrame.GAME_WIDTH - metrics.stringWidth(text)) / 2;
         g.setFont(font);
         g.drawString(text, x, 170);
     }

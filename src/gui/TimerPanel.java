@@ -56,4 +56,8 @@ public class TimerPanel extends JPanel {
         end = System.currentTimeMillis();
         timer = TIMER;
     }
+
+    public int getTimer() {
+        return timer;
+    }
 }

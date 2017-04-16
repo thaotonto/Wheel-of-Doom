@@ -13,16 +13,10 @@ import java.util.ArrayList;
  * Created by Thaotonto on 4/7/2017.
  */
 public class SpecialRoundPanel extends JPanel {
-    private boolean GUESS = false ;
+    private boolean GUESS = false;
     private final Image background;
     private BoardPanel boardPanel;
     private ButtonPanel buttonPanel;
-
-
-    public String getPhrase() {
-        return phrase;
-    }
-
     private AnswerPanel answerPanel;
     private String currentPhrase = "";
     private String phrase;
@@ -37,6 +31,8 @@ public class SpecialRoundPanel extends JPanel {
     private JPanel playerInfo = new JPanel(new GridBagLayout());
     private GridBagConstraints gbc = new GridBagConstraints();
     private JLabel playerLabel;
+    private SamPanel samPanel;
+    private boolean first = true;
 
     public boolean isWin() {
         return isWin;
@@ -63,19 +59,20 @@ public class SpecialRoundPanel extends JPanel {
         boardPanel = new BoardPanel(currentPhrase, puzzle.getRound());
         buttonPanel = new ButtonPanel();
         answerPanel = new AnswerPanel();
-//        samPanel = new SamPanel();
+        timerPanel = new TimerPanel(15);
+        samPanel = new SamPanel(puzzle.getRound());
         this.add(boardPanel);
         this.add(buttonPanel);
-//        this.add(samPanel);
+        this.add(samPanel);
         this.add(answerPanel);
         answerPanel.setVisible(false);
         playerInfo.setBounds(200, 550, 600, 100);
         this.add(playerInfo);
         playerInfo.setOpaque(false);
-        playerInfo.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(),BorderFactory.createLoweredBevelBorder()));
+        playerInfo.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(), BorderFactory.createLoweredBevelBorder()));
         paintPlayerInfo();
         setVisible(true);
-
+        samPanel.notifySpecialRound();
     }
 
     private void paintPlayerInfo() {
@@ -114,7 +111,7 @@ public class SpecialRoundPanel extends JPanel {
             System.out.println("Phrase: " + phrase);
             System.out.println("Current phrase: " + currentPhrase);
             buttonPanel.refreshButton();
-//            samPanel.sayResult(c, count);
+            samPanel.sayResultSpecial(c, count);
         }
     }
 
@@ -129,6 +126,7 @@ public class SpecialRoundPanel extends JPanel {
                 answerPanel.refreshAnswer();
                 repaint();
             }
+            samPanel.notifyAnswer(answer, phrase);
         }
     }
 
@@ -146,7 +144,7 @@ public class SpecialRoundPanel extends JPanel {
 
     public void checkWin() {
         if (currentPhrase.equals(phrase)) {
-            isWin=true;
+            isWin = true;
             finished = true;
         }
     }
@@ -158,31 +156,41 @@ public class SpecialRoundPanel extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         g.drawImage(background, 0, 0, null);
-        drawCenteredString(g,question,new Font("Serif", Font.BOLD, 20));
-        if(GUESSLEFT>0)
-        {
-            g.setFont(new Font(null,Font.BOLD,20));
-            g.drawString("Guess left:"+GUESSLEFT,200,350);
+        drawCenteredString(g, question, new Font("Serif", Font.BOLD, 20));
+        if (GUESSLEFT > 0) {
+            g.setFont(new Font(null, Font.BOLD, 20));
+            g.drawString("Guess left:" + GUESSLEFT, 345, 390);
         }
     }
 
     public void run() {
         if (!GUESS) {
-            if ( GUESSLEFT != 0) {
+            if (GUESSLEFT != 0) {
                 getGuess();
+                if (GUESSLEFT != 0)
+                    samPanel.notifyGuessSpecial(GUESSLEFT);
                 revalidate();
                 repaint();
             } else {
                 GUESS = true;
                 timerPanel = new TimerPanel(30);
-                timerPanel.setBounds(650,405,50,40);
+                timerPanel.setBounds(650, 405, 50, 40);
                 this.add(timerPanel);
             }
         }
         if (GUESS) {
             buttonPanel.setVisible(false);
             answerPanel.setVisible(true);
+            if (first = true) {
+                long start = System.currentTimeMillis();
+                long end = System.currentTimeMillis();
+                while (end - start < 1000) {
+                    end = System.currentTimeMillis();
+                }
+                first = false;
+            }
             if (!timerPanel.run()) {
+                samPanel.notifyAnswerSpecial(timerPanel.getTimer() );
                 getAnswer();
                 checkWin();
                 revalidate();
@@ -194,12 +202,17 @@ public class SpecialRoundPanel extends JPanel {
             repaint();
         }
     }
+
     public void drawCenteredString(Graphics g, String text, Font font) {
 
         FontMetrics metrics = g.getFontMetrics(font);
-        int x =  (GameFrame.GAME_WIDTH - metrics.stringWidth(text)) / 2;
+        int x = (GameFrame.GAME_WIDTH - metrics.stringWidth(text)) / 2;
         g.setFont(font);
         g.drawString(text, x, 170);
+    }
+
+    public String getPhrase() {
+        return phrase;
     }
 }
 
