@@ -110,11 +110,12 @@ public class GameController {
                     }
                 }
                 if (winnerList.size() == 1) {
-                    GameFrame.mainPanel.showSummaryPanel();
+                    GameFrame.mainPanel.showSummaryPanel(false);
                     specialRound = new SpecialRoundPanel(puzzleController.getPuzzleList().get(round), winnerList.get(0));
                 } else {
+                    GameFrame.mainPanel.showSummaryPanel(true);
                     bonusRoundPanel = new BonusRoundPanel(puzzleController.getPuzzleList().get(round), winnerList);
-                    GameFrame.mainPanel.showBonusRoundPanel(bonusRoundPanel);
+
                 }
 
             } else {
