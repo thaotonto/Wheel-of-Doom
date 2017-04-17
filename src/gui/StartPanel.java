@@ -37,6 +37,7 @@ public class StartPanel extends JPanel implements MouseListener {
     private JButton backToMenu;
     private ImageIcon imageIcon;
 
+
     public StartPanel() {
         setLayout(new BorderLayout());
         initComp();
@@ -67,6 +68,7 @@ public class StartPanel extends JPanel implements MouseListener {
         jPanel.add(jLabel);
         jPanel.add(boxnPlayer);
         panelNorth.add(jPanel);
+        jPanel.setOpaque(false);
 
         jPanel = new JPanel(new FlowLayout());
         jLabel = new JLabel("Theme: ");
@@ -75,7 +77,9 @@ public class StartPanel extends JPanel implements MouseListener {
         jPanel.add(jLabel);
         jPanel.add(boxTheme);
         panelNorth.add(jPanel);
+        jPanel.setOpaque(false);
         add(panelNorth, BorderLayout.NORTH);
+        panelNorth.setOpaque(false);
 
         gridBagConstraints.insets = new Insets(40, 15, 15, 40);
         jPanel = new JPanel(new GridBagLayout());
@@ -129,6 +133,7 @@ public class StartPanel extends JPanel implements MouseListener {
 
 
         add(jPanel, BorderLayout.CENTER);
+        jPanel.setOpaque(false);
         jPanel = new JPanel(new FlowLayout());
         playBtn.setPreferredSize(new Dimension(200,100));
         backToMenu.setPreferredSize(new Dimension(200,100));
@@ -138,6 +143,7 @@ public class StartPanel extends JPanel implements MouseListener {
         playBtn.addMouseListener(this);
         backToMenu.addMouseListener(this);
         add(jPanel, BorderLayout.SOUTH);
+        jPanel.setOpaque(false);
         boxnPlayer.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
