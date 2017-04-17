@@ -117,6 +117,13 @@ public class SamPanel extends JPanel {
         repaint();
     }
 
+    public void notifyAnswerSpecial(String answer, String phrase){
+        if (answer.equals(phrase))
+            info = "You are correct<br>You've won the game";
+        else info = "You are wrong<br>Try again";
+        repaint();
+    }
+
     public void notifyOptions() {
         long start = System.currentTimeMillis();
         long end = System.currentTimeMillis();
@@ -140,7 +147,7 @@ public class SamPanel extends JPanel {
         repaint();
     }
 
-    public void notifyAnswerSpecial(int timer) {
+    public void notifyAnswerTimer(int timer) {
         info = "You have " + timer + "s<br>to guess the answer";
         repaint();
     }

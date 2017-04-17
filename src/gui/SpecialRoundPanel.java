@@ -126,7 +126,7 @@ public class SpecialRoundPanel extends JPanel {
                 answerPanel.refreshAnswer();
                 repaint();
             }
-            samPanel.notifyAnswer(answer, phrase);
+            samPanel.notifyAnswerSpecial(answer, phrase);
         }
     }
 
@@ -190,7 +190,7 @@ public class SpecialRoundPanel extends JPanel {
                 first = false;
             }
             if (!timerPanel.run()) {
-                samPanel.notifyAnswerSpecial(timerPanel.getTimer() );
+                samPanel.notifyAnswerTimer(timerPanel.getTimer());
                 getAnswer();
                 checkWin();
                 revalidate();
