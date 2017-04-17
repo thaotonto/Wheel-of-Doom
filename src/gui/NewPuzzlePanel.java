@@ -24,8 +24,8 @@ public class NewPuzzlePanel extends JPanel {
     private JLabel themeLabel;
     private JLabel newThemeLabel;
     private JTextField newThemeField;
-    private JButton addPuzzleButton;
-    private JButton cancelPuzzleButton;
+    private JLabel addPuzzleButton;
+    private JLabel cancelPuzzleButton;
     private String questionString;
     private String answerString;
     private String newThemeString;
@@ -35,6 +35,7 @@ public class NewPuzzlePanel extends JPanel {
         setBorder(BorderFactory.createStrokeBorder(new BasicStroke(5.0f)));
         setBounds(GameFrame.GAME_WIDTH / 2 - PANEL_WIDTH / 2, GameFrame.GAME_HEIGHT / 2 - PANEL_HEIGHT / 2, PANEL_WIDTH, PANEL_HEIGHT);
         setVisible(true);
+        setBackground(new Color(214,232,255));
         createQuestionLabelAndArea();
         createAnswerLabelAndText();
         createComBoBox();
@@ -66,12 +67,14 @@ public class NewPuzzlePanel extends JPanel {
 
             @Override
             public void mouseEntered(MouseEvent mouseEvent) {
-
+                ImageIcon imageIcon = new ImageIcon("resources/create-1.png");
+                addPuzzleButton.setIcon(imageIcon);
             }
 
             @Override
             public void mouseExited(MouseEvent mouseEvent) {
-
+                ImageIcon imageIcon = new ImageIcon("resources/create-0.png");
+                addPuzzleButton.setIcon(imageIcon);
             }
         });
         cancelPuzzleButton.addMouseListener(new MouseListener() {
@@ -94,12 +97,14 @@ public class NewPuzzlePanel extends JPanel {
 
             @Override
             public void mouseEntered(MouseEvent mouseEvent) {
-
+                ImageIcon imageIcon = new ImageIcon("resources/cancel-1.png");
+                cancelPuzzleButton.setIcon(imageIcon);
             }
 
             @Override
             public void mouseExited(MouseEvent mouseEvent) {
-
+                ImageIcon imageIcon = new ImageIcon("resources/cancel-0.png");
+                cancelPuzzleButton.setIcon(imageIcon);
             }
         });
     }
@@ -228,11 +233,13 @@ public class NewPuzzlePanel extends JPanel {
     }
 
     private void createAddAndCancelPuzzleButton() {
-        addPuzzleButton = new JButton("Add");
-        addPuzzleButton.setBounds(110, 320, 80, 20);
+        ImageIcon imageIcon = new ImageIcon("resources/create-0.png");
+        addPuzzleButton = new JLabel(imageIcon);
+        addPuzzleButton.setBounds(38, 320, imageIcon.getIconWidth(), imageIcon.getIconHeight());
         add(addPuzzleButton);
-        cancelPuzzleButton = new JButton("Back");
-        cancelPuzzleButton.setBounds(220, 320, 80, 20);
+        imageIcon = new ImageIcon("resources/cancel-0.png");
+        cancelPuzzleButton = new JLabel(imageIcon);
+        cancelPuzzleButton.setBounds(220, 320, imageIcon.getIconWidth(), imageIcon.getIconHeight());
         add(cancelPuzzleButton);
     }
 }

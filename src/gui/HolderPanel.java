@@ -19,6 +19,6 @@ public class HolderPanel extends JPanel {
 
     @Override
     protected void paintComponent(Graphics graphics) {
-        graphics.drawImage(backGroundImage,0,0, GameFrame.GAME_WIDTH, GameFrame.GAME_HEIGHT,null);
+        graphics.drawImage(backGroundImage,0,0, GameFrame.GAME_WIDTH + 10, GameFrame.GAME_HEIGHT + 10,null);
     }
 }

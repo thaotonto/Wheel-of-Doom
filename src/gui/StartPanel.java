@@ -30,12 +30,12 @@ public class StartPanel extends JPanel implements MouseListener {
     private JTextField namePlayer2 = new JTextField("Player2", 25);
     private JTextField namePlayer3 = new JTextField("Player3", 25);
     private JTextField namePlayer4 = new JTextField("Player4", 25);
-    private JButton playBtn = new JButton(new ImageIcon("resources/play.png"));
+    private JLabel playBtn = new JLabel(new ImageIcon("resources/play-0.png"));
     GridBagConstraints gridBagConstraints = new GridBagConstraints();
     private ArrayList<Player> playerList = new ArrayList<>();
-    private Image background = Utils.loadImageFromRes("background.jpg");
-    private JButton backToMenu;
+    private JLabel backToMenu;
     private ImageIcon imageIcon;
+    private Image background = Utils.loadImageFromRes("background.jpg");
 
 
     public StartPanel() {
@@ -44,21 +44,31 @@ public class StartPanel extends JPanel implements MouseListener {
     }
 
     private void initComp() {
-        playBtn.setOpaque(false);
-        playBtn.setContentAreaFilled(false);
-        playBtn.setBorderPainted(false);
-        jLabel1.setFont(new Font(null, Font.PLAIN, 24));
-        jLabel2.setFont(new Font(null, Font.PLAIN, 24));
-        jLabel3.setFont(new Font(null, Font.PLAIN, 24));
-        jLabel4.setFont(new Font(null, Font.PLAIN, 24));
+        Font font = new Font(null, Font.PLAIN, 24);
+        jLabel1.setFont(font);
+        jLabel2.setFont(font);
+        jLabel3.setFont(font);
+        jLabel4.setFont(font);
+        namePlayer1.setFont(font);
+        namePlayer2.setFont(font);
+        namePlayer3.setFont(font);
+        namePlayer4.setFont(font);
+        jLabel1.setFont(font);
+        jLabel2.setFont(font);
+        jLabel3.setFont(font);
+        jLabel4.setFont(font);
+        namePlayer1.setFont(font);
+        namePlayer2.setFont(font);
+        namePlayer3.setFont(font);
+        namePlayer4.setFont(font);
         playBtn.setFont(new Font(Font.MONOSPACED, Font.BOLD, 40));
         boxnPlayer = new JComboBox(numberOfPlayer);
+        boxnPlayer.setFont(font);
         boxTheme = new JComboBox(theme);
-        imageIcon= new ImageIcon("resources/back1.png");
-        backToMenu= new JButton(imageIcon);
-        backToMenu.setOpaque(false);
-        backToMenu.setContentAreaFilled(false);
-        backToMenu.setBorderPainted(false);
+        boxTheme.setFont(font);
+        imageIcon= new ImageIcon("resources/back-0.png");
+        backToMenu= new JLabel(imageIcon);
+
         JPanel panelNorth = new JPanel();
         panelNorth.setLayout(new BoxLayout(panelNorth, BoxLayout.Y_AXIS));
 
@@ -135,10 +145,13 @@ public class StartPanel extends JPanel implements MouseListener {
         add(jPanel, BorderLayout.CENTER);
         jPanel.setOpaque(false);
         jPanel = new JPanel(new FlowLayout());
-        playBtn.setPreferredSize(new Dimension(200,100));
-        backToMenu.setPreferredSize(new Dimension(200,100));
-        backToMenu.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 20));
+        playBtn.setPreferredSize(new Dimension(242,72));
+        backToMenu.setPreferredSize(new Dimension(242,72));
+        JLabel space = new JLabel();
+        space.setPreferredSize(new Dimension(50,72));
         jPanel.add(playBtn);
+        space.setOpaque(false);
+        jPanel.add(space);
         jPanel.add(backToMenu);
         playBtn.addMouseListener(this);
         backToMenu.addMouseListener(this);
@@ -166,7 +179,7 @@ public class StartPanel extends JPanel implements MouseListener {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.drawImage(background, 0, 0, null);
+        g.drawImage(background,0,0, GameFrame.GAME_WIDTH + 10, GameFrame.GAME_HEIGHT + 10,null);
     }
 
     @Override
@@ -224,11 +237,23 @@ public class StartPanel extends JPanel implements MouseListener {
 
     @Override
     public void mouseEntered(MouseEvent e) {
-
+        if (e.getSource().equals(playBtn)) {
+            ImageIcon imageIcon = new ImageIcon("resources/play-1.png");
+            playBtn.setIcon(imageIcon);
+        } else if (e.getSource().equals(backToMenu)) {
+            ImageIcon imageIcon = new ImageIcon("resources/back-1.png");
+            backToMenu.setIcon(imageIcon);
+        }
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
-
+        if (e.getSource().equals(playBtn)) {
+            ImageIcon imageIcon = new ImageIcon("resources/play-0.png");
+            playBtn.setIcon(imageIcon);
+        } else if (e.getSource().equals(backToMenu)) {
+            ImageIcon imageIcon = new ImageIcon("resources/back-0.png");
+            backToMenu.setIcon(imageIcon);
+        }
     }
 }

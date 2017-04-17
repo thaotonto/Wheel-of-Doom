@@ -85,7 +85,7 @@ public class BoardPanel extends JPanel {
                     else{
                         JPanel letterPanel = new JPanel();
                         letterPanel.setPreferredSize(new Dimension(30, 30));
-                        letterPanel.setBackground(Color.CYAN);
+                        letterPanel.setBackground(Color.GREEN);
                         letterPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
                         this.add(letterPanel);
                     }
@@ -94,7 +94,7 @@ public class BoardPanel extends JPanel {
             } else {
                 JPanel letterPanel = new JPanel();
                 letterPanel.setPreferredSize(new Dimension(30, 30));
-                letterPanel.setBackground(Color.CYAN);
+                letterPanel.setBackground(Color.GREEN);
                 letterPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
                 this.add(letterPanel);
                 length++;

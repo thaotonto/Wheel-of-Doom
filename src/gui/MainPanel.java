@@ -98,4 +98,9 @@ public class MainPanel extends JPanel {
         cardLayout.show(this, TAG_BONUS);
     }
 
+    @Override
+    public void paintComponents(Graphics g) {
+        super.paintComponents(g);
+        g.drawImage(backGroundImage,0,0,GameFrame.GAME_WIDTH + 10, GameFrame.GAME_HEIGHT + 10, null);
+    }
 }

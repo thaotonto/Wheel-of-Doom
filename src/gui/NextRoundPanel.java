@@ -23,7 +23,7 @@ public class NextRoundPanel extends JPanel {
     private JLabel colName;
     private JLabel colRoundScore;
     private JLabel colTotal;
-    private JButton nextRoundButton;
+    private JLabel nextRoundButton;
 
     public NextRoundPanel(ArrayList<Player> playerArrayList, String phrase) {
         this.phrase = phrase;
@@ -73,8 +73,9 @@ public class NextRoundPanel extends JPanel {
             jLabelTotal.setBounds(250, 210 + i * 30, 50, 20);
             add(jLabelTotal);
         }
-        nextRoundButton = new JButton("Next Round");
-        nextRoundButton.setBounds(150, 400, 100, 50);
+        ImageIcon imageIcon = new ImageIcon("resources/next-0.png");
+        nextRoundButton = new JLabel(imageIcon);
+        nextRoundButton.setBounds(122, 400, imageIcon.getIconWidth(), imageIcon.getIconHeight());
         add(nextRoundButton);
         nextRoundButton.addMouseListener(new MouseListener() {
             @Override
@@ -96,12 +97,14 @@ public class NextRoundPanel extends JPanel {
 
             @Override
             public void mouseEntered(MouseEvent mouseEvent) {
-
+                ImageIcon imageIcon = new ImageIcon("resources/next-1.png");
+                nextRoundButton.setIcon(imageIcon);
             }
 
             @Override
             public void mouseExited(MouseEvent mouseEvent) {
-
+                ImageIcon imageIcon = new ImageIcon("resources/next-0.png");
+                nextRoundButton.setIcon(imageIcon);
             }
         });
     }

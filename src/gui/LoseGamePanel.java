@@ -18,7 +18,7 @@ public class LoseGamePanel extends JPanel {
     private Image youLoseImage= Utils.loadImageFromRes("gameover.gif");
     private Image backGround= Utils.loadImageFromRes("plain.jpg");
     private ImageIcon icon;
-    private JButton backToMenu;
+    private JLabel backToMenu;
 
     private String correctAnswer;
     public LoseGamePanel() {
@@ -27,14 +27,28 @@ public class LoseGamePanel extends JPanel {
         setBorder(BorderFactory.createStrokeBorder(new BasicStroke(5.0f)));
         setBounds(GameFrame.GAME_WIDTH / 2 - PANEL_WIDTH / 2, GameFrame.GAME_HEIGHT / 2 - PANEL_HEIGHT / 2, PANEL_WIDTH, PANEL_HEIGHT);
         setVisible(true);
-        icon= new ImageIcon("resources/backtomenu.png");
-        backToMenu= new JButton(icon);
+        icon= new ImageIcon("resources/cancel-0.png");
+        backToMenu= new JLabel(icon);
         backToMenu.setBounds(PANEL_WIDTH/2-icon.getIconWidth()/2,500,icon.getIconWidth(),icon.getIconHeight());
         add(backToMenu);
         backToMenu.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent mouseEvent) {
                 GameFrame.mainPanel.showPanel(MainPanel.TAG_MENU);
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                super.mouseEntered(e);
+                icon = new ImageIcon("resources/cancel-1.png");
+                backToMenu.setIcon(icon);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                super.mouseExited(e);
+                icon = new ImageIcon("resources/cancel-0.png");
+                backToMenu.setIcon(icon);
             }
         });
     }

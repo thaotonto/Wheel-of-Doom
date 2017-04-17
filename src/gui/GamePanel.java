@@ -97,11 +97,10 @@ public class GamePanel extends JPanel {
         timerPanel.setVisible(false);
 
         setVisible(true);
-        playerInfo.setBackground(Color.white);
+        playerInfo.setBackground(new Color(214,232,255));
         System.out.println("Phrase setup: " + currentPhrase);
         playerInfo.setBounds(200, 550, 600, 100);
         this.add(playerInfo);
-        playerInfo.setOpaque(false);
         playerInfo.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(), BorderFactory.createLoweredBevelBorder()));
         paintPlayerInfo();
     }
@@ -125,7 +124,7 @@ public class GamePanel extends JPanel {
             if (playerLabel.getText().toString().equals("PLAYING")) {
                 gbc.gridx = 3;
                 gbc.gridy = i;
-                playerLabel = new JLabel(String.format("%d Extra Turn", playerList.get(i).getExtraTurn()));
+                playerLabel = new JLabel(String.format("%d   Extra Turn", playerList.get(i).getExtraTurn()));
                 playerInfo.add(playerLabel, gbc);
             }
         }
@@ -149,7 +148,7 @@ public class GamePanel extends JPanel {
                 if (playerLabel.getText().toString().equals("PLAYING")) {
                     gbc.gridx = 7;
                     gbc.gridy = i - 2;
-                    playerLabel = new JLabel(String.format("%d Extra Turn", playerList.get(i).getExtraTurn()));
+                    playerLabel = new JLabel(String.format("%d   Extra Turn", playerList.get(i).getExtraTurn()));
                     playerInfo.add(playerLabel, gbc);
                 }
             }
