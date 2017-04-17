@@ -25,9 +25,8 @@ public class SummaryPanel extends JPanel {
     private JLabel colTotal;
     private JButton nextRoundButton;
     private JLabel winnerLabel;
-    public SummaryPanel(ArrayList<Player> playerArrayList, String phrase) {
+    public SummaryPanel(ArrayList<Player> playerArrayList, String phrase,boolean isBonusRound) {
         this.phrase = phrase;
-
         setLayout(null);
         int playerWin=0;
         int maxScore=0;
@@ -40,7 +39,10 @@ public class SummaryPanel extends JPanel {
         setBorder(BorderFactory.createStrokeBorder(new BasicStroke(5.0f)));
         setBounds(GameFrame.GAME_WIDTH / 2 - PANEL_WIDTH / 2, GameFrame.GAME_HEIGHT / 2 - PANEL_HEIGHT / 2, PANEL_WIDTH, PANEL_HEIGHT);
         setVisible(true);
-        winnerLabel= new JLabel("The winner and advance to the special round is: "+ playerArrayList.get(playerWin).getName());
+        if(!isBonusRound)
+            winnerLabel= new JLabel("The winner and advance to the special round is: "+ playerArrayList.get(playerWin).getName());
+        else
+            winnerLabel= new JLabel("There is a tie so we have a bonus round");
         winnerLabel.setBounds(40,300,400,20);
         add(winnerLabel);
         titleLabel = new JLabel("ROUND RESULT");
@@ -78,14 +80,21 @@ public class SummaryPanel extends JPanel {
             jLabelTotal.setBounds(250, 210 + i * 30, 50, 20);
             add(jLabelTotal);
         }
-        nextRoundButton = new JButton("Next Round");
-        nextRoundButton.setBounds(150, 400, 100, 50);
+        if(!isBonusRound)
+            nextRoundButton = new JButton("Next Round");
+        else
+            nextRoundButton = new JButton("Bonus Round");
+
+        nextRoundButton.setBounds(150, 400, 120, 50);
         add(nextRoundButton);
         nextRoundButton.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent mouseEvent) {
                 if (mouseEvent.getSource() == nextRoundButton) {
-                    GameFrame.mainPanel.showSpecialRoundPanel(GameController.specialRound);
+                    if(!isBonusRound)
+                        GameFrame.mainPanel.showSpecialRoundPanel(GameController.specialRound);
+                    else
+                        GameFrame.mainPanel.showBonusRoundPanel(GameController.bonusRoundPanel);
                 }
             }
 
@@ -109,5 +118,6 @@ public class SummaryPanel extends JPanel {
 
             }
         });
+
     }
 }
