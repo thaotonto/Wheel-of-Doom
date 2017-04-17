@@ -17,7 +17,12 @@ import java.util.ArrayList;
 public class BonusRoundPanel extends JPanel {
     private JButton button;
     private String prompt;
+    private String wheelResult;
     private ArrayList<Player> winnerList;
+    private JPanel playerInfo = new JPanel(new GridBagLayout());
+    private JLabel playerLabel;
+    private GridBagConstraints gbc = new GridBagConstraints();
+    private SamPanel samPanel;
 
     public boolean isFinish() {
         return isFinish;
@@ -34,14 +39,52 @@ public class BonusRoundPanel extends JPanel {
         this.puzzle = puzzle;
         setLayout(null);
         button = new JButton("Special round");
-        button.setBounds(100, 400, 100, 50);
+        button.setBounds(100, 400, 200, 50);
         add(button);
         button.setVisible(false);
         add(WheelPanel.instance);
         for (int i = 0; i < winnerList.size(); i++) {
             winnerList.get(i).setCurrentScore(0);
         }
+        samPanel = new SamPanel(0);
+        this.add(samPanel);
+        playerInfo.setBounds(200, 550, 600, 100);
+        this.add(playerInfo);
+        playerInfo.setOpaque(false);
+        playerInfo.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(), BorderFactory.createLoweredBevelBorder()));
+        paintPlayerInfo();
+    }
 
+    private void paintPlayerInfo() {
+        playerInfo.removeAll();
+        gbc.insets = new Insets(10, 10, 10, 10);
+        for (int i = 0; i < 2; i++) {
+            playerLabel = new JLabel(winnerList.get(i).getName().toString());
+            gbc.gridx = 0;
+            gbc.gridy = i;
+            playerInfo.add(playerLabel, gbc);
+            playerLabel = new JLabel(winnerList.get(i).getCurrentScore() + "");
+            gbc.gridx = 1;
+            gbc.gridy = i;
+            playerInfo.add(playerLabel, gbc);
+        }
+
+        if (winnerList.size() > 2) {
+            for (int i = 2; i < winnerList.size(); i++) {
+                gbc.insets = new Insets(0, 100, 0, 0);
+                playerLabel = new JLabel(winnerList.get(i).getName().toString());
+                gbc.gridx = 4;
+                gbc.gridy = i - 2;
+                playerInfo.add(playerLabel, gbc);
+                gbc.insets = new Insets(10, 10, 10, 10);
+                playerLabel = new JLabel(winnerList.get(i).getCurrentScore() + "");
+                gbc.gridx = 5;
+                gbc.gridy = i - 2;
+                playerInfo.add(playerLabel, gbc);
+            }
+        }
+        validate();
+        repaint();
     }
 
     public void run() {
@@ -50,7 +93,7 @@ public class BonusRoundPanel extends JPanel {
         if (!isGotWinner) {
             int count = 0;
             for (int i = 0; i < winnerList.size(); i++) {
-                prompt = "Please spin " + winnerList.get(i).getName();
+                samPanel.notifySpin(winnerList.get(i).getName());
                 repaint();
                 synchronized (monitor) {
                     try {
@@ -60,7 +103,10 @@ public class BonusRoundPanel extends JPanel {
                         e.printStackTrace();
                     }
                 }
-                winnerList.get(i).setCurrentScore(resultToScore(WheelPanel.instance.getResult()));
+                wheelResult = WheelPanel.instance.getResult();
+                winnerList.get(i).setCurrentScore(resultToScore(wheelResult));
+                samPanel.notifyBonusRound(wheelResult);
+                paintPlayerInfo();
             }
 
             for (int i = 0; i < winnerList.size(); i++) {
@@ -75,9 +121,14 @@ public class BonusRoundPanel extends JPanel {
                 }
             }
             if (count == 1) {
-                prompt = "the winner is " + winnerList.get(winner).getName();
+                prompt = "The winner is " + winnerList.get(winner).getName();
+                samPanel.notifyWinner(winnerList.get(winner).getName());
                 repaint();
                 isGotWinner = true;
+            } else {
+                for (int i = 0; i < winnerList.size(); i++) {
+                    winnerList.get(i).setCurrentScore(0);
+                }
             }
         } else {
             GameController.specialRound = new SpecialRoundPanel(puzzle, winnerList.get(winner));
@@ -103,7 +154,7 @@ public class BonusRoundPanel extends JPanel {
         }
         if (result.equals("get turn"))
             return 30;
-        if (result.equals("prize"))
+        if (result.equals("Prize"))
             return 1200;
         return Integer.parseInt(result);
     }
@@ -112,9 +163,8 @@ public class BonusRoundPanel extends JPanel {
     protected void paintComponent(Graphics graphics) {
         super.paintComponent(graphics);
         graphics.drawImage(image, 0, 0, GameFrame.GAME_WIDTH, GameFrame.GAME_HEIGHT, null);
-        if (prompt != null) {
-            graphics.drawString(prompt, 100, 100);
-        }
+        graphics.setFont(new Font("Serif", Font.BOLD, 20));
+        graphics.drawString("Bonus Round", 450, 100);
     }
 }
 

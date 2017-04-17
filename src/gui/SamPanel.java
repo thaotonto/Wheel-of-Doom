@@ -20,7 +20,11 @@ public class SamPanel extends JPanel {
     public SamPanel(int round) {
         if (round == 1) {
             info = "Welcome to<br>Wheel of Fortune";
-        } else info = "Welcome to<br>Round " + round;
+        } else {
+            if (round == 0) {
+                info = "Welcome to<br>Bonus Round";
+            } else info = "Welcome to<br>Round " + round;
+        }
         setVisible(true);
         setLayout(null);
         setOpaque(false);
@@ -75,6 +79,19 @@ public class SamPanel extends JPanel {
         repaint();
     }
 
+    public void notifyBonusRound(String wheelResult) {
+        if (wheelResult == "lose turn")
+            info = "You only got<br> 20 point";
+        else if (wheelResult == "bankrupt")
+            info = "You only got<br> 10 point";
+        else if (wheelResult == "get turn")
+            info = "You only got<br> 30 point";
+        else if (wheelResult == "Prize")
+            info = "You got<br> 1200 point";
+        else info = "You got<br>" + wheelResult + " point";
+        repaint();
+    }
+
     public void notifySpinning() {
         info = "The wheel is spinning";
         bubbleLabel.setText(info);
@@ -87,7 +104,7 @@ public class SamPanel extends JPanel {
         repaint();
     }
 
-    public void notifySpecialRound(){
+    public void notifySpecialRound() {
         info = "This is the special round<br>Please guess two times";
         bubbleLabel.setText(info);
         repaint();
@@ -123,8 +140,8 @@ public class SamPanel extends JPanel {
         repaint();
     }
 
-    public void notifyAnswerSpecial(int timer){
-        info ="You have " + timer +"s<br>to guess the answer";
+    public void notifyAnswerSpecial(int timer) {
+        info = "You have " + timer + "s<br>to guess the answer";
         repaint();
     }
 
@@ -132,5 +149,9 @@ public class SamPanel extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         bubbleLabel.setText("<html>" + info + "</html>");
+    }
+
+    public void notifyWinner(String name) {
+        info = "The winner is<br>" + name;
     }
 }
