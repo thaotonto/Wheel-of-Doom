@@ -30,7 +30,7 @@ public class GamePanel extends JPanel {
     private ArrayList<Player> playerList;
     private Player currentPlayer;
     private boolean guessTrue = false;
-    private String monitor = "";
+   // private String monitor = "";
     private int round;
     private boolean isEnd = false;
     private JPanel playerInfo = new JPanel(new GridBagLayout());
@@ -40,7 +40,7 @@ public class GamePanel extends JPanel {
     private Image background;
     private int count;
     private boolean option = false;
-    private Thread thread;
+   // private Thread thread;
 
     public GamePanel() {
 

@@ -18,12 +18,16 @@ public class GameController {
     private int round;
     private int playerNo;
     public static SpecialRoundPanel specialRound;
+    public static BonusRoundPanel bonusRoundPanel;
+    private ArrayList<Player> winnerList;
 
     public GameController(String theme, ArrayList<Player> playerList, int playerNo) {
+        winnerList = new ArrayList<>();
         round = 0;
         this.playerList = playerList;
         this.playerNo = playerNo;
         if (specialRound != null) specialRound = null;
+        if (bonusRoundPanel != null) bonusRoundPanel = null;
         System.out.println("Init question:");
         puzzleController = new PuzzleController(theme, playerNo);
         Iterator<Puzzle> puzzleListIterator = puzzleController.getPuzzleList().iterator();
@@ -50,11 +54,14 @@ public class GameController {
                     if (round <= playerNo)
                         runGame();
                     else {
-                        if(specialRound.isWin())
-                            GameFrame.mainPanel.showGameWinPanel();
-                        else
-                            GameFrame.mainPanel.showGameLosePanel();
-                        break;
+                        if (specialRound != null) {
+                            if (specialRound.isWin())
+                                GameFrame.mainPanel.showGameWinPanel();
+                            else
+                                GameFrame.mainPanel.showGameLosePanel();
+                            break;
+                        }
+
                     }
                 }
             }
@@ -64,8 +71,21 @@ public class GameController {
 
     public void runGame() {
         if (specialRound == null) {
-            gamePanel.run();
-            if (gamePanel.isFinished()) nextRound();
+            if(bonusRoundPanel==null) {
+                gamePanel.run();
+                if (gamePanel.isFinished()) nextRound();
+            }
+            else
+            {
+                if(!bonusRoundPanel.isFinish())
+                {
+                    bonusRoundPanel.run();
+                }
+                else {
+                    bonusRoundPanel=null;
+                }
+
+            }
         } else {
             specialRound.run();
             if (specialRound.isFinished()) nextRound();
@@ -76,25 +96,30 @@ public class GameController {
         round++;
         if (round > playerNo) {
             System.out.println("Game over");
-//            System.exit(0);
         } else {
             if (round == playerNo) {
-                int playerWin = 0;
                 int maxScore = 0;
                 for (int i = 0; i < playerNo; i++) {
                     if (playerList.get(i).getTotalScore() >= maxScore) {
-                        playerWin = i;
                         maxScore = playerList.get(i).getTotalScore();
                     }
                 }
-                GameFrame.mainPanel.showSummaryPanel();
-                specialRound = new SpecialRoundPanel(puzzleController.getPuzzleList().get(round), playerList.get(playerWin));
-
+                for (int i = 0; i < playerNo; i++) {
+                    if (playerList.get(i).getTotalScore() == maxScore) {
+                        winnerList.add(playerList.get(i));
+                    }
+                }
+                if (winnerList.size() == 1) {
+                    GameFrame.mainPanel.showSummaryPanel();
+                    specialRound = new SpecialRoundPanel(puzzleController.getPuzzleList().get(round), winnerList.get(0));
+                } else {
+                    bonusRoundPanel = new BonusRoundPanel(puzzleController.getPuzzleList().get(round), winnerList);
+                    GameFrame.mainPanel.showBonusRoundPanel(bonusRoundPanel);
+                }
 
             } else {
                 GameFrame.mainPanel.showNextRoundPanel();
                 gamePanel = new GamePanel(puzzleController.getPuzzleList().get(round), playerList);
-//                GameFrame.mainPanel.showGamePanel(gamePanel);
             }
         }
     }
