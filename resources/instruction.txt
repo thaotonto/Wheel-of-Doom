@@ -1,0 +1,26 @@
+How to Play Wheel of Fortune
+
+1.Game Objective
+
+Wheel of Fortune is an extremely easy game to play. The game will be divided into small rounds. Each round has a phrase indicated by a question. Players will have to guess the pharse by taking turn to guess a single letter. If a player guess a letter and the letter in the puzzle he/she will have a chance to guess the pharase or get a chance to guess another letter or else the player will lose the turn to next player.
+When a player guess the pharse,if he/she is right then the round will end and this player can keep the score he/she has earned in the round as well as delete all the points of other players. If false then the player will lose all the points in the round and be banned from playing that round. 
+The number of rounds will equal to number of players and there is a special round for the player that has the highest score
+after all rounds.
+
+2. Point system
+
+In order to get points, players have to spin the wheel. The wheel will have the following cases:
+- Case number value: The player will have a chance to guess the letter.If it's in the puzzle, you win the amount of the spin multiplied by the number of times the letter appears in the puzzle. For instance, if you spun 300, chose the letter L, and there were three L's in the puzzle, you would get 900. 
+- Case lose turn: Current player will lose his turn to next player.
+- Case extra turn: Current player will have a chance to guess the letter. If it's in the puzzle you win get an extra turn that let you continue your turn even if you are wrong at guessing letter at some point of the round.
+- Case bankrupt: Current player will lose all his point in the current round and lose his turn.
+- Case prize: Current player will receive 1200 points if he guess the letter correctly.
+
+3. Special round
+
+- The highest total point among players will advance to this round. In the case two or more players share the highest score a bonus round will happen. Players will take turn to spin the wheel. Player has the highest point in this process will go to special round. The point system will slightly different from the normal round. Case lose turn , extra turn, bankrupt, prize will get 0 point.
+- In the special round the player will guess 2 letter first and then guess the phrase continuously in 30 seconds.
+
+4. How to spin the wheel
+ 
+- Drag the mouse on the top half of the wheel to spin it. You can spin in both direction. However, if you drag too lightly the wheel will not spin.

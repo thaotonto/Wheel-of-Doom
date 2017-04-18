@@ -30,7 +30,7 @@ public class GamePanel extends JPanel {
     private ArrayList<Player> playerList;
     private Player currentPlayer;
     private boolean guessTrue = false;
-   // private String monitor = "";
+    // private String monitor = "";
     private int round;
     private boolean isEnd = false;
     private JPanel playerInfo = new JPanel(new GridBagLayout());
@@ -40,7 +40,7 @@ public class GamePanel extends JPanel {
     private Image background;
     private int count;
     private boolean option = false;
-   // private Thread thread;
+    // private Thread thread;
 
     public GamePanel() {
 
@@ -97,7 +97,7 @@ public class GamePanel extends JPanel {
         timerPanel.setVisible(false);
 
         setVisible(true);
-        playerInfo.setBackground(new Color(214,232,255));
+        playerInfo.setBackground(new Color(214, 232, 255));
         System.out.println("Phrase setup: " + currentPhrase);
         playerInfo.setBounds(200, 550, 600, 100);
         this.add(playerInfo);
@@ -239,25 +239,27 @@ public class GamePanel extends JPanel {
             }
             if (!guessTrue) {
                 if (currentPlayer.getExtraTurn() == 0) {
+                    samPanel.sayResult(c, count);
                     nextPlayer();
                     currentPlayer = getCurrentPlayer();
                     timerPanel.resetTimer();
                 } else {
                     currentPlayer.setExtraTurn(currentPlayer.getExtraTurn() - 1);
                     currentPlayer.setSpin(false);
+                    samPanel.sayResultExtraTurn(c, count);
                 }
             } else {
                 currentPhrase = new String(currArr);
                 updateBoard();
                 currentPlayer.setSpin(false);
                 timerPanel.resetTimer();
+                samPanel.sayResult(c, count);
             }
 //            wheelResult = "YO SPIN";
 //            System.out.println("Phrase: " + phrase);
 //            System.out.println("Current phrase: " + currentPhrase);
             buttonPanel.refreshButton();
             paintPlayerInfo();
-            samPanel.sayResult(c, count);
         }
     }
 
@@ -349,6 +351,7 @@ public class GamePanel extends JPanel {
     public void run() {
         if (timerPanel.run()) {
             samPanel.notifyTime();
+
             nextPlayer();
             currentPlayer = getCurrentPlayer();
         }

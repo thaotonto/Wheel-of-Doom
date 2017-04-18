@@ -26,8 +26,10 @@ public class MainPanel extends JPanel {
     private GamePanel gamePanel;
     private MenuPanel menuPanel;
     private StartPanel startPanel;
+    private InstructionPanel instructionPanel;
     private Image backGroundImage = Utils.loadImageFromRes("background.jpg");
     private HolderPanel holderPanel;
+    private ForTheScience forTheScience;
 
     public MainPanel() {
         cardLayout = new CardLayout();
@@ -48,10 +50,22 @@ public class MainPanel extends JPanel {
             add(startPanel, TAG_START);
             cardLayout.show(this, tag);
         } else if (tag.equals(TAG_CREATE_Q)) {
-            holderPanel= new HolderPanel();
+            holderPanel = new HolderPanel();
             holderPanel.add(new NewPuzzlePanel());
             add(holderPanel, TAG_CREATE_Q);
             cardLayout.show(this, tag);
+        }
+        else if (tag.equals(TAG_INSTRUCTION)){
+//            instructionPanel = new InstructionPanel();
+//            holderPanel= new HolderPanel();
+//            holderPanel.add(instructionPanel);
+//            holderPanel.add(instructionPanel);
+//            add(holderPanel,TAG_INSTRUCTION);
+//            cardLayout.show(this,tag);
+            forTheScience= new ForTheScience();
+            add(forTheScience,TAG_INSTRUCTION);
+            cardLayout.show(this,tag);
+
         } else {
             cardLayout.show(this, tag);
         }

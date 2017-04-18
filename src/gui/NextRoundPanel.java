@@ -107,6 +107,7 @@ public class NextRoundPanel extends JPanel {
                 nextRoundButton.setIcon(imageIcon);
             }
         });
+        setBackground(new Color(214, 232, 255));
     }
 
 }

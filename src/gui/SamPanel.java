@@ -60,6 +60,13 @@ public class SamPanel extends JPanel {
         repaint();
     }
 
+    public void sayResultExtraTurn(char letter, int letterNo) {
+        if (letterNo == 0) info = "There is no " + letter + "<br> Please spin again <br>because of extra turn";
+        else if (letterNo == 1) info = "There is 1 " + letter + "<br> Please spin again<br>because of extra turn";
+        else info = "There are " + letterNo + " " + letter + "s" + "<br> Please spin again<br>because of extra turn";
+        repaint();
+    }
+
     public void notifySpin(String currentPlayerName) {
         long start = System.currentTimeMillis();
         long end = System.currentTimeMillis();
@@ -117,7 +124,7 @@ public class SamPanel extends JPanel {
         repaint();
     }
 
-    public void notifyAnswerSpecial(String answer, String phrase){
+    public void notifyAnswerSpecial(String answer, String phrase) {
         if (answer.equals(phrase))
             info = "You are correct<br>You've won the game";
         else info = "You are wrong<br>Try again";

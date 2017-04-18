@@ -162,7 +162,7 @@ public class BonusRoundPanel extends JPanel {
     @Override
     protected void paintComponent(Graphics graphics) {
         super.paintComponent(graphics);
-        graphics.drawImage(image, 0, 0, GameFrame.GAME_WIDTH, GameFrame.GAME_HEIGHT, null);
+        graphics.drawImage(image, 0, 0, GameFrame.GAME_WIDTH + 10, GameFrame.GAME_HEIGHT + 10, null);
         graphics.setFont(new Font("Serif", Font.BOLD, 20));
         graphics.drawString("Bonus Round", 450, 100);
     }

@@ -39,6 +39,9 @@ public class MenuPanel extends JPanel {
                 } else if (e.getSource().equals(createBtn)) {
                     GameFrame.mainPanel.showPanel(MainPanel.TAG_CREATE_Q);
                 }
+                else if (e.getSource().equals(instructionBtn)){
+                    GameFrame.mainPanel.showPanel(MainPanel.TAG_INSTRUCTION);
+                }
             }
 
             @Override

@@ -23,13 +23,14 @@ public class SummaryPanel extends JPanel {
     private JLabel colName;
     private JLabel colRoundScore;
     private JLabel colTotal;
-    private JButton nextRoundButton;
+    private JLabel nextRoundButton;
     private JLabel winnerLabel;
-    public SummaryPanel(ArrayList<Player> playerArrayList, String phrase,boolean isBonusRound) {
+
+    public SummaryPanel(ArrayList<Player> playerArrayList, String phrase, boolean isBonusRound) {
         this.phrase = phrase;
         setLayout(null);
-        int playerWin=0;
-        int maxScore=0;
+        int playerWin = 0;
+        int maxScore = 0;
         for (int i = 0; i < playerArrayList.size(); i++) {
             if (playerArrayList.get(i).getTotalScore() >= maxScore) {
                 playerWin = i;
@@ -39,11 +40,11 @@ public class SummaryPanel extends JPanel {
         setBorder(BorderFactory.createStrokeBorder(new BasicStroke(5.0f)));
         setBounds(GameFrame.GAME_WIDTH / 2 - PANEL_WIDTH / 2, GameFrame.GAME_HEIGHT / 2 - PANEL_HEIGHT / 2, PANEL_WIDTH, PANEL_HEIGHT);
         setVisible(true);
-        if(!isBonusRound)
-            winnerLabel= new JLabel("The winner and advance to the special round is: "+ playerArrayList.get(playerWin).getName());
+        if (!isBonusRound)
+            winnerLabel = new JLabel("The winner and advance to the special round is: " + playerArrayList.get(playerWin).getName());
         else
-            winnerLabel= new JLabel("There is a tie so we have a bonus round");
-        winnerLabel.setBounds(40,300,400,20);
+            winnerLabel = new JLabel("There is a tie so we have a bonus round");
+        winnerLabel.setBounds(40, 400, 400, 20);
         add(winnerLabel);
         titleLabel = new JLabel("ROUND RESULT");
         titleLabel.setFont(new Font("Serif", Font.PLAIN, 30));
@@ -80,18 +81,18 @@ public class SummaryPanel extends JPanel {
             jLabelTotal.setBounds(250, 210 + i * 30, 50, 20);
             add(jLabelTotal);
         }
-        if(!isBonusRound)
-            nextRoundButton = new JButton("Next Round");
+        if (!isBonusRound)
+            nextRoundButton = new JLabel(new ImageIcon("resources/next-0.png"));
         else
-            nextRoundButton = new JButton("Bonus Round");
+            nextRoundButton = new JLabel(new ImageIcon("resources/bonus-0.png"));
 
-        nextRoundButton.setBounds(150, 400, 120, 50);
+        nextRoundButton.setBounds(PANEL_WIDTH/2 - nextRoundButton.getIcon().getIconWidth()/2, 450, nextRoundButton.getIcon().getIconWidth(), nextRoundButton.getIcon().getIconHeight());
         add(nextRoundButton);
         nextRoundButton.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent mouseEvent) {
                 if (mouseEvent.getSource() == nextRoundButton) {
-                    if(!isBonusRound)
+                    if (!isBonusRound)
                         GameFrame.mainPanel.showSpecialRoundPanel(GameController.specialRound);
                     else
                         GameFrame.mainPanel.showBonusRoundPanel(GameController.bonusRoundPanel);
@@ -110,14 +111,28 @@ public class SummaryPanel extends JPanel {
 
             @Override
             public void mouseEntered(MouseEvent mouseEvent) {
-
+                if (isBonusRound){
+                    ImageIcon imageIcon = new ImageIcon("resources/bonus-1.png");
+                    nextRoundButton.setIcon(imageIcon);
+                }
+                if (!isBonusRound){
+                    ImageIcon imageIcon = new ImageIcon("resources/next-1.png");
+                    nextRoundButton.setIcon(imageIcon);
+                }
             }
 
             @Override
             public void mouseExited(MouseEvent mouseEvent) {
-
+                if (isBonusRound){
+                    ImageIcon imageIcon = new ImageIcon("resources/bonus-0.png");
+                    nextRoundButton.setIcon(imageIcon);
+                }
+                if (!isBonusRound){
+                    ImageIcon imageIcon = new ImageIcon("resources/next-0.png");
+                    nextRoundButton.setIcon(imageIcon);
+                }
             }
         });
-
+        setBackground(new Color(214, 232, 255));
     }
 }

@@ -69,6 +69,7 @@ public class SpecialRoundPanel extends JPanel {
         playerInfo.setBounds(200, 550, 600, 100);
         this.add(playerInfo);
         playerInfo.setOpaque(false);
+        playerInfo.setBackground(new Color(214, 232, 255));
         playerInfo.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(), BorderFactory.createLoweredBevelBorder()));
         paintPlayerInfo();
         setVisible(true);
