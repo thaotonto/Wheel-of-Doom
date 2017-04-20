@@ -147,15 +147,15 @@ public class BonusRoundPanel extends JPanel {
 
     private int resultToScore(String result) {
         if (result.equals("bankrupt")) {
-            return 10;
+            return 0;
         }
         if (result.equals("lose turn")) {
-            return 20;
+            return 0;
         }
         if (result.equals("get turn"))
-            return 30;
+            return 0;
         if (result.equals("Prize"))
-            return 1200;
+            return 0;
         return Integer.parseInt(result);
     }
 

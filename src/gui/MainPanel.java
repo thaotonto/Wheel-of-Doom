@@ -29,7 +29,6 @@ public class MainPanel extends JPanel {
     private InstructionPanel instructionPanel;
     private Image backGroundImage = Utils.loadImageFromRes("background.jpg");
     private HolderPanel holderPanel;
-    private ForTheScience forTheScience;
 
     public MainPanel() {
         cardLayout = new CardLayout();
@@ -56,14 +55,8 @@ public class MainPanel extends JPanel {
             cardLayout.show(this, tag);
         }
         else if (tag.equals(TAG_INSTRUCTION)){
-//            instructionPanel = new InstructionPanel();
-//            holderPanel= new HolderPanel();
-//            holderPanel.add(instructionPanel);
-//            holderPanel.add(instructionPanel);
-//            add(holderPanel,TAG_INSTRUCTION);
-//            cardLayout.show(this,tag);
-            forTheScience= new ForTheScience();
-            add(forTheScience,TAG_INSTRUCTION);
+            instructionPanel = new InstructionPanel();
+            add(instructionPanel,TAG_INSTRUCTION);
             cardLayout.show(this,tag);
 
         } else {

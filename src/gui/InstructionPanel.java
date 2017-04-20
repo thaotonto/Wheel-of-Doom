@@ -24,7 +24,6 @@ public class InstructionPanel extends JPanel implements MouseListener{
 //        setBackground(new Color(214, 232, 255));
         setVisible(true);
         setLayout(null);
-        setOpaque(false);
         setBounds(0,0,1000,650);
         ImageIcon imageIcon = new ImageIcon("resources/cancel-0.png");
         backToMenuBtn = new JLabel(imageIcon);
@@ -54,11 +53,11 @@ public class InstructionPanel extends JPanel implements MouseListener{
         jTextArea.setCaretPosition(0);
     }
 
+
     @Override
-    public void paintComponents(Graphics g) {
-        super.paintComponents(g);
-        System.out.println("typical cho hoang move");
-        g.drawImage(background, 0, 0, GameFrame.GAME_WIDTH + 10, GameFrame.GAME_HEIGHT + 10, null);
+    protected void paintComponent(Graphics graphics) {
+        super.paintComponents(graphics);
+        graphics.drawImage(background, 0, 0, GameFrame.GAME_WIDTH + 10, GameFrame.GAME_HEIGHT + 10, null);
     }
 
     @Override
