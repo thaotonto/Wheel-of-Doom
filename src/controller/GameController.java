@@ -30,59 +30,58 @@ public class GameController {
         if (bonusRoundPanel != null) bonusRoundPanel = null;
         System.out.println("Init question:");
         puzzleController = new PuzzleController(theme, playerNo);
-        Iterator<Puzzle> puzzleListIterator = puzzleController.getPuzzleList().iterator();
-        while (puzzleListIterator.hasNext()) {
-            Puzzle temp = puzzleListIterator.next();
-            System.out.println("Game question: " + temp.getQuestion());
-            System.out.println("Game phrase: " + temp.getPhrase());
-            System.out.println("Round : " + temp.getRound());
-        }
-        System.out.println("Finished question init");
-        System.out.println("Init gamepanel:");
-        gamePanel = new GamePanel(puzzleController.getPuzzleList().get(round), playerList);
-        System.out.println("Finished gamepanel init");
-        GameFrame.mainPanel.showGamePanel(gamePanel);
-        thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (true) {
-                    try {
-                        Thread.sleep(17);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    if (round <= playerNo)
-                        runGame();
-                    else {
-                        if (specialRound != null) {
-                            if (specialRound.isWin())
-                                GameFrame.mainPanel.showGameWinPanel();
-                            else
-                                GameFrame.mainPanel.showGameLosePanel();
-                            break;
+        if (puzzleController.isValidTheme()) {
+            Iterator<Puzzle> puzzleListIterator = puzzleController.getPuzzleList().iterator();
+            while (puzzleListIterator.hasNext()) {
+                Puzzle temp = puzzleListIterator.next();
+                System.out.println("Game question: " + temp.getQuestion());
+                System.out.println("Game phrase: " + temp.getPhrase());
+                System.out.println("Round : " + temp.getRound());
+            }
+            System.out.println("Finished question init");
+            System.out.println("Init gamepanel:");
+            gamePanel = new GamePanel(puzzleController.getPuzzleList().get(round), playerList);
+            System.out.println("Finished gamepanel init");
+            GameFrame.mainPanel.showGamePanel(gamePanel);
+            thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    while (true) {
+                        try {
+                            Thread.sleep(17);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
                         }
+                        if (round <= playerNo)
+                            runGame();
+                        else {
+                            if (specialRound != null) {
+                                if (specialRound.isWin())
+                                    GameFrame.mainPanel.showGameWinPanel();
+                                else
+                                    GameFrame.mainPanel.showGameLosePanel();
+                                break;
+                            }
 
+                        }
                     }
                 }
-            }
-        });
-        thread.start();
+            });
+            thread.start();
+        }
+
     }
 
     public void runGame() {
         if (specialRound == null) {
-            if(bonusRoundPanel==null) {
+            if (bonusRoundPanel == null) {
                 gamePanel.run();
                 if (gamePanel.isFinished()) nextRound();
-            }
-            else
-            {
-                if(!bonusRoundPanel.isFinish())
-                {
+            } else {
+                if (!bonusRoundPanel.isFinish()) {
                     bonusRoundPanel.run();
-                }
-                else {
-                    bonusRoundPanel=null;
+                } else {
+                    bonusRoundPanel = null;
                 }
 
             }

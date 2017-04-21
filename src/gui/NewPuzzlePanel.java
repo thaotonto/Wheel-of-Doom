@@ -35,7 +35,7 @@ public class NewPuzzlePanel extends JPanel {
         setBorder(BorderFactory.createStrokeBorder(new BasicStroke(5.0f)));
         setBounds(GameFrame.GAME_WIDTH / 2 - PANEL_WIDTH / 2, GameFrame.GAME_HEIGHT / 2 - PANEL_HEIGHT / 2, PANEL_WIDTH, PANEL_HEIGHT);
         setVisible(true);
-        setBackground(new Color(214,232,255));
+        setBackground(new Color(214, 232, 255));
         createQuestionLabelAndArea();
         createAnswerLabelAndText();
         createComBoBox();
@@ -115,34 +115,38 @@ public class NewPuzzlePanel extends JPanel {
             JOptionPane.showConfirmDialog(null, "Please insert in all fields",
                     "Warning", JOptionPane.DEFAULT_OPTION);
         else {
-            String content = System.lineSeparator() + newThemeString;
-            Utils.writeFile("resources/theme/theme.txt", content);
-            content = questionString + "/" + answerString;
-            String fileName = "resources/theme/" + newThemeString + ".txt";
-
-            if (Utils.writeFile(fileName, content)) {
-                Object[] options = {"Add more new puzzle", "Back to menu"};
-                int choice = JOptionPane.showOptionDialog(null, "Added new puzzle succesfully", "Success",
-                        JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE,
-                        null, options, options[0]);
-
-                if (choice == JOptionPane.YES_OPTION) {
-                    answerField.setText("");
-                    questionArea.setText("");
-                    createComBoBox();
-                    newThemeField.setText("");
-                    newThemeField.setEditable(false);
-                } else
-                    GameFrame.mainPanel.showPanel(MainPanel.TAG_MENU);
+            if (answerString.length() > 22) {
+                JOptionPane.showMessageDialog(null, "Answer is too long limit is 22 characters", "warning", JOptionPane.WARNING_MESSAGE);
             } else {
-                Object[] options = {"Back to menu"};
-                int choice = JOptionPane.showOptionDialog(null, "Failed to add new puzzle", "Failed",
-                        JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE,
-                        null, options, options[0]);
-                if (choice == JOptionPane.YES_OPTION)
-                    GameFrame.mainPanel.showPanel(MainPanel.TAG_MENU);
+                String content = System.lineSeparator() + newThemeString;
+                Utils.writeFile("resources/theme/theme.txt", content);
+                content = questionString + "/" + answerString;
+                String fileName = "resources/theme/" + newThemeString + ".txt";
+
+                if (Utils.writeFile(fileName, content)) {
+                    Object[] options = {"Add more new puzzle", "Back to menu"};
+                    int choice = JOptionPane.showOptionDialog(null, "Added new puzzle succesfully", "Success",
+                            JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE,
+                            null, options, options[0]);
+
+                    if (choice == JOptionPane.YES_OPTION) {
+                        answerField.setText("");
+                        questionArea.setText("");
+                        createComBoBox();
+                        newThemeField.setText("");
+                        newThemeField.setEditable(false);
+                    } else
+                        GameFrame.mainPanel.showPanel(MainPanel.TAG_MENU);
+                } else {
+                    Object[] options = {"Back to menu"};
+                    int choice = JOptionPane.showOptionDialog(null, "Failed to add new puzzle", "Failed",
+                            JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE,
+                            null, options, options[0]);
+                    if (choice == JOptionPane.YES_OPTION)
+                        GameFrame.mainPanel.showPanel(MainPanel.TAG_MENU);
+                }
+                revalidate();
             }
-            revalidate();
         }
     }
 
@@ -151,25 +155,29 @@ public class NewPuzzlePanel extends JPanel {
             JOptionPane.showConfirmDialog(null, "Please insert in all fields",
                     "Warning", JOptionPane.DEFAULT_OPTION);
         else {
-            String fileName = "resources/theme/" + themeCombo.getSelectedItem().toString() + ".txt";
-            String content = System.lineSeparator() + questionString + "/" + answerString;
-            if (Utils.writeFile(fileName, content)) {
-                Object[] options = {"Add more new puzzle", "Back to menu"};
-                int choice = JOptionPane.showOptionDialog(null, "Added new puzzle succesfully", "Success",
-                        JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE,
-                        null, options, options[0]);
-                if (choice == JOptionPane.YES_OPTION) {
-                    answerField.setText("");
-                    questionArea.setText("");
-                } else
-                    GameFrame.mainPanel.showPanel(MainPanel.TAG_MENU);
+            if (answerString.length() > 22) {
+                JOptionPane.showMessageDialog(null, "Answer is too long limit is 22 characters", "warning", JOptionPane.WARNING_MESSAGE);
             } else {
-                Object[] options = {"Back to menu"};
-                int choice = JOptionPane.showOptionDialog(null, "Failed to add new puzzle", "Failed",
-                        JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE,
-                        null, options, options[0]);
-                if (choice == JOptionPane.YES_OPTION)
-                    GameFrame.mainPanel.showPanel(MainPanel.TAG_MENU);
+                String fileName = "resources/theme/" + themeCombo.getSelectedItem().toString() + ".txt";
+                String content = System.lineSeparator() + questionString + "/" + answerString;
+                if (Utils.writeFile(fileName, content)) {
+                    Object[] options = {"Add more new puzzle", "Back to menu"};
+                    int choice = JOptionPane.showOptionDialog(null, "Added new puzzle succesfully", "Success",
+                            JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE,
+                            null, options, options[0]);
+                    if (choice == JOptionPane.YES_OPTION) {
+                        answerField.setText("");
+                        questionArea.setText("");
+                    } else
+                        GameFrame.mainPanel.showPanel(MainPanel.TAG_MENU);
+                } else {
+                    Object[] options = {"Back to menu"};
+                    int choice = JOptionPane.showOptionDialog(null, "Failed to add new puzzle", "Failed",
+                            JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE,
+                            null, options, options[0]);
+                    if (choice == JOptionPane.YES_OPTION)
+                        GameFrame.mainPanel.showPanel(MainPanel.TAG_MENU);
+                }
             }
         }
     }
