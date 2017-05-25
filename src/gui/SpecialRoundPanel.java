@@ -6,7 +6,6 @@ import utils.Utils;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
 
 
 /**
@@ -31,7 +30,7 @@ public class SpecialRoundPanel extends JPanel {
     private JPanel playerInfo = new JPanel(new GridBagLayout());
     private GridBagConstraints gbc = new GridBagConstraints();
     private JLabel playerLabel;
-    private SamPanel samPanel;
+    private MCPanel mcPanel;
     private boolean first = true;
 
     public boolean isWin() {
@@ -39,7 +38,7 @@ public class SpecialRoundPanel extends JPanel {
     }
 
     private TimerPanel timerPanel;
-//    private SamPanel samPanel;
+//    private mcPanel mcPanel;
 
     public SpecialRoundPanel(Puzzle puzzle, Player player) {
         super();
@@ -60,10 +59,10 @@ public class SpecialRoundPanel extends JPanel {
         buttonPanel = new ButtonPanel();
         answerPanel = new AnswerPanel();
         timerPanel = new TimerPanel(15);
-        samPanel = new SamPanel(puzzle.getRound());
+        mcPanel = new MCPanel(puzzle.getRound());
         this.add(boardPanel);
         this.add(buttonPanel);
-        this.add(samPanel);
+        this.add(mcPanel);
         this.add(answerPanel);
         answerPanel.setVisible(false);
         playerInfo.setBounds(200, 550, 600, 100);
@@ -73,7 +72,7 @@ public class SpecialRoundPanel extends JPanel {
         playerInfo.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createRaisedBevelBorder(), BorderFactory.createLoweredBevelBorder()));
         paintPlayerInfo();
         setVisible(true);
-        samPanel.notifySpecialRound();
+        mcPanel.notifySpecialRound();
     }
 
     private void paintPlayerInfo() {
@@ -112,7 +111,7 @@ public class SpecialRoundPanel extends JPanel {
             System.out.println("Phrase: " + phrase);
             System.out.println("Current phrase: " + currentPhrase);
             buttonPanel.refreshButton();
-            samPanel.sayResultSpecial(c, count);
+            mcPanel.sayResultSpecial(c, count);
         }
     }
 
@@ -127,7 +126,7 @@ public class SpecialRoundPanel extends JPanel {
                 answerPanel.refreshAnswer();
                 repaint();
             }
-            samPanel.notifyAnswerSpecial(answer, phrase);
+            mcPanel.notifyAnswerSpecial(answer, phrase);
         }
     }
 
@@ -169,7 +168,7 @@ public class SpecialRoundPanel extends JPanel {
             if (GUESSLEFT != 0) {
                 getGuess();
                 if (GUESSLEFT != 0)
-                    samPanel.notifyGuessSpecial(GUESSLEFT);
+                    mcPanel.notifyGuessSpecial(GUESSLEFT);
                 revalidate();
                 repaint();
             } else {
@@ -191,7 +190,7 @@ public class SpecialRoundPanel extends JPanel {
                 first = false;
             }
             if (!timerPanel.run()) {
-                samPanel.notifyAnswerTimer(timerPanel.getTimer());
+                mcPanel.notifyAnswerTimer(timerPanel.getTimer());
                 getAnswer();
                 checkWin();
                 revalidate();

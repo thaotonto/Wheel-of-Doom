@@ -22,7 +22,7 @@ public class BonusRoundPanel extends JPanel {
     private JPanel playerInfo = new JPanel(new GridBagLayout());
     private JLabel playerLabel;
     private GridBagConstraints gbc = new GridBagConstraints();
-    private SamPanel samPanel;
+    private MCPanel mcPanel;
 
     public boolean isFinish() {
         return isFinish;
@@ -46,8 +46,8 @@ public class BonusRoundPanel extends JPanel {
         for (int i = 0; i < winnerList.size(); i++) {
             winnerList.get(i).setCurrentScore(0);
         }
-        samPanel = new SamPanel(0);
-        this.add(samPanel);
+        mcPanel = new MCPanel(0);
+        this.add(mcPanel);
         playerInfo.setBounds(200, 550, 600, 100);
         this.add(playerInfo);
         playerInfo.setOpaque(false);
@@ -93,7 +93,7 @@ public class BonusRoundPanel extends JPanel {
         if (!isGotWinner) {
             int count = 0;
             for (int i = 0; i < winnerList.size(); i++) {
-                samPanel.notifySpin(winnerList.get(i).getName());
+                mcPanel.notifySpin(winnerList.get(i).getName());
                 repaint();
                 synchronized (monitor) {
                     try {
@@ -105,7 +105,7 @@ public class BonusRoundPanel extends JPanel {
                 }
                 wheelResult = WheelPanel.instance.getResult();
                 winnerList.get(i).setCurrentScore(resultToScore(wheelResult));
-                samPanel.notifyBonusRound(wheelResult);
+                mcPanel.notifyBonusRound(wheelResult);
                 paintPlayerInfo();
             }
 
@@ -122,7 +122,7 @@ public class BonusRoundPanel extends JPanel {
             }
             if (count == 1) {
                 prompt = "The winner is " + winnerList.get(winner).getName();
-                samPanel.notifyWinner(winnerList.get(winner).getName());
+                mcPanel.notifyWinner(winnerList.get(winner).getName());
                 repaint();
                 isGotWinner = true;
             } else {

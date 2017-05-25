@@ -10,14 +10,14 @@ import java.awt.*;
 /**
  * Created by Hoang on 4/8/2017.
  */
-public class SamPanel extends JPanel {
+public class MCPanel extends JPanel {
     private JLabel lvsLabel;
     private JLabel bubbleLabel;
     private ImageIcon lvs;
     private ImageIcon bubble;
     private String info;
 
-    public SamPanel(int round) {
+    public MCPanel(int round) {
         if (round == 1) {
             info = "Welcome to<br>Wheel of Fortune";
         } else {

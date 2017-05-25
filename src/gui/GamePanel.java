@@ -9,7 +9,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Random;
 
 
 /**
@@ -20,7 +19,7 @@ public class GamePanel extends JPanel {
     private BoardPanel boardPanel;
     private ButtonPanel buttonPanel;
     private AnswerPanel answerPanel;
-    private SamPanel samPanel;
+    private MCPanel mcPanel;
     private TimerPanel timerPanel;
     private String currentPhrase = "";
     private String phrase;
@@ -82,14 +81,14 @@ public class GamePanel extends JPanel {
         boardPanel = new BoardPanel(currentPhrase, puzzle.getRound());
         buttonPanel = new ButtonPanel();
         answerPanel = new AnswerPanel();
-        samPanel = new SamPanel(puzzle.getRound());
+        mcPanel = new MCPanel(puzzle.getRound());
         timerPanel = new TimerPanel(30);
 
         this.add(boardPanel);
         this.add(buttonPanel);
         this.add(answerPanel);
         this.add(WheelPanel.instance);
-        this.add(samPanel);
+        this.add(mcPanel);
         this.add(timerPanel);
 
         answerPanel.setVisible(false);
@@ -239,21 +238,21 @@ public class GamePanel extends JPanel {
             }
             if (!guessTrue) {
                 if (currentPlayer.getExtraTurn() == 0) {
-                    samPanel.sayResult(c, count);
+                    mcPanel.sayResult(c, count);
                     nextPlayer();
                     currentPlayer = getCurrentPlayer();
                     timerPanel.resetTimer();
                 } else {
                     currentPlayer.setExtraTurn(currentPlayer.getExtraTurn() - 1);
                     currentPlayer.setSpin(false);
-                    samPanel.sayResultExtraTurn(c, count);
+                    mcPanel.sayResultExtraTurn(c, count);
                 }
             } else {
                 currentPhrase = new String(currArr);
                 updateBoard();
                 currentPlayer.setSpin(false);
                 timerPanel.resetTimer();
-                samPanel.sayResult(c, count);
+                mcPanel.sayResult(c, count);
             }
 //            wheelResult = "YO SPIN";
 //            System.out.println("Phrase: " + phrase);
@@ -270,7 +269,7 @@ public class GamePanel extends JPanel {
             if (answer.equals(phrase)) {
                 currentPhrase = phrase;
                 answerPanel.refreshAnswer();
-                samPanel.notifyAnswer(answer, phrase);
+                mcPanel.notifyAnswer(answer, phrase);
                 for (Player playerEl : playerList) {
                     if (playerEl.getStatus() != PlayerStatus.PLAYING) {
                         playerEl.setCurrentScore(0);
@@ -288,9 +287,9 @@ public class GamePanel extends JPanel {
                 currentPlayer = getCurrentPlayer();
                 timerPanel.resetTimer();
                 timerPanel.setVisible(false);
-                samPanel.notifyAnswer(answer, phrase);
+                mcPanel.notifyAnswer(answer, phrase);
                 if (currentPlayer != null)
-                    samPanel.notifySpin(currentPlayer.getName());
+                    mcPanel.notifySpin(currentPlayer.getName());
                 repaint();
             }
             paintPlayerInfo();
@@ -350,13 +349,13 @@ public class GamePanel extends JPanel {
 
     public void run() {
         if (timerPanel.run()) {
-            samPanel.notifyTime();
+            mcPanel.notifyTime();
 
             nextPlayer();
             currentPlayer = getCurrentPlayer();
         }
         if (guessTrue) {
-            samPanel.notifyOptions();
+            mcPanel.notifyOptions();
             answerPanel.setVisible(true);
             timerPanel.setVisible(true);
             buttonPanel.setVisible(false);
@@ -368,7 +367,7 @@ public class GamePanel extends JPanel {
             String monitor = WheelPanel.instance.monitor;
             if (!currentPlayer.isSpin() && !guessTrue) {
                 if (!option)
-                    samPanel.notifySpin(currentPlayer.getName());
+                    mcPanel.notifySpin(currentPlayer.getName());
                 synchronized (monitor) {
                     try {
                         WheelPanel.instance.setPowerBar(true);
@@ -389,7 +388,7 @@ public class GamePanel extends JPanel {
                 timerPanel.setVisible(true);
                 wheelResult = WheelPanel.instance.getResult();
                 currentPlayer.setSpin(true);
-                samPanel.notifyGuess(wheelResult);
+                mcPanel.notifyGuess(wheelResult);
             }
             if (wheelResult == "lose turn") {
                 buttonPanel.setVisible(false);
